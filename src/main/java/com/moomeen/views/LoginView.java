@@ -1,5 +1,10 @@
 package com.moomeen.views;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.spring.UIScope;
+import org.vaadin.spring.events.EventBus;
+import org.vaadin.spring.navigator.VaadinView;
+
 import com.moomeen.endo2java.EndomondoSession;
 import com.moomeen.endo2java.error.InvocationException;
 import com.vaadin.navigator.View;
@@ -14,7 +19,12 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+@VaadinView(name = "login")
+@UIScope
 public class LoginView extends VerticalLayout implements View {
+
+	@Autowired
+	private EventBus eventBus;
 
 	public LoginView() {
 		setSizeFull();
@@ -61,9 +71,8 @@ public class LoginView extends VerticalLayout implements View {
 						.getValue(), password.getValue());
 				try {
 					session.login();
-					System.out.println(session.getWorkouts().size());
+					eventBus.publish(this, com.moomeen.ViewChangeEvent.WORKOUTS_LIST);
 				} catch (InvocationException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
