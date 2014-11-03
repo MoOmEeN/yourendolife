@@ -32,7 +32,7 @@ public class ViewChangeListener implements EventBusListener<ViewChangeEvent> {
 
 	@Override
 	public void onEvent(Event<ViewChangeEvent> event) {
-		navigator.navigateTo(event.getPayload().viewName);
+		navigator.navigateTo(event.getPayload().view());
 	}
 
 }

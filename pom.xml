@@ -17,6 +17,18 @@
 		<version>1.1.8.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<start-class>com.moomeen.Application</start-class>
+		<java.version>1.7</java.version>
+		<vaadin.version>7.3.3</vaadin.version>
+		<spring-vaadin.version>0.0.3-SNAPSHOT</spring-vaadin.version>
+		<endo2java.version>0.0.1-SNAPSHOT</endo2java.version>
+	</properties>
+
+
 	<repositories>
 	
 	<repository>
@@ -48,22 +60,22 @@
 		<dependency>
 			<groupId>org.vaadin.spring</groupId>
 			<artifactId>spring-boot-vaadin</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>${spring-vaadin.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-themes</artifactId>
-			<version>7.3.1</version>
+			<version>${vaadin.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-client-compiled</artifactId>
-			<version>7.3.1</version>
+			<version>${vaadin.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.moomeen.endo2java</groupId>
 			<artifactId>endo2java</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${endo2java.version}</version>
 			<exclusions>
 		        	<exclusion>  
 					<groupId>org.slf4j</groupId>
@@ -71,14 +83,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>jsr311-api</artifactId>
+			<version>1.1.1</version>
+		</dependency>
 	</dependencies>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<start-class>com.moomeen.Application</start-class>
-		<java.version>1.7</java.version>
-	</properties>
-
 	<build>
 		<plugins>
 			<plugin>

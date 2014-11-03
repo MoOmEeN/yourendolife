@@ -67,8 +67,7 @@ public class LoginView extends VerticalLayout implements View {
 		button.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				EndomondoSession session = new EndomondoSession(login
-						.getValue(), password.getValue());
+				EndomondoSession session = new EndomondoSession(login.getValue(), password.getValue());
 				try {
 					session.login();
 					eventBus.publish(this, com.moomeen.ViewChangeEvent.WORKOUTS_LIST);
