@@ -64,8 +64,8 @@ $v-panel-border: 2px solid v-shade;
   }
   
   .login-button {
-  	background-color: #86ad00;
-  	color: white;
+  	background: none repeat scroll 0 0 border-box #0072c6;
+  	color: #e7f1f8;
   }
   
   .v-slot-menu-bar {
@@ -79,7 +79,7 @@ $v-panel-border: 2px solid v-shade;
  .menu-bar {
 	border-bottom-style: solid;
 	border-bottom-width: 1px;
-	border-bottom-color: #86ad00;
+	border-bottom-color: #0072c6;
   }
   
    .v-panel {
