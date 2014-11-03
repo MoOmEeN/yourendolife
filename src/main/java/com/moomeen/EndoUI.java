@@ -21,6 +21,8 @@ public class EndoUI extends UI {
 
 	@Override
 	protected void init(VaadinRequest vaadinRequest) {
+		setWidth("1280px");
+		setStyleName("ui");
 		Navigator navigator = new Navigator(this, this);
 		navigator.addProvider(viewProvider);
 		setNavigator(navigator);

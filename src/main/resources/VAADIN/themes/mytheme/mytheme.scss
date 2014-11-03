@@ -67,5 +67,27 @@ $v-panel-border: 2px solid v-shade;
   	background-color: #86ad00;
   	color: white;
   }
+  
+  .v-slot-menu-bar {
+	height: 50px !important;
+  }
+       
+  .ui {
+	margin: auto
+  }
+       
+ .menu-bar {
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: #86ad00;
+  }
+  
+   .v-panel {
+       border-width: 0px
+  }
+  
+  .menu-item {
+       background: none;
+  }
 
 }

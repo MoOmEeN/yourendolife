@@ -5,6 +5,7 @@ import org.vaadin.spring.UIScope;
 import org.vaadin.spring.events.EventBus;
 import org.vaadin.spring.navigator.VaadinView;
 
+import com.moomeen.EndomondoSessionHolder;
 import com.moomeen.endo2java.EndomondoSession;
 import com.moomeen.endo2java.error.InvocationException;
 import com.vaadin.navigator.View;
@@ -25,6 +26,9 @@ public class LoginView extends VerticalLayout implements View {
 
 	@Autowired
 	private EventBus eventBus;
+
+	@Autowired
+	private EndomondoSessionHolder sessionHolder;
 
 	public LoginView() {
 		setSizeFull();
@@ -70,6 +74,7 @@ public class LoginView extends VerticalLayout implements View {
 				EndomondoSession session = new EndomondoSession(login.getValue(), password.getValue());
 				try {
 					session.login();
+					sessionHolder.init(session);
 					eventBus.publish(this, com.moomeen.ViewChangeEvent.WORKOUTS_LIST);
 				} catch (InvocationException e) {
 					e.printStackTrace();
