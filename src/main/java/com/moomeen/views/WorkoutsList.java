@@ -4,60 +4,33 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.vaadin.spring.UIScope;
-import org.vaadin.spring.events.EventBus;
-import org.vaadin.spring.navigator.VaadinView;
 
-import com.moomeen.EndomondoSessionHolder;
-import com.moomeen.endo2java.error.InvocationException;
 import com.moomeen.endo2java.model.Sport;
 import com.moomeen.endo2java.model.Workout;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.VerticalLayout;
 
-@VaadinView(name = "workouts")
-@UIScope
-public class WorkoutsView extends AbstractContentView {
 
-	@Autowired
-	private EventBus eventBus;
+public class WorkoutsList extends VerticalLayout {
 
-	@Autowired
-	private EndomondoSessionHolder sessionHolder;
+	private List<Workout> workouts;
 
-	@Override
-	public Component content() {
-		TabSheet ts = new TabSheet();
-		ts.addStyleName("framed");
+	public WorkoutsList(List<Workout> workouts) {
+		this.workouts = workouts;
+
 		Table table = new Table();
 		 table.setSelectable(true);
 		 table.setMultiSelect(true);
 		 table.setSortEnabled(true);
 		 table.setColumnCollapsingAllowed(true);
 		 table.setColumnReorderingAllowed(true);
-		try {
-			List<Workout> workouts = sessionHolder.getSession().getWorkouts();
-			table.setContainerDataSource(convert(workouts));
-		} catch (InvocationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		table.setContainerDataSource(convert(workouts));
 		table.setWidth("100%");
-		ts.setWidth("90%");
-		ts.addTab(table, "List");
-		return ts;
 	}
 
-	@Override
-	public void enter(ViewChangeEvent event) {
-
-	}
 
 	private Container convert(List<Workout> workouts){
 		Container c = new IndexedContainer();
@@ -82,6 +55,5 @@ public class WorkoutsView extends AbstractContentView {
 		}
 		return c;
 	}
-
 
 }
