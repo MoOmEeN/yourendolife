@@ -28,7 +28,6 @@ public class WorkoutsView extends AbstractContentView {
 	public Component content() {
 		TabSheet ts = new TabSheet();
 		ts.addStyleName("framed");
-
 		ts.setWidth("90%");
 		try {
 			ts.addTab(new WorkoutsList(sessionHolder.getSession().getWorkouts()), "List");

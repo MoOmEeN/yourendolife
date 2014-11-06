@@ -29,6 +29,7 @@ public class WorkoutsList extends VerticalLayout {
 		 table.setColumnReorderingAllowed(true);
 		table.setContainerDataSource(convert(workouts));
 		table.setWidth("100%");
+		addComponent(table);
 	}
 
 

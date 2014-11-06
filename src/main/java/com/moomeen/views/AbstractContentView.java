@@ -29,7 +29,7 @@ public abstract class AbstractContentView extends VerticalLayout implements View
 
 		Component content = content();
 		addComponent(content);
-		setComponentAlignment(content, Alignment.MIDDLE_CENTER);
+//		/setComponentAlignment(content, Alignment.MIDDLE_CENTER);
 	}
 
 	public abstract Component content();
