@@ -7,7 +7,6 @@ import org.joda.time.DateTime;
 import com.jensjansson.pagedtable.PagedTable;
 import com.jensjansson.pagedtable.PagedTable.PageChangeListener;
 import com.jensjansson.pagedtable.PagedTable.PagedTableChangeEvent;
-import com.moomeen.endo2java.model.Sport;
 import com.moomeen.endo2java.model.Workout;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
@@ -55,21 +54,21 @@ public class WorkoutsList extends VerticalLayout {
 
 	private Container convert(List<Workout> workouts){
 		Container c = new IndexedContainer();
-		c.addContainerProperty("duration", String.class, 0.0);
-		c.addContainerProperty("distance", Double.class, 0.0);
-		c.addContainerProperty("burgersBurned", Double.class, 0.0);
-		c.addContainerProperty("sport", Sport.class, 0.0);
-		c.addContainerProperty("startDate", DateTime.class, 0.0);
-		c.addContainerProperty("calories", Double.class, 0.0);
+		c.addContainerProperty("Duration (min)", String.class, 0.0);
+		c.addContainerProperty("Distance (km)", Double.class, 0.0);
+		c.addContainerProperty("Sport", String.class, "");
+		c.addContainerProperty("Start Date", DateTime.class, 0.0);
+		c.addContainerProperty("Calories", Double.class, 0.0);
+		c.addContainerProperty("Burgers Burned", Double.class, 0.0);
 		//c.addContainerProperty("live", Boolean.class, 0.0);
 
 		for (Workout workout : workouts) {
 			Object itemId = c.addItem();
 			Item item = c.getItem(itemId);
-			item.getItemProperty("duration").setValue(workout.getDuration().getStandardMinutes() + " min");
+			item.getItemProperty("duration").setValue(workout.getDuration().getStandardMinutes());
 			item.getItemProperty("distance").setValue(workout.getDistance());
 			item.getItemProperty("burgersBurned").setValue(workout.getBurgersBurned());
-			item.getItemProperty("sport").setValue(workout.getSport());
+			item.getItemProperty("sport").setValue(workout.getSport().description());
 			item.getItemProperty("startDate").setValue(workout.getStartDate());
 			item.getItemProperty("calories").setValue(workout.getCalories());
 			//item.getItemProperty("live").setValue(workout.getLive());

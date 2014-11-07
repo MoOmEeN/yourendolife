@@ -69,13 +69,15 @@ $v-panel-border: 2px solid v-shade;
   }
   
   .v-slot-menu-bar {
-	height: 50px !important;
-  }
-       
- .menu-bar {
+	height: 37px !important;
 	border-bottom-style: solid !important;
 	border-bottom-width: 1px !important;
-	border-bottom-color: #065a97 !important;
+	border-bottom-color: #0072c6 !important;
+  }
+  
+  .menu-bar {
+  	width: 80% !important;
+  	margin-left: 10%;
   }
   
    .v-panel {
@@ -88,7 +90,10 @@ $v-panel-border: 2px solid v-shade;
   
   .v-slot-content {
   		margin: auto;
-  		width: 1280px;
+  		width: 80%;
   }
-
+	
+	.v-slot-pagedtable{
+		padding: 10px;
+	}
 }

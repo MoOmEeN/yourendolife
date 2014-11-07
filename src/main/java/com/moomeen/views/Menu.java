@@ -14,7 +14,6 @@ public class Menu extends GridLayout implements View {
 		setRows(1);
 		setColumns(5); // TODO
 		setStyleName("menu-bar");
-		setWidth("1280px");
 
 		Button button = new Button("Workouts");
 		button.setStyleName("menu-item");
