@@ -8,8 +8,6 @@ import org.vaadin.spring.navigator.VaadinView;
 import com.moomeen.EndomondoSessionHolder;
 import com.moomeen.endo2java.error.InvocationException;
 import com.moomeen.views.AbstractContentView;
-import com.moomeen.views.WorkoutsCalendar;
-import com.moomeen.views.WorkoutsList;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet;
@@ -27,10 +25,9 @@ public class WorkoutsView extends AbstractContentView {
 	@Override
 	public Component content() {
 		TabSheet ts = new TabSheet();
-		ts.addStyleName("framed");
-		ts.setWidth("90%");
+
 		try {
-			ts.addTab(new WorkoutsList(sessionHolder.getSession().getWorkouts()), "List");
+			ts.addTab(new WorkoutsList(sessionHolder.getSession().getWorkouts(999)), "List");
 			ts.addTab(new WorkoutsMap(), "Map");
 			ts.addTab(new WorkoutsCalendar(), "Calendar");
 		} catch (InvocationException e) {

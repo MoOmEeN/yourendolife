@@ -72,14 +72,10 @@ $v-panel-border: 2px solid v-shade;
 	height: 50px !important;
   }
        
-  .ui {
-	margin: auto
-  }
-       
  .menu-bar {
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
-	border-bottom-color: #0072c6;
+	border-bottom-style: solid !important;
+	border-bottom-width: 1px !important;
+	border-bottom-color: #065a97 !important;
   }
   
    .v-panel {
@@ -88,6 +84,11 @@ $v-panel-border: 2px solid v-shade;
   
   .menu-item {
        background: none;
+  }
+  
+  .v-slot-content {
+  		margin: auto;
+  		width: 1280px;
   }
 
 }

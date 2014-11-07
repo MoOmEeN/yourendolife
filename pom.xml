@@ -26,21 +26,26 @@
 		<vaadin.version>7.3.3</vaadin.version>
 		<spring-vaadin.version>0.0.3-SNAPSHOT</spring-vaadin.version>
 		<endo2java.version>0.0.1-SNAPSHOT</endo2java.version>
+		<vaadin-pagedtable.version>0.6.5</vaadin-pagedtable.version>
 	</properties>
 
 
 	<repositories>
 	
-	<repository>
-		<id>sonatype-snapshots</id>
-		<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		<snapshots>
-			<enabled>true</enabled>
-		</snapshots>
-		<releases>
-			<enabled>false</enabled>
-		</releases>
-	</repository>
+		<repository>
+			<id>sonatype-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+		<repository>	
+			<id>vaadin-addons</id>
+			<url>http://maven.vaadin.com/vaadin-addons</url>
+		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
@@ -71,6 +76,11 @@
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-client-compiled</artifactId>
 			<version>${vaadin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.vaadin.addons</groupId>
+			<artifactId>pagedtable</artifactId>
+			<version>${vaadin-pagedtable.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.moomeen.endo2java</groupId>

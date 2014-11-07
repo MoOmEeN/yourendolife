@@ -1,4 +1,4 @@
-package com.moomeen.views;
+package com.moomeen.views.workouts;
 
 import com.vaadin.ui.Label;
 

@@ -7,9 +7,7 @@ import org.vaadin.spring.events.EventBus;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 public abstract class AbstractContentView extends VerticalLayout implements View {
@@ -20,16 +18,13 @@ public abstract class AbstractContentView extends VerticalLayout implements View
 	@PostConstruct
 	public void init(){
 		setSizeFull();
-		Panel p = new Panel();
-		p.setStyleName("menu-bar");
-		addComponent(p);
-		setComponentAlignment(p, Alignment.TOP_CENTER);
-
-		p.setContent(new Menu(eventBus));
+		setHeightUndefined();
+		addComponent(new Menu(eventBus));
 
 		Component content = content();
+		content.setStyleName("content");
 		addComponent(content);
-//		/setComponentAlignment(content, Alignment.MIDDLE_CENTER);
+		//setComponentAlignment(content, Alignment.MIDDLE_CENTER);
 	}
 
 	public abstract Component content();

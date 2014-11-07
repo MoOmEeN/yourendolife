@@ -13,8 +13,8 @@ public class Menu extends GridLayout implements View {
 	public Menu(final EventBus eventBus) {
 		setRows(1);
 		setColumns(5); // TODO
-
-		setWidth("1024px");
+		setStyleName("menu-bar");
+		setWidth("1280px");
 
 		Button button = new Button("Workouts");
 		button.setStyleName("menu-item");
