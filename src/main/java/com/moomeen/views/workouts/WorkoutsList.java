@@ -2,7 +2,7 @@ package com.moomeen.views.workouts;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import com.jensjansson.pagedtable.PagedTable;
 import com.jensjansson.pagedtable.PagedTable.PageChangeListener;
@@ -12,6 +12,7 @@ import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.server.Page;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -57,22 +58,24 @@ public class WorkoutsList extends VerticalLayout {
 		c.addContainerProperty("Duration (min)", String.class, 0.0);
 		c.addContainerProperty("Distance (km)", Double.class, 0.0);
 		c.addContainerProperty("Sport", String.class, "");
-		c.addContainerProperty("Start Date", DateTime.class, 0.0);
+		c.addContainerProperty("Start Date", String.class, 0.0);
 		c.addContainerProperty("Calories", Double.class, 0.0);
 		c.addContainerProperty("Burgers Burned", Double.class, 0.0);
 		//c.addContainerProperty("live", Boolean.class, 0.0);
-
+		String pattern = DateTimeFormat.patternForStyle("MM", Page.getCurrent().getWebBrowser().getLocale());
 		for (Workout workout : workouts) {
 			Object itemId = c.addItem();
 			Item item = c.getItem(itemId);
-			item.getItemProperty("duration").setValue(workout.getDuration().getStandardMinutes());
-			item.getItemProperty("distance").setValue(workout.getDistance());
-			item.getItemProperty("burgersBurned").setValue(workout.getBurgersBurned());
-			item.getItemProperty("sport").setValue(workout.getSport().description());
-			item.getItemProperty("startDate").setValue(workout.getStartDate());
-			item.getItemProperty("calories").setValue(workout.getCalories());
+			item.getItemProperty("Duration (min)").setValue(workout.getDuration().getMillis() + "");
+			item.getItemProperty("Distance (km)").setValue(workout.getDistance());
+			item.getItemProperty("Burgers Burned").setValue(workout.getBurgersBurned());
+			item.getItemProperty("Sport").setValue(workout.getSport().description());
+			item.getItemProperty("Start Date").setValue(workout.getStartDate().toString(pattern));
+			item.getItemProperty("Calories").setValue(workout.getCalories());
 			//item.getItemProperty("live").setValue(workout.getLive());
 		}
+
+
 		return c;
 	}
 
