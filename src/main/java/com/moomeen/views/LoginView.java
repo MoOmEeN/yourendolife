@@ -8,6 +8,7 @@ import org.vaadin.spring.navigator.VaadinView;
 import com.moomeen.EndomondoSessionHolder;
 import com.moomeen.endo2java.EndomondoSession;
 import com.moomeen.endo2java.error.InvocationException;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -64,6 +65,7 @@ public class LoginView extends VerticalLayout implements View {
 		password.setHeight("50px");
 
 		Button button = new Button("LOG IN");
+		button.setClickShortcut(KeyCode.ENTER);
 		button.setWidth("324px");
 		button.setHeight("50px");
 		button.setStyleName("login-button");
