@@ -12,7 +12,7 @@ import com.vaadin.ui.VerticalLayout;
 public class WorkoutsList extends VerticalLayout {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 5943429368424740640L;
 

@@ -29,7 +29,7 @@ public class WorkoutsView extends AbstractContentView {
 		try {
 			ts.addTab(new WorkoutsList(sessionHolder.getWorkouts()), "List");
 			ts.addTab(new WorkoutsMap(), "Map");
-			ts.addTab(new WorkoutsCalendar(), "Calendar");
+			ts.addTab(new WorkoutsCalendar(sessionHolder.getWorkouts()), "Calendar");
 		} catch (InvocationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

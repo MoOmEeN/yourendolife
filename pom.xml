@@ -27,6 +27,7 @@
 		<spring-vaadin.version>0.0.3-SNAPSHOT</spring-vaadin.version>
 		<endo2java.version>0.0.1-SNAPSHOT</endo2java.version>
 		<vaadin-pagedtable.version>0.6.5</vaadin-pagedtable.version>
+		<vaadin-googlemaps.version>1.0.0</vaadin-googlemaps.version>
 	</properties>
 
 
@@ -81,6 +82,11 @@
 			<groupId>org.vaadin.addons</groupId>
 			<artifactId>pagedtable</artifactId>
 			<version>${vaadin-pagedtable.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin.tapio</groupId>
+			<artifactId>googlemaps</artifactId>
+			<version>${vaadin-googlemaps.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.moomeen.endo2java</groupId>
