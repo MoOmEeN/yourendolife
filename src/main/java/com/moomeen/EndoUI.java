@@ -13,6 +13,11 @@ import com.vaadin.ui.UI;
 @Theme("mytheme")
 public class EndoUI extends UI {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2342265089691880525L;
+
 	@Autowired
 	private SpringViewProvider viewProvider;
 

@@ -27,7 +27,7 @@ public class WorkoutsView extends AbstractContentView {
 		TabSheet ts = new TabSheet();
 
 		try {
-			ts.addTab(new WorkoutsList(sessionHolder.getWorkouts()), "List");
+			ts.addTab(new WorkoutsList(sessionHolder), "List");
 			ts.addTab(new WorkoutsMap(), "Map");
 			ts.addTab(new WorkoutsCalendar(sessionHolder.getWorkouts()), "Calendar");
 		} catch (InvocationException e) {

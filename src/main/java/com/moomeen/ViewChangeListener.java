@@ -15,6 +15,11 @@ import com.vaadin.navigator.Navigator;
 @UIScope
 public class ViewChangeListener implements EventBusListener<ViewChangeEvent> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8446695067031763077L;
+
 	@Autowired
 	private EventBus eventBus;
 
@@ -28,7 +33,6 @@ public class ViewChangeListener implements EventBusListener<ViewChangeEvent> {
 	public void setNavigator(Navigator navigator){
 		this.navigator = navigator;
 	}
-
 
 	@Override
 	public void onEvent(Event<ViewChangeEvent> event) {

@@ -60,7 +60,7 @@ public class WorkoutsTable extends PagedTable {
 
 	private void initTable() {
 		setSelectable(true);
-		setMultiSelect(true);
+		setMultiSelect(false);
 		setSortEnabled(true);
 		setColumnCollapsingAllowed(true);
 		setColumnReorderingAllowed(true);
