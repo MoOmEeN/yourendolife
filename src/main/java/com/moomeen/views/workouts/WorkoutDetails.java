@@ -16,7 +16,7 @@ public class WorkoutDetails extends VerticalLayout {
 
 	public WorkoutDetails(DetailedWorkout workout) {
 		Label l = new Label(workout.getId() + "");
-		
+
 		setSizeFull();
 		GoogleMap googleMap = new GoogleMap(null, null, null);
 		for (Point point : workout.getPoints()) {
@@ -25,9 +25,8 @@ public class WorkoutDetails extends VerticalLayout {
 
 		googleMap.setMinZoom(4);
 		googleMap.setMaxZoom(16);
-		addComponent(l);
+		//addComponent(l);
 		addComponent(googleMap);
-		
 
 	}
 

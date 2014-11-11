@@ -1,7 +1,5 @@
 package com.moomeen.views.workouts;
 
-import org.vaadin.hene.popupbutton.PopupButton;
-
 import com.moomeen.EndomondoSessionHolder;
 import com.moomeen.endo2java.error.InvocationException;
 import com.moomeen.views.workouts.list.WorkoutsTable;
@@ -13,7 +11,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -25,15 +22,15 @@ public class WorkoutsList extends VerticalLayout {
 	 *
 	 */
 	private static final long serialVersionUID = 5943429368424740640L;
-	
+
 	private Integer selectedItem;
-	private PopupButton viewButton;
-	
+	private Button viewButton;
+
 	public WorkoutsList(final EndomondoSessionHolder sessionHolder) throws InvocationException {
 		HorizontalLayout listControls = new HorizontalLayout();
-		viewButton = new PopupButton("View");
+		viewButton = new Button("View");
 		viewButton.addClickListener(new ClickListener() {
-			
+
 			@Override
 			public void buttonClick(ClickEvent event) {
 				 final Window window = new Window("Window");
@@ -44,15 +41,14 @@ public class WorkoutsList extends VerticalLayout {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				 
+
 				 UI.getCurrent().addWindow(window);
 			}
 		});
 		viewButton.addStyleName("borderless-colored");
-		viewButton.setContent(new Label(""));
 		viewButton.setEnabled(false);
 		listControls.addComponent(viewButton);
-		
+
 		Button exportButton = new Button("Export");
 		exportButton.addStyleName("borderless-colored");
 		listControls.addComponent(exportButton);
@@ -69,11 +65,11 @@ public class WorkoutsList extends VerticalLayout {
 		setComponentAlignment(table, Alignment.MIDDLE_CENTER);
 		setComponentAlignment(tableControls, Alignment.BOTTOM_CENTER);
 	}
-	
+
 	private class TableSelectionListener implements ValueChangeListener {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = -513576465910944568L;
 
@@ -91,6 +87,6 @@ public class WorkoutsList extends VerticalLayout {
 		private void setSelectedItem(ValueChangeEvent event) {
 			selectedItem = (Integer) event.getProperty().getValue();
 		}
-		
+
 	}
 }
