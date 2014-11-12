@@ -2,6 +2,7 @@ package com.moomeen.views.workouts;
 
 import com.moomeen.EndomondoSessionHolder;
 import com.moomeen.endo2java.error.InvocationException;
+import com.moomeen.endo2java.model.Workout;
 import com.moomeen.views.workouts.list.WorkoutsTable;
 import com.moomeen.views.workouts.list.WorkoutsTableControls;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -33,16 +34,21 @@ public class WorkoutsList extends VerticalLayout {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				 final Window window = new Window("Window");
-				 window.setWidth(300.0f, Unit.PIXELS);
+
 				 try {
-					window.setContent(new WorkoutDetails(sessionHolder.getWorkout(sessionHolder.getWorkouts().get(selectedItem).getId())));
+					 Workout selected = sessionHolder.getWorkouts().get(selectedItem);
+					 final Window window = new Window(selected.getSport().description() + " - " + selected.getStartTime());
+					 window.setWidth("60%");
+					 window.setHeight("60%");
+					 window.center();
+					window.setContent(new WorkoutDetails(sessionHolder.getWorkout(selected.getId())));
+					UI.getCurrent().addWindow(window);
 				} catch (InvocationException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
-				 UI.getCurrent().addWindow(window);
+
 			}
 		});
 		viewButton.addStyleName("borderless-colored");
