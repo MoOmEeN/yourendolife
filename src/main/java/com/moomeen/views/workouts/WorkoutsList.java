@@ -7,6 +7,7 @@ import com.moomeen.views.workouts.list.WorkoutsTable;
 import com.moomeen.views.workouts.list.WorkoutsTableControls;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -30,13 +31,14 @@ public class WorkoutsList extends VerticalLayout {
 	public WorkoutsList(final EndomondoSessionHolder sessionHolder) throws InvocationException {
 		HorizontalLayout listControls = new HorizontalLayout();
 		viewButton = new Button("View");
+		viewButton.setIcon(FontAwesome.EYE);
 		viewButton.addClickListener(new ClickListener() {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
 
 				 try {
-					 Workout selected = sessionHolder.getWorkouts().get(selectedItem);
+					 Workout selected = sessionHolder.getWorkouts().get(selectedItem - 1);
 					 final Window window = new Window(selected.getSport().description() + " - " + selected.getStartTime());
 					 window.setWidth("60%");
 					 window.setHeight("60%");
@@ -57,6 +59,7 @@ public class WorkoutsList extends VerticalLayout {
 
 		Button exportButton = new Button("Export");
 		exportButton.addStyleName("borderless-colored");
+		exportButton.setIcon(FontAwesome.ARROW_CIRCLE_RIGHT);
 		listControls.addComponent(exportButton);
 		exportButton.setEnabled(false);
 

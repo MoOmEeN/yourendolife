@@ -9,6 +9,7 @@ import com.moomeen.EndomondoSessionHolder;
 import com.moomeen.endo2java.error.InvocationException;
 import com.moomeen.views.AbstractContentView;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet;
 
@@ -27,9 +28,9 @@ public class WorkoutsView extends AbstractContentView {
 		TabSheet ts = new TabSheet();
 
 		try {
-			ts.addTab(new WorkoutsList(sessionHolder), "List");
-			ts.addTab(new WorkoutsMap(), "Map");
-			ts.addTab(new WorkoutsCalendar(sessionHolder.getWorkouts()), "Calendar");
+			ts.addTab(new WorkoutsList(sessionHolder), "List", FontAwesome.LIST);
+			ts.addTab(new WorkoutsMap(), "Map", FontAwesome.GLOBE);
+			ts.addTab(new WorkoutsCalendar(sessionHolder.getWorkouts()), "Calendar", FontAwesome.CALENDAR);
 		} catch (InvocationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
