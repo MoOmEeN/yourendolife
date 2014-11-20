@@ -10,10 +10,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Future;
 
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -28,7 +29,7 @@ import fr.dudie.nominatim.model.AddressElement;
 public class NominationAdaptorTest {
 
 	@Test
-	public void getAdressesTest() throws IOException, InvocationException, URISyntaxException, InterruptedException {
+	public void getAdressesTest() throws IOException, InvocationException, URISyntaxException, InterruptedException, ExecutionException {
 		URL url = NominationAdaptorTest.class.getClassLoader().getResource("coordinates");
 		File f= new File(url.toURI());
 		List<P> points = new ArrayList<P>();
@@ -46,22 +47,16 @@ public class NominationAdaptorTest {
 		connexionManager.setDefaultMaxPerRoute(50);
 		 HttpClientBuilder.create().setConnectionManager(connexionManager).build();
 		 JsonNominatimClient client = new JsonNominatimClient("http://open.mapquestapi.com/nominatim/v1/", HttpClientBuilder.create().setConnectionManager(connexionManager).build(), "moomeen@gmail.com");
-		 Vector<Address> list  = new Vector<Address>();
 		 long geocodeStart = System.currentTimeMillis();
 
 		 ExecutorService service = Executors.newFixedThreadPool(100);
+		 List<Future<Address>> list = new ArrayList<Future<Address>>();
 		 for (P point : points) {
-			 service.submit(new GetAddressJob(client, point, list));
+			list.add(service.submit(new GetAddressJob(client, point)));
 			}
-		 service.shutdown();
-		 try {
-			 service.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-		 } catch (InterruptedException e) {
-
-		 }
-
 		Map<String, List<Address>> map = new HashMap<String, List<Address>>();
-		for (Address address : list) {
+		for (Future<Address> addressF : list) {
+			Address address = addressF.get();
 			for (AddressElement elem : address.getAddressElements()) {
 				if (elem.getKey().equals("country")){
 					if (map.containsKey(elem.getValue())){
@@ -92,29 +87,19 @@ public class NominationAdaptorTest {
 		}
 	}
 
-	static class GetAddressJob implements Runnable {
+	static class GetAddressJob implements Callable<Address> {
 
 		JsonNominatimClient client;
 		P point;
-		Vector<Address> v;
 
-		public GetAddressJob(JsonNominatimClient client, P point, Vector<Address> v) {
+		public GetAddressJob(JsonNominatimClient client, P point) {
 			this.client = client;
 			this.point = point;
-			this.v = v;
 		}
 
 		@Override
-		public void run() {
-			Address address;
-			try {
-				address = client.getAddress(point.longitude,point.latitude);
-				 v.add(address);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+		public Address call() throws Exception {
+			return client.getAddress(point.longitude,point.latitude);
 		}
 
 	}
