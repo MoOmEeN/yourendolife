@@ -1,12 +1,18 @@
 package com.moomeen.views.workouts;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.spring.UIScope;
 import org.vaadin.spring.events.EventBus;
 import org.vaadin.spring.navigator.VaadinView;
 
 import com.moomeen.EndomondoSessionHolder;
+import com.moomeen.endo.location.City;
+import com.moomeen.endo.location.LocationService;
 import com.moomeen.endo2java.error.InvocationException;
+import com.moomeen.endo2java.model.Workout;
 import com.moomeen.views.AbstractContentView;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -22,12 +28,20 @@ public class WorkoutsView extends AbstractContentView {
 
 	@Autowired
 	private EndomondoSessionHolder sessionHolder;
+	
+	@Autowired
+	LocationService locationService;
 
 	@Override
 	public Component content() {
+
+		
 		TabSheet ts = new TabSheet();
 
 		try {
+			// TODO remove
+			Map<City, List<Workout>> mappedWorkouts = locationService.determineCities(sessionHolder.getWorkouts());
+			
 			ts.addTab(new WorkoutsList(sessionHolder), "List", FontAwesome.LIST);
 			ts.addTab(new WorkoutsMap(), "Map", FontAwesome.GLOBE);
 			ts.addTab(new WorkoutsCalendar(sessionHolder.getWorkouts()), "Calendar", FontAwesome.CALENDAR);

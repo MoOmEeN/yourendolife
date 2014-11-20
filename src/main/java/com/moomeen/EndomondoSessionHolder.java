@@ -2,15 +2,16 @@ package com.moomeen;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
-import org.vaadin.spring.UIScope;
 
 import com.moomeen.endo2java.error.InvocationException;
 import com.moomeen.endo2java.model.DetailedWorkout;
 import com.moomeen.endo2java.model.Workout;
 
-@Service
-@UIScope
+@Service()
+@Scope(value = "vaadin-ui", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class EndomondoSessionHolder {
 
 	private com.moomeen.endo2java.EndomondoSession internalSession;
