@@ -1,6 +1,6 @@
 package com.moomeen.views.workouts;
 
-import com.moomeen.EndomondoSessionHolder;
+import com.moomeen.endo.EndomondoSessionHolder;
 import com.moomeen.endo2java.error.InvocationException;
 import com.moomeen.endo2java.model.Workout;
 import com.moomeen.views.workouts.list.WorkoutsTable;

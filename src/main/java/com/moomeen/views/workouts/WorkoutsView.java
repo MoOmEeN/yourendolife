@@ -8,11 +8,11 @@ import org.vaadin.spring.UIScope;
 import org.vaadin.spring.events.EventBus;
 import org.vaadin.spring.navigator.VaadinView;
 
-import com.moomeen.EndomondoSessionHolder;
-import com.moomeen.endo.location.City;
-import com.moomeen.endo.location.LocationService;
+import com.moomeen.endo.EndomondoSessionHolder;
 import com.moomeen.endo2java.error.InvocationException;
 import com.moomeen.endo2java.model.Workout;
+import com.moomeen.location.LocationService;
+import com.moomeen.location.Place;
 import com.moomeen.views.AbstractContentView;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -40,7 +40,7 @@ public class WorkoutsView extends AbstractContentView {
 
 		try {
 			// TODO remove
-			Map<City, List<Workout>> mappedWorkouts = locationService.determineCities(sessionHolder.getWorkouts());
+			Map<Place, List<Workout>> mappedWorkouts = locationService.determineCities(sessionHolder.getWorkouts());
 			
 			ts.addTab(new WorkoutsList(sessionHolder), "List", FontAwesome.LIST);
 			ts.addTab(new WorkoutsMap(), "Map", FontAwesome.GLOBE);

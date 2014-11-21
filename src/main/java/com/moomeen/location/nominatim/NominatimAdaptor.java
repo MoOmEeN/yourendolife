@@ -1,4 +1,4 @@
-package com.moomeen.endo.location.nominatim;
+package com.moomeen.location.nominatim;
 
 import java.io.IOException;
 
@@ -11,14 +11,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.moomeen.location.Place;
+
 import fr.dudie.nominatim.client.JsonNominatimClient;
 import fr.dudie.nominatim.client.request.NominatimReverseRequest;
 import fr.dudie.nominatim.model.Address;
+import fr.dudie.nominatim.model.AddressElement;
 
 @Service
-public class NominatimExecutor {
+public class NominatimAdaptor {
 
-	private final static Logger LOG = LoggerFactory.getLogger(NominatimExecutor.class);
+	private final static Logger LOG = LoggerFactory.getLogger(NominatimAdaptor.class);
 
 	private final static String NOMINATION_BASE_URL = "http://open.mapquestapi.com/nominatim/v1/";
 	private final static String EMAIL = "moomeen@gmail.com";
@@ -34,14 +37,47 @@ public class NominatimExecutor {
 		nominatimClient = new JsonNominatimClient(NOMINATION_BASE_URL, httpClient, EMAIL);
 	}
 
-	public Address reverse(double latitude, double longitude) {
+	public Place reverse(double latitude, double longitude) {
 		try {
 			NominatimReverseRequest request = new NominatimReverseRequest();
 			request.setQuery(longitude, latitude);
 			request.setAcceptLanguage("en");
-			return nominatimClient.getAddress(request);
+			Address address = nominatimClient.getAddress(request);
+			return fromAddress(address);
 		} catch (IOException e) {
 			LOG.error("Couldn't reverse geolocate point: {}, {}", latitude, longitude, e);
+		}
+		return null;
+	}
+	
+	private Place fromAddress(Address address){
+		String city = getValue("city", address);
+		String town = getValue("town", address);
+		String village = getValue("village", address);
+		String hamlet = getValue("hamlet", address);
+		String state = getValue("state", address);
+		String country = getValue("country", address);
+
+		String name = firstNotNull(city, town, village, hamlet, state);
+
+		return new Place(name, country, address.getLatitude(), address.getLongitude());
+	}
+
+	private String firstNotNull(String... strings){
+		for (String string : strings) {
+			if (string != null){
+				return string;
+			}
+		}
+		throw new NullPointerException("only null strings provided");
+	}
+	
+
+	private String getValue(String key, Address address){
+		for (AddressElement element : address.getAddressElements()) {
+			if (element.getKey().equals(key)){
+				return element.getValue();
+			}
 		}
 		return null;
 	}

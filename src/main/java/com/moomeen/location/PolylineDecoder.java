@@ -1,4 +1,4 @@
-package com.moomeen.endo.location;
+package com.moomeen.location;
 
 import java.util.ArrayList;
 import java.util.List;

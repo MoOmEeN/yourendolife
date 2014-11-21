@@ -1,11 +1,13 @@
 package com.moomeen.views;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.spring.UIScope;
 import org.vaadin.spring.events.EventBus;
 import org.vaadin.spring.navigator.VaadinView;
 
-import com.moomeen.EndomondoSessionHolder;
+import com.moomeen.endo.EndomondoSessionHolder;
 import com.moomeen.endo2java.EndomondoSession;
 import com.moomeen.endo2java.error.InvocationException;
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -25,6 +27,8 @@ import com.vaadin.ui.VerticalLayout;
 @UIScope
 public class LoginView extends VerticalLayout implements View {
 
+	private static Logger LOG = LoggerFactory.getLogger(LoginView.class);
+	
 	@Autowired
 	private EventBus eventBus;
 
@@ -79,7 +83,7 @@ public class LoginView extends VerticalLayout implements View {
 					sessionHolder.init(session);
 					eventBus.publish(this, com.moomeen.ViewChangeEvent.WORKOUTS_LIST);
 				} catch (InvocationException e) {
-					e.printStackTrace();
+					LOG.error("exception while trying to login user: {}", login.getValue(), e);
 				}
 			}
 		});

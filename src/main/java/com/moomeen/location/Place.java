@@ -1,6 +1,6 @@
-package com.moomeen.endo.location;
+package com.moomeen.location;
 
-public class City {
+public class Place {
 
 	private String name;
 
@@ -10,7 +10,7 @@ public class City {
 
 	private double longitude;
 
-	public City(String name, String country, double latitude, double longitude) {
+	public Place(String name, String country, double latitude, double longitude) {
 		super();
 		this.name = name;
 		this.country = country;
@@ -51,7 +51,7 @@ public class City {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		City other = (City) obj;
+		Place other = (Place) obj;
 		if (country == null) {
 			if (other.country != null)
 				return false;

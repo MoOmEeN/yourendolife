@@ -1,4 +1,4 @@
-package com.moomeen.endo.location.nominatim;
+package com.moomeen.location.nominatim;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,9 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.moomeen.endo.location.Point;
-
-import fr.dudie.nominatim.model.Address;
+import com.moomeen.location.Place;
+import com.moomeen.location.Point;
 
 @Service
 public class NominatimBulkExecutor {
@@ -26,31 +25,31 @@ public class NominatimBulkExecutor {
 	private ExecutorService executorService = Executors.newFixedThreadPool(100);
 
 	@Autowired
-	private NominatimExecutor executor;
+	private NominatimAdaptor executor;
 
-	public Map<Point, Address> reverse(Set<Point> points){
-		Map<Point, Future<Address>> mapWithFutures = new HashMap<Point, Future<Address>>();
+	public Map<Point, Place> reverse(Set<Point> points){
+		Map<Point, Future<Place>> mapWithFutures = new HashMap<Point, Future<Place>>();
 		for (final Point point : points) {
-			Future<Address> addressFuture = submitReverseTask(point);
+			Future<Place> addressFuture = submitReverseTask(point);
 			mapWithFutures.put(point, addressFuture);
 		}
 
 		return extractValues(mapWithFutures);
 	}
 
-	private Future<Address> submitReverseTask(final Point point){
-		return executorService.submit(new Callable<Address>() {
+	private Future<Place> submitReverseTask(final Point point){
+		return executorService.submit(new Callable<Place>() {
 
 			@Override
-			public Address call() throws Exception {
+			public Place call() throws Exception {
 				return executor.reverse(point.getLatitude(), point.getLongitude());
 			}
 		});
 	}
 
-	private <T extends Object> Map<T, Address> extractValues(Map<T, Future<Address>> mapWithFutures) {
-		Map<T, Address> mapWithValues = new HashMap<T, Address>();
-		for (Map.Entry<T, Future<Address>> latLng : mapWithFutures.entrySet()) {
+	private <K extends Object, V extends Object> Map<K, V> extractValues(Map<K, Future<V>> mapWithFutures) {
+		Map<K, V> mapWithValues = new HashMap<K, V>();
+		for (Map.Entry<K, Future<V>> latLng : mapWithFutures.entrySet()) {
 			try {
 				mapWithValues.put(latLng.getKey(), latLng.getValue().get());
 			} catch (InterruptedException | ExecutionException e) {

@@ -1,4 +1,4 @@
-package com.moomeen.endo.location;
+package com.moomeen.location;
 
 public class Point {
 	
