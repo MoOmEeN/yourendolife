@@ -3,16 +3,19 @@ package com.moomeen.endo.location;
 public class City {
 
 	private String name;
-	
+
 	private String country;
-	
+
 	private double latitude;
-	
+
 	private double longitude;
 
-	public City(String name, String country) {
+	public City(String name, String country, double latitude, double longitude) {
+		super();
 		this.name = name;
 		this.country = country;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
 	public String getName() {
@@ -29,14 +32,6 @@ public class City {
 
 	public double getLongitude() {
 		return longitude;
-	}
-	
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
-
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
 	}
 
 	@Override
@@ -69,4 +64,5 @@ public class City {
 			return false;
 		return true;
 	}
+
 }
