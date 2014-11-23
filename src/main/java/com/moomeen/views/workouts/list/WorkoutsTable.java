@@ -74,7 +74,7 @@ public class WorkoutsTable extends PagedTable {
 	}
 
 	private void initTable() {
-		setSelectable(true);
+		setSelectable(false);
 		setMultiSelect(false);
 		setSortEnabled(true);
 		setColumnCollapsingAllowed(true);
@@ -109,6 +109,8 @@ public class WorkoutsTable extends PagedTable {
 				 return b;
 			}
 		});
+		setColumnCollapsible(VIEW, false);
+
 		addContainerProperty(SPORT, Sport.class, null);
 		addContainerProperty(START_DATE, DateTime.class, null);
 		addContainerProperty(DURATION, Duration.class, null);

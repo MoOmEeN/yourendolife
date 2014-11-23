@@ -1,6 +1,8 @@
 package com.moomeen.views.main;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -19,12 +21,14 @@ import com.moomeen.views.workouts.list.WorkoutClickCallback;
 import com.moomeen.views.workouts.list.WorkoutsList;
 import com.vaadin.tapio.googlemaps.GoogleMap;
 import com.vaadin.tapio.googlemaps.client.LatLon;
+import com.vaadin.tapio.googlemaps.client.events.MarkerClickListener;
 import com.vaadin.tapio.googlemaps.client.overlays.GoogleMapMarker;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
@@ -48,7 +52,6 @@ public class PlacesStripe extends VerticalLayout {
 	private LatLon boundsNE;
 	private LatLon boundsSW;
 
-	private boolean workoutsListVisible = false;
 	private Panel workoutsPanel;
 
 	public PlacesStripe(EndomondoSessionHolder session, LocationService locatorService) {
@@ -80,28 +83,74 @@ public class PlacesStripe extends VerticalLayout {
 
 			addComponent(labelAndMap);
 			setComponentAlignment(labelAndMap, Alignment.MIDDLE_CENTER);
+
+			workoutsPanel = new Panel();
+			workoutsPanel.setStyleName("places-stripe-workouts");
+			workoutsPanel.setVisible(false);
+
+			addComponent(workoutsPanel);
+			setComponentAlignment(workoutsPanel, Alignment.BOTTOM_CENTER);
+
 		} catch (InvocationException e) {
 			LOG.error("Error during workouts retrieving", e);
 		}
 	}
 
-	private Panel createTextPanel(Map<Place, List<Workout>> byCities) {
+	private Panel createTextPanel(Map<Place, List<Workout>> byCity) {
 		Panel textPanel = new Panel();
-		textPanel.setContent(getText(byCities));
+		textPanel.setContent(getText(byCity));
 		textPanel.setStyleName("stripe-half");
 		textPanel.addStyleName("places-stripe-text-half");
 		return textPanel;
 	}
 
-	private Component getText(Map<Place, List<Workout>> byCities) {
-		HorizontalLayout layout = new HorizontalLayout();
-		Label text = new Label("You visited " + byCities.size() + " cities!");
-		text.addStyleName("h1");
-		layout.addComponent(text);
-		for (Entry<Place, List<Workout>> placeEntry : byCities.entrySet()) {
-			layout.addComponent(getLinkFor(placeEntry.getKey().getName(), placeEntry.getValue()));
-		}
+	private Component getText(Map<Place, List<Workout>> byCity) {
+		CssLayout layout = new CssLayout();
+		Label citiesLabel = getH1Label("You visited " + byCity.size() + " cities");
+		layout.addComponent(citiesLabel);
+		addLinkButtons(layout, toStringKeyMap(byCity));
+
+		Map<String, List<Workout>> byCountry = groupByCountry(byCity);
+		Label countriesLabel = getH1Label("in " + byCountry.size() + " countries");
+		layout.addComponent(countriesLabel);
+		addLinkButtons(layout, byCountry);
 		return layout;
+	}
+
+	private Label getH1Label(String text){
+		Label label = new Label(text);
+		label.addStyleName("h1");
+		return label;
+	}
+
+	private Map<String, List<Workout>> toStringKeyMap(Map<Place, List<Workout>> byCity){
+		Map<String, List<Workout>> retMap = new HashMap<String, List<Workout>>();
+		for (Entry<Place, List<Workout>> entry : byCity.entrySet()) {
+			retMap.put(entry.getKey().getName(), entry.getValue());
+		}
+		return retMap;
+	}
+
+	private void addLinkButtons(CssLayout layout, Map<String, List<Workout>> workouts) {
+		int counter = 0;
+		for (Entry<String, List<Workout>> countryEntry : workouts.entrySet()) {
+			boolean isLast = counter == workouts.size() -1;
+			String link = countryEntry.getKey() + (isLast ? "" : ",");
+			layout.addComponent(getLinkFor(link, countryEntry.getValue()));
+			counter++;
+		}
+	}
+
+	private Map<String, List<Workout>> groupByCountry(Map<Place, List<Workout>> byCity){
+		Map<String, List<Workout>> byCountry = new HashMap<String, List<Workout>>();
+		for (Entry<Place, List<Workout>> entry : byCity.entrySet()) {
+			String country = entry.getKey().getCountry();
+			if (!byCountry.containsKey(country)){
+				byCountry.put(country, new ArrayList<Workout>());
+			}
+			byCountry.get(country).addAll(entry.getValue());
+		}
+		return byCountry;
 	}
 
 	private Button getLinkFor(String text, final List<Workout> workouts){
@@ -112,28 +161,9 @@ public class PlacesStripe extends VerticalLayout {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if (workoutsListVisible){
-					removeComponent(workoutsPanel);
-				}
-				workoutsPanel = new Panel();
-				workoutsPanel.setStyleName("places-stripe-workouts");
-				workoutsPanel.setContent(new WorkoutsList(workouts, new WorkoutClickCallback() {
-
-					@Override
-					public void clicked(long workoutId) throws InvocationException {
-						DetailedWorkout workout = sessionHolder.getWorkout(workoutId);
-						final Window window = new Window(workout.getSport().description() + " - " + workout.getStartTime()); // TODO
-						window.setWidth("60%");
-						window.setHeight("60%");
-						window.center();
-						window.setContent(new WorkoutDetails(workout));
-						UI.getCurrent().addWindow(window);
-					}
-				}));
-				workoutsListVisible = true;
-				addComponent(workoutsPanel);
-				setComponentAlignment(workoutsPanel, Alignment.BOTTOM_CENTER);
+				setWorkoutsList(workouts);
 			}
+
 		});
 		return linkButton;
 	}
@@ -150,18 +180,45 @@ public class PlacesStripe extends VerticalLayout {
 		googleMap.addStyleName("places-stripe-map");
 		mapPanel.setContent(googleMap);
 
-		addMarkers(byCities, googleMap);
+		final Map<GoogleMapMarker, List<Workout>> markers = addMarkers(byCities, googleMap);
+		googleMap.addMarkerClickListener(new MarkerClickListener() {
+
+			@Override
+			public void markerClicked(GoogleMapMarker clickedMarker) {
+				setWorkoutsList(markers.get(clickedMarker));
+			}
+		});
 
 		googleMap.fitToBounds(boundsNE, boundsSW);
 		return mapPanel;
 	}
 
-	private void addMarkers(Map<Place, List<Workout>> byCities, GoogleMap googleMap) {
+	private void setWorkoutsList(final List<Workout> workouts) {
+		workoutsPanel.setContent(new WorkoutsList(workouts, new WorkoutClickCallback() {
+
+			@Override
+			public void clicked(long workoutId) throws InvocationException {
+				DetailedWorkout workout = sessionHolder.getWorkout(workoutId);
+				final Window window = new Window(workout.getSport().description() + " - " + workout.getStartTime()); // TODO
+				window.setWidth("60%");
+				window.setHeight("60%");
+				window.center();
+				window.setContent(new WorkoutDetails(workout));
+				UI.getCurrent().addWindow(window);
+			}
+		}));
+		workoutsPanel.setVisible(true);
+	}
+
+	private Map<GoogleMapMarker, List<Workout>> addMarkers(Map<Place, List<Workout>> byCities, GoogleMap googleMap) {
+		Map<GoogleMapMarker, List<Workout>> markers = new HashMap<GoogleMapMarker, List<Workout>>();
 		for (Entry<Place, List<Workout>> workout : byCities.entrySet()) {
 			GoogleMapMarker marker = new GoogleMapMarker(workout.getKey().getName(), new LatLon(workout.getKey().getLatitude(), workout.getKey().getLongitude()), false);
 			adjustBoundsIfNeeded(workout.getKey());
 			googleMap.addMarker(marker);
+			markers.put(marker, workout.getValue());
 		}
+		return markers;
 	}
 
 	private void adjustBoundsIfNeeded(Place point) {

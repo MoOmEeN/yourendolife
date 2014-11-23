@@ -21,7 +21,7 @@ public class EndomondoSessionHolder {
 		this.internalSession = session;
 	}
 
-	public List<Workout> getWorkouts() throws InvocationException {
+	public synchronized List<Workout> getWorkouts() throws InvocationException {
 		checkInit();
 		if (workouts == null){
 			workouts = internalSession.getWorkouts(999);

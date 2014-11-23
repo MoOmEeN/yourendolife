@@ -17,7 +17,7 @@ import com.vaadin.ui.themes.Reindeer;
 public class WorkoutsTableControls extends HorizontalLayout {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -1907742908265305423L;
 
@@ -44,7 +44,7 @@ public class WorkoutsTableControls extends HorizontalLayout {
 	                        .getProperty().getValue())));
 	            }
 	        });
-	        itemsPerPageSelect.select("10");
+	        itemsPerPageSelect.select("5");
 	        Label pageLabel = new Label("Page:&nbsp;", ContentMode.HTML);
 	        final TextField currentPageTextField = new TextField();
 	        currentPageTextField.setValue(String.valueOf(table.getCurrentPage()));
@@ -188,5 +188,5 @@ public class WorkoutsTableControls extends HorizontalLayout {
 	            }
 	        });
 	}
-	
+
 }

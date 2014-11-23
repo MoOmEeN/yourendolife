@@ -156,21 +156,31 @@ $v-panel-border: 2px solid v-shade;
 	}
 	
 	.places-stripe-loader h1 {
-		color :white
+		color: white;
 	}
 	
 	.places-stripe-loader .v-label {
-		color: white
+		color: white;
+		margin-bottom: 0px;
+	}
+	
+	.places-stripe-text-half .v-button {
+		padding: 0px 5px 0px 0px
 	}
 	
 	.places-stripe-workouts {
 		background: none;
 		padding-left: 5%;
 		padding-right: 5%;
+		margin-bottom: 1%;
 	}
 	
 	.places-stripe-workouts .v-button {
 		background: none;
 		color: white
+	}
+	
+	.v-table-column-selector {
+		//z-index: 999
 	}
 }
