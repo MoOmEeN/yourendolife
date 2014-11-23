@@ -194,7 +194,20 @@ public class PlacesStripe extends VerticalLayout {
 	}
 
 	private void setWorkoutsList(final List<Workout> workouts) {
-		workoutsPanel.setContent(new WorkoutsList(workouts, new WorkoutClickCallback() {
+		VerticalLayout layout = new VerticalLayout();
+		Button hideButton = getHideButton(layout);
+		layout.addComponent(hideButton);
+		layout.setComponentAlignment(hideButton, Alignment.TOP_RIGHT);
+
+		WorkoutsList workoutsList = getWorkoutsList(workouts);
+		layout.addComponent(workoutsList);
+		layout.setComponentAlignment(workoutsList, Alignment.MIDDLE_CENTER);
+		workoutsPanel.setContent(layout);
+		workoutsPanel.setVisible(true);
+	}
+
+	private WorkoutsList getWorkoutsList(final List<Workout> workouts) {
+		WorkoutsList workoutsList = new WorkoutsList(workouts, new WorkoutClickCallback() {
 
 			@Override
 			public void clicked(long workoutId) throws InvocationException {
@@ -206,8 +219,20 @@ public class PlacesStripe extends VerticalLayout {
 				window.setContent(new WorkoutDetails(workout));
 				UI.getCurrent().addWindow(window);
 			}
-		}));
-		workoutsPanel.setVisible(true);
+		});
+		return workoutsList;
+	}
+
+	private Button getHideButton(VerticalLayout layout) {
+		Button hideButton = new Button("x");
+		hideButton.addClickListener(new ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				workoutsPanel.setVisible(false);
+			}
+		});
+		return hideButton;
 	}
 
 	private Map<GoogleMapMarker, List<Workout>> addMarkers(Map<Place, List<Workout>> byCities, GoogleMap googleMap) {

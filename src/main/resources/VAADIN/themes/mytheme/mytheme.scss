@@ -114,8 +114,8 @@ $v-panel-border: 2px solid v-shade;
 		font-weight: bold;
 	}
 	
-	.v-table-row-odd {
-//		background-color: white;
+	.v-table-row {
+		background:	none repeat scroll 0 0 rgba(0, 0, 0, 0.05)
 	}
 	
 	.places-stripe {
@@ -181,6 +181,6 @@ $v-panel-border: 2px solid v-shade;
 	}
 	
 	.v-table-column-selector {
-		//z-index: 999
+		margin-right: 15px;
 	}
 }
