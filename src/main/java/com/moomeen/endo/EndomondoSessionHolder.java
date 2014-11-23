@@ -2,6 +2,8 @@ package com.moomeen.endo;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.vaadin.spring.UIScope;
 
@@ -12,6 +14,8 @@ import com.moomeen.endo2java.model.Workout;
 @Service
 @UIScope
 public class EndomondoSessionHolder {
+
+	private final static Logger LOG = LoggerFactory.getLogger(EndomondoSessionHolder.class);
 
 	private com.moomeen.endo2java.EndomondoSession internalSession;
 
@@ -24,7 +28,11 @@ public class EndomondoSessionHolder {
 	public synchronized List<Workout> getWorkouts() throws InvocationException {
 		checkInit();
 		if (workouts == null){
-			workouts = internalSession.getWorkouts(999);
+			long start = System.currentTimeMillis();
+			workouts = internalSession.getAllWorkouts();
+			if (LOG.isDebugEnabled()){
+				LOG.debug("Retrieved {} workouts in {} ms", workouts.size(), System.currentTimeMillis() - start);
+			}
 		}
 		return workouts;
 	}
