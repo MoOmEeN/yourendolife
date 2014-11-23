@@ -11,13 +11,21 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.PeriodFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.jensjansson.pagedtable.PagedTable;
+import com.moomeen.endo2java.error.InvocationException;
 import com.moomeen.endo2java.model.Sport;
 import com.moomeen.endo2java.model.Workout;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Table;
 
 public class WorkoutsTable extends PagedTable {
 
@@ -26,13 +34,20 @@ public class WorkoutsTable extends PagedTable {
 	 */
 	private static final long serialVersionUID = 4523530118134513505L;
 
+	private static Logger LOG = LoggerFactory.getLogger(WorkoutsTable.class);
+
 	private Locale browserLocale = Page.getCurrent().getWebBrowser().getLocale();
 	private String dateFormat = DateTimeFormat.patternForStyle("MM", browserLocale);
 	private PeriodFormatter periodFormatter = PeriodFormatterHelper.getForLocale(browserLocale);
 
-	public WorkoutsTable(List<Workout> workouts) {
+	private List<Workout> workouts;
+	private WorkoutClickCallback workoutClickCallback;
+
+	public WorkoutsTable(List<Workout> workouts, WorkoutClickCallback clickCallback) {
 		initTable();
 		fillWithData(workouts);
+		this.workouts = workouts;
+		this.workoutClickCallback = clickCallback;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -72,6 +87,28 @@ public class WorkoutsTable extends PagedTable {
 	}
 
 	private void setColumns() {
+		addContainerProperty(VIEW, Button.class, null);
+		addGeneratedColumn(VIEW, new ColumnGenerator() {
+			@Override
+			public Object generateCell(Table source, final Object itemId, Object columnId) {
+				 Button b = new Button();
+				 b.setIcon(FontAwesome.SEARCH);
+				 b.addClickListener(new ClickListener() {
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						try {
+							int selectedItem = (Integer) itemId;
+							Workout workout = workouts.get(selectedItem -1);
+							workoutClickCallback.clicked(workout.getId());
+						} catch (InvocationException e) {
+							LOG.error("Couldn't process click event", e);
+						}
+					}
+				});
+				 return b;
+			}
+		});
 		addContainerProperty(SPORT, Sport.class, null);
 		addContainerProperty(START_DATE, DateTime.class, null);
 		addContainerProperty(DURATION, Duration.class, null);

@@ -81,7 +81,7 @@ public class LoginView extends VerticalLayout implements View {
 				try {
 					session.login();
 					sessionHolder.init(session);
-					eventBus.publish(this, com.moomeen.ViewChangeEvent.WORKOUTS_LIST);
+					eventBus.publish(this, com.moomeen.ViewChangeEvent.MAIN_VIEW);
 				} catch (InvocationException e) {
 					LOG.error("exception while trying to login user: {}", login.getValue(), e);
 				}

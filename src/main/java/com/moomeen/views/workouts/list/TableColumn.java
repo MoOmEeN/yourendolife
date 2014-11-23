@@ -18,7 +18,8 @@ public enum TableColumn {
 	MAX_ALTITUDE("Maximum Altitude (m)"),
 	PEPTALKS("Peptalks"),
 	LIKES("Likes"),
-	COMMENTS("Comments");
+	COMMENTS("Comments"),
+	VIEW("");
 
 	private String desc;
 

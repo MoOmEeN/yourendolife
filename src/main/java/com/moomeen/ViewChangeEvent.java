@@ -2,7 +2,7 @@ package com.moomeen;
 
 public enum ViewChangeEvent {
 
-	WORKOUTS_LIST("workouts");
+	MAIN_VIEW("main");
 
 	private String viewName;
 

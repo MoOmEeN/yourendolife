@@ -1,4 +1,4 @@
-package com.moomeen.views.workouts;
+package com.moomeen.views.workouts.details;
 
 import java.util.ArrayList;
 import java.util.List;

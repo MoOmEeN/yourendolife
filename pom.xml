@@ -28,6 +28,7 @@
 		<endo2java.version>0.0.1-SNAPSHOT</endo2java.version>
 		<vaadin-pagedtable.version>0.6.5</vaadin-pagedtable.version>
 		<vaadin-googlemaps.version>1.0.0</vaadin-googlemaps.version>
+		<vaadin-lazyloadwrapper.version>0.0.1</vaadin-lazyloadwrapper.version>
 		<nomination-api.version>3.0</nomination-api.version>
 	</properties>
 
@@ -92,6 +93,11 @@
 			<groupId>com.vaadin.tapio</groupId>
 			<artifactId>googlemaps</artifactId>
 			<version>${vaadin-googlemaps.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin.addons</groupId>
+			<artifactId>lazyloadwrapper</artifactId>
+			<version>${vaadin-lazyloadwrapper.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>fr.dudie</groupId>

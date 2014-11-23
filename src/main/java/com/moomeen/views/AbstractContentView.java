@@ -12,6 +12,10 @@ import com.vaadin.ui.VerticalLayout;
 
 public abstract class AbstractContentView extends VerticalLayout implements View {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 9102807959577832012L;
 	@Autowired
 	protected EventBus eventBus;
 
@@ -24,7 +28,6 @@ public abstract class AbstractContentView extends VerticalLayout implements View
 		Component content = content();
 		content.setStyleName("content");
 		addComponent(content);
-		//setComponentAlignment(content, Alignment.MIDDLE_CENTER);
 	}
 
 	public abstract Component content();

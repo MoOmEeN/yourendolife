@@ -16,11 +16,11 @@ public class EndomondoSessionHolder {
 	private com.moomeen.endo2java.EndomondoSession internalSession;
 
 	private List<Workout> workouts;
-	
+
 	public void init(com.moomeen.endo2java.EndomondoSession session) {
 		this.internalSession = session;
 	}
-	
+
 	public List<Workout> getWorkouts() throws InvocationException {
 		checkInit();
 		if (workouts == null){
@@ -28,12 +28,12 @@ public class EndomondoSessionHolder {
 		}
 		return workouts;
 	}
-	
+
 	public DetailedWorkout getWorkout(long workoutId) throws InvocationException {
 		checkInit();
 		return internalSession.getWorkout(workoutId);
 	}
-	
+
 	private void checkInit(){
 		if (internalSession == null){
 			throw new RuntimeException("init first!");
