@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.moomeen.location.Place;
+import com.moomeen.location.Point;
 
 import fr.dudie.nominatim.client.JsonNominatimClient;
 import fr.dudie.nominatim.client.request.NominatimReverseRequest;
@@ -37,19 +38,19 @@ public class NominatimAdaptor {
 		nominatimClient = new JsonNominatimClient(NOMINATION_BASE_URL, httpClient, EMAIL);
 	}
 
-	public Place reverse(double latitude, double longitude) {
+	public Place reverse(Point point) {
 		try {
 			NominatimReverseRequest request = new NominatimReverseRequest();
-			request.setQuery(longitude, latitude);
+			request.setQuery(point.getLongitude(), point.getLatitude());
 			request.setAcceptLanguage("en");
 			Address address = nominatimClient.getAddress(request);
 			return fromAddress(address);
 		} catch (IOException e) {
-			LOG.error("Couldn't reverse geolocate point: {}, {}", latitude, longitude, e);
+			LOG.error("Couldn't reverse geolocate point: {}, {}", point.getLatitude(), point.getLongitude(), e);
 		}
 		return null;
 	}
-	
+
 	private Place fromAddress(Address address){
 		String city = getValue("city", address);
 		String town = getValue("town", address);
@@ -60,7 +61,7 @@ public class NominatimAdaptor {
 
 		String name = firstNotNull(city, town, village, hamlet, state);
 
-		return new Place(name, country, address.getLatitude(), address.getLongitude());
+		return new Place(name, country, new Point(address.getLatitude(), address.getLongitude()));
 	}
 
 	private String firstNotNull(String... strings){
@@ -71,7 +72,7 @@ public class NominatimAdaptor {
 		}
 		throw new NullPointerException("only null strings provided");
 	}
-	
+
 
 	private String getValue(String key, Address address){
 		for (AddressElement element : address.getAddressElements()) {

@@ -16,6 +16,7 @@ import com.moomeen.endo2java.model.DetailedWorkout;
 import com.moomeen.endo2java.model.Workout;
 import com.moomeen.location.LocationService;
 import com.moomeen.location.Place;
+import com.moomeen.location.Point;
 import com.moomeen.views.workouts.details.WorkoutDetails;
 import com.moomeen.views.workouts.list.WorkoutClickCallback;
 import com.moomeen.views.workouts.list.WorkoutsList;
@@ -238,21 +239,21 @@ public class PlacesStripe extends VerticalLayout {
 	private Map<GoogleMapMarker, List<Workout>> addMarkers(Map<Place, List<Workout>> byCities, GoogleMap googleMap) {
 		Map<GoogleMapMarker, List<Workout>> markers = new HashMap<GoogleMapMarker, List<Workout>>();
 		for (Entry<Place, List<Workout>> workout : byCities.entrySet()) {
-			GoogleMapMarker marker = new GoogleMapMarker(workout.getKey().getName(), new LatLon(workout.getKey().getLatitude(), workout.getKey().getLongitude()), false);
-			adjustBoundsIfNeeded(workout.getKey());
+			GoogleMapMarker marker = new GoogleMapMarker(workout.getKey().getName(), new LatLon(workout.getKey().getPoint().getLatitude(), workout.getKey().getPoint().getLongitude()), false);
+			adjustBoundsIfNeeded(workout.getKey().getPoint());
 			googleMap.addMarker(marker);
 			markers.put(marker, workout.getValue());
 		}
 		return markers;
 	}
 
-	private void adjustBoundsIfNeeded(Place point) {
+	private void adjustBoundsIfNeeded(Point point) {
 		initBoundsIfNeeded(point);
 		adjustNEBoundIfNeeded(point);
 		adjustSWBoundIfNeeded(point);
 	}
 
-	private void adjustSWBoundIfNeeded(Place point) {
+	private void adjustSWBoundIfNeeded(Point point) {
 		if (point.getLatitude() < boundsSW.getLat()){
 			boundsSW.setLat(point.getLatitude());
 		}
@@ -261,7 +262,7 @@ public class PlacesStripe extends VerticalLayout {
 		}
 	}
 
-	private void adjustNEBoundIfNeeded(Place point) {
+	private void adjustNEBoundIfNeeded(Point point) {
 		if (point.getLatitude() > boundsNE.getLat()){
 			boundsNE.setLat(point.getLatitude());
 		}
@@ -270,7 +271,7 @@ public class PlacesStripe extends VerticalLayout {
 		}
 	}
 
-	private void initBoundsIfNeeded(Place point) {
+	private void initBoundsIfNeeded(Point point) {
 		if (boundsNE == null || boundsSW == null){
 			boundsNE = new LatLon(point.getLatitude(), point.getLongitude());
 			boundsSW = new LatLon(point.getLatitude(), point.getLongitude());

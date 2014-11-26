@@ -1,21 +1,26 @@
 package com.moomeen.location;
 
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+
+@Entity(value = "places", noClassnameStored = true)
 public class Place {
+
+	@Id
+	private ObjectId id;
 
 	private String name;
 
 	private String country;
 
-	private double latitude;
+	private Point point;
 
-	private double longitude;
-
-	public Place(String name, String country, double latitude, double longitude) {
+	public Place(String name, String country, Point point) {
 		super();
 		this.name = name;
 		this.country = country;
-		this.latitude = latitude;
-		this.longitude = longitude;
+		this.point = point;
 	}
 
 	public String getName() {
@@ -26,12 +31,8 @@ public class Place {
 		return country;
 	}
 
-	public double getLatitude() {
-		return latitude;
-	}
-
-	public double getLongitude() {
-		return longitude;
+	public Point getPoint(){
+		return point;
 	}
 
 	@Override

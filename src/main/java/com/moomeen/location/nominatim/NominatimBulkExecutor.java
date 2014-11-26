@@ -42,7 +42,7 @@ public class NominatimBulkExecutor {
 
 			@Override
 			public Place call() throws Exception {
-				return executor.reverse(point.getLatitude(), point.getLongitude());
+				return executor.reverse(point);
 			}
 		});
 	}

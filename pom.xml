@@ -30,11 +30,11 @@
 		<vaadin-googlemaps.version>1.0.0</vaadin-googlemaps.version>
 		<vaadin-lazyloadwrapper.version>0.0.1</vaadin-lazyloadwrapper.version>
 		<nomination-api.version>3.0</nomination-api.version>
+		<mongo-driver.version>2.12.4</mongo-driver.version>
+		<morphia.version>0.108</morphia.version>
 	</properties>
 
-
 	<repositories>
-	
 		<repository>
 			<id>sonatype-snapshots</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -51,6 +51,7 @@
 		</repository>
 	</repositories>
 	<dependencies>
+		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -74,6 +75,7 @@
 			<artifactId>spring-boot-vaadin</artifactId>
 			<version>${spring-vaadin.version}</version>
 		</dependency>
+		<!-- Vaadin -->
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-themes</artifactId>
@@ -84,6 +86,7 @@
 			<artifactId>vaadin-client-compiled</artifactId>
 			<version>${vaadin.version}</version>
 		</dependency>
+		<!-- Vaadin Add-Ons -->
 		<dependency>
 			<groupId>org.vaadin.addons</groupId>
 			<artifactId>pagedtable</artifactId>
@@ -99,16 +102,30 @@
 			<artifactId>lazyloadwrapper</artifactId>
 			<version>${vaadin-lazyloadwrapper.version}</version>
 		</dependency>
+		<!-- Nominatim API -->
 		<dependency>
 			<groupId>fr.dudie</groupId>
 			<artifactId>nominatim-api</artifactId>
 			<version>${nomination-api.version}</version>
 		</dependency>
+		<!-- Endo2Java -->
 		<dependency>
 			<groupId>com.moomeen.endo2java</groupId>
 			<artifactId>endo2java</artifactId>
 			<version>${endo2java.version}</version>
 		</dependency>
+		<!-- Mongo DB -->
+		<dependency> 
+			<groupId>org.mongodb</groupId> 
+			<artifactId>mongo-java-driver</artifactId> 
+			<version>${mongo-driver.version}</version> 
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb.morphia</groupId>
+			<artifactId>morphia</artifactId>
+			<version>${morphia.version}</version>
+		</dependency> 
+	
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>jsr311-api</artifactId>
