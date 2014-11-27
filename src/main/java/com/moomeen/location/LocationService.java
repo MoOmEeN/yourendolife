@@ -12,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.moomeen.endo2java.model.Workout;
-import com.moomeen.location.nominatim.NominatimBulkExecutor;
+import com.moomeen.location.model.Place;
+import com.moomeen.location.model.Point;
 
 @Service
 public class LocationService {
@@ -20,11 +21,15 @@ public class LocationService {
 	private static Logger LOG = LoggerFactory.getLogger(LocationService.class);
 
 	@Autowired
-	private NominatimBulkExecutor nominatimExecutor;
-
+	private ReverseGeoLocator executor;
+	
 	public Map<Place, List<Workout>> determineCities(List<Workout> workouts){
 		Map<Point, Workout> coordinatesOfWorkouts = determineCoordinates(workouts);
-		Map<Point, Place> coordinatesPlaces = nominatimExecutor.reverse(coordinatesOfWorkouts.keySet());
+		long millis = System.currentTimeMillis();
+		Map<Point, Place> coordinatesPlaces = executor.reverse(coordinatesOfWorkouts.keySet());
+		if (LOG.isDebugEnabled()){
+			LOG.debug("Localized {} points in {} ms",coordinatesPlaces.size(), System.currentTimeMillis() - millis);
+		}
 		Map<Place, List<Workout>> workoutsCities = groupByCities(coordinatesOfWorkouts, coordinatesPlaces);
 		return workoutsCities;
 	}

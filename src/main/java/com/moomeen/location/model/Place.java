@@ -1,4 +1,4 @@
-package com.moomeen.location;
+package com.moomeen.location.model;
 
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;

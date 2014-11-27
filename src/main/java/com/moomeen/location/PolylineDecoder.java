@@ -3,6 +3,8 @@ package com.moomeen.location;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.moomeen.location.model.Point;
+
 public class PolylineDecoder {
 	
 	public static Point decodeFirst(String encoded){

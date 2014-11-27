@@ -10,8 +10,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import com.moomeen.location.Place;
-import com.moomeen.location.Point;
+import com.moomeen.location.model.Place;
+import com.moomeen.location.model.Point;
 import com.moomeen.location.nominatim.NominatimAdaptor;
 
 @RunWith(Parameterized.class)
@@ -48,7 +48,7 @@ public class NominatimAdaptorTest {
    @Test
    public void testReverseGeolocate() {
 	   // when
-	   Place place = adaptor.reverse(coordinates.getLatitude(), coordinates.getLongitude());
+	   Place place = adaptor.reverse(coordinates);
 	   
 	   // then
 	   assertEquals(expectedPlace, place.getName());

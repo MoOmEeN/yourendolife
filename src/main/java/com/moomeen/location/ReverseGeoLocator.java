@@ -1,4 +1,4 @@
-package com.moomeen.location.nominatim;
+package com.moomeen.location;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,18 +14,25 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.moomeen.location.Place;
-import com.moomeen.location.Point;
+import com.moomeen.location.dao.PlaceDao;
+import com.moomeen.location.exception.PlaceNotFoundException;
+import com.moomeen.location.model.Place;
+import com.moomeen.location.model.Point;
+import com.moomeen.location.nominatim.NominatimAdaptor;
 
 @Service
-public class NominatimBulkExecutor {
+public class ReverseGeoLocator {
 
-	private final static Logger LOG = LoggerFactory.getLogger(NominatimBulkExecutor.class);
-
-	private ExecutorService executorService = Executors.newFixedThreadPool(100);
+	private final static Logger LOG = LoggerFactory.getLogger(ReverseGeoLocator.class);
+	private static final int ONE_KM = 1000;
 
 	@Autowired
-	private NominatimAdaptor executor;
+	private NominatimAdaptor nominatimExecutor;
+	
+	@Autowired
+	private PlaceDao placeDao;
+	
+	private ExecutorService executorService = Executors.newFixedThreadPool(50);
 
 	public Map<Point, Place> reverse(Set<Point> points){
 		Map<Point, Future<Place>> mapWithFutures = new HashMap<Point, Future<Place>>();
@@ -42,7 +49,14 @@ public class NominatimBulkExecutor {
 
 			@Override
 			public Place call() throws Exception {
-				return executor.reverse(point);
+				Place place = null;
+				try {
+					place = placeDao.findWithinDistance(point, ONE_KM);
+				} catch (PlaceNotFoundException e){
+					place = nominatimExecutor.reverse(point);
+					placeDao.save(place);
+				}
+				return place;
 			}
 		});
 	}

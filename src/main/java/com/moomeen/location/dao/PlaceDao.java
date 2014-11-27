@@ -1,27 +1,29 @@
 package com.moomeen.location.dao;
 
 import java.net.UnknownHostException;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.Key;
 import org.mongodb.morphia.Morphia;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.moomeen.location.Place;
+import com.mongodb.util.JSON;
+import com.moomeen.location.exception.PlaceNotFoundException;
+import com.moomeen.location.model.Place;
+import com.moomeen.location.model.Point;
 
 @Service
 public class PlaceDao {
 
 	private static Logger LOG = LoggerFactory.getLogger(PlaceDao.class);
-
-	private double EARTH_RADIUS = 6371.01;
 
 	@Value("#{environment.MONGO_URL}")
     private String dbUri;
@@ -36,12 +38,44 @@ public class PlaceDao {
 	}
 
 	public void save(Place place) {
-		Key<Place> key =  ds.save(place);
-		LOG.debug("place saved with id: {}", key.getId().toString());
+		ds.save(place);
 	}
 
-	public Place findWithinDistance(double longitude, double latitude, double distance){
-		return null; // TODO
+	public Place findWithinDistance(Point point, int distance) throws PlaceNotFoundException{
+		DBObject query = getSearchQuery(point, distance);
+		List<DBObject> list = executeQuery(query);
+		if (list.isEmpty()){
+			throw new PlaceNotFoundException(point);
+		}
+		return toPlace(point, list);
 	}
 
+	private List<DBObject> executeQuery(DBObject query) {
+		List<DBObject> list = ds.getDB().getCollection("places").find(query).limit(1).toArray();
+		return list;
+	}
+	
+	private DBObject getSearchQuery(Point point, int distance){
+		String queryString = getSearchQueryString(point, distance);
+		return (DBObject)JSON.parse(queryString);
+	}
+	
+	private String getSearchQueryString(Point point, int distance){
+		return String.format("{ point : { "
+				+ "$near : { "
+					+ "$geometry: { "
+						+ "type: \"Point\", "
+						+ "coordinates: [%f, %f] "
+					+ "}, "
+					+ "$maxDistance: %d"
+				+ "} "
+			+ "} }", point.getLongitude(), point.getLatitude(), distance);
+	}
+	
+	private Place toPlace(Point point, List<DBObject> list) {
+		DBObject o = list.get(0);
+		String country = (String) o.get("country");
+		String name = (String) o.get("name");
+		return new Place(name, country, point);
+	}
 }

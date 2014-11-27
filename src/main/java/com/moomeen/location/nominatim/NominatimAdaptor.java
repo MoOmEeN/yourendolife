@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.moomeen.location.Place;
-import com.moomeen.location.Point;
+import com.moomeen.location.model.Place;
+import com.moomeen.location.model.Point;
 
 import fr.dudie.nominatim.client.JsonNominatimClient;
 import fr.dudie.nominatim.client.request.NominatimReverseRequest;
