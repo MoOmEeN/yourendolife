@@ -118,14 +118,6 @@ $v-panel-border: 2px solid v-shade;
 		background:	none repeat scroll 0 0 rgba(0, 0, 0, 0.05)
 	}
 	
-	.places-stripe {
-		
-	}
-	
-	.places-stripe-loader .v-table {
-		color: white
-	}
-	
 	.stripe-half {
 		background: none;
 		padding: 5% !important;
@@ -142,12 +134,13 @@ $v-panel-border: 2px solid v-shade;
 	}
 	
 	.v-lazyloadingwrapper-loading {
-		background-image: url("/VAADIN/themes/valo/shared/img/spinner.gif")
+		background-image: url("/VAADIN/themes/valo/shared/img/spinner.gif");
+		border: none;
 	}
 	
 	.places-stripe-loader {
 		min-height: 600px;
-		background-color: rgb(41, 171, 164);
+		background-color: rgb(146,176,106);
 		color: white
 	}
 	
@@ -168,19 +161,45 @@ $v-panel-border: 2px solid v-shade;
 		padding: 0px 5px 0px 0px
 	}
 	
-	.places-stripe-workouts {
+	.stripe-workouts {
 		background: none;
 		padding-left: 5%;
 		padding-right: 5%;
 		margin-bottom: 1%;
 	}
 	
-	.places-stripe-workouts .v-button {
+	.stripe-workouts .v-table-caption-container {
+		color: white;
+	}
+	
+	.stripe-workouts .v-table-cell-wrapper {
+		color: white;
+	}
+	
+	.stripe-workouts .v-slot .v-align-right {
+		background: none repeat scroll 0 0 rgba(0, 0, 0, 0.05)
+	}
+	
+	.stripe-workouts .icon-on-right .v-icon {
+		margin-left: 99%
+	}
+	
+	div.stripe-workouts {
+		color: white;
+	}
+	
+	.stripe-workouts .v-button {
 		background: none;
 		color: white
 	}
 	
 	.v-table-column-selector {
 		margin-right: 15px;
+	}
+	
+	.workouts-stripe-loader {
+		min-height: 600px;
+		background-color: rgb(221,95,50);
+		color: white
 	}
 }

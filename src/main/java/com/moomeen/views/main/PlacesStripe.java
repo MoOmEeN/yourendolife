@@ -37,7 +37,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-public class PlacesStripe extends VerticalLayout {
+public class PlacesStripe extends VerticalLayout implements LazyLoadable {
 
 	/**
 	 *
@@ -53,15 +53,15 @@ public class PlacesStripe extends VerticalLayout {
 	private LatLon boundsNE;
 	private LatLon boundsSW;
 
-	private Panel workoutsPanel;
+	private WorkoutsListView workoutsPanel;
 
 	public PlacesStripe(EndomondoSessionHolder session, LocationService locatorService) {
 		this.sessionHolder = session;
 		this.locationService = locatorService;
-		init();
 	}
 
-	private void init(){
+	@Override
+	public void init(){
 		try {
 			setHeightUndefined();
 
@@ -85,13 +85,10 @@ public class PlacesStripe extends VerticalLayout {
 			addComponent(labelAndMap);
 			setComponentAlignment(labelAndMap, Alignment.MIDDLE_CENTER);
 
-			workoutsPanel = new Panel();
-			workoutsPanel.setStyleName("places-stripe-workouts");
-			workoutsPanel.setVisible(false);
+			workoutsPanel = new WorkoutsListView(sessionHolder);
 
 			addComponent(workoutsPanel);
 			setComponentAlignment(workoutsPanel, Alignment.BOTTOM_CENTER);
-
 		} catch (InvocationException e) {
 			LOG.error("Error during workouts retrieving", e);
 		}
@@ -162,7 +159,7 @@ public class PlacesStripe extends VerticalLayout {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				setWorkoutsList(workouts);
+				workoutsPanel.setWorkouts(workouts);
 			}
 
 		});
@@ -186,7 +183,7 @@ public class PlacesStripe extends VerticalLayout {
 
 			@Override
 			public void markerClicked(GoogleMapMarker clickedMarker) {
-				setWorkoutsList(markers.get(clickedMarker));
+				workoutsPanel.setWorkouts(markers.get(clickedMarker));
 			}
 		});
 

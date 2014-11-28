@@ -12,6 +12,7 @@ import com.moomeen.views.AbstractContentView;
 import com.vaadin.lazyloadwrapper.LazyLoadWrapper;
 import com.vaadin.lazyloadwrapper.widgetset.client.ui.LLWRpc;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
@@ -35,22 +36,28 @@ public class MainView extends AbstractContentView {
 	@Override
 	public Component content() {
 		VerticalLayout layout = new VerticalLayout();
+		addLazyLoadedContent(layout, new WorkoutsStripe(sessionHolder), "workouts-stripe-loader");
+		addLazyLoadedContent(layout, new PlacesStripe(sessionHolder, locationService), "places-stripe-loader");
 
-		layout.addComponent(new FixedLazyLoadWrapper(
-				new LazyLoadWrapper.LazyLoadComponentProvider() {
-					private static final long serialVersionUID = -2518774996039022517L;
-
-					@Override
-					public Component onComponentVisible() {
-						return new PlacesStripe(sessionHolder, locationService);
-					}
-				}, "100%", "places-stripe-loader"));
 		return layout;
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
 
+	}
+	
+	private void addLazyLoadedContent(AbstractOrderedLayout layout, final LazyLoadable content, String styleName){
+		layout.addComponent(new FixedLazyLoadWrapper(
+				new LazyLoadWrapper.LazyLoadComponentProvider() {
+					private static final long serialVersionUID = -2518774996039022517L;
+
+					@Override
+					public Component onComponentVisible() {
+						content.init();
+						return (Component) content;
+					}
+				}, "100%", styleName));
 	}
 
 	class FixedLazyLoadWrapper extends LazyLoadWrapper {

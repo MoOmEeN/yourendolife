@@ -2,7 +2,7 @@ package com.moomeen.views.workouts.list;
 
 
 
-public enum TableColumn {
+public enum TableColumnEnum {
 
 	DISTANCE("Distance (km)"),
 	DURATION("Duration"),
@@ -23,7 +23,7 @@ public enum TableColumn {
 
 	private String desc;
 
-	private TableColumn(String desc) {
+	private TableColumnEnum(String desc) {
 		this.desc = desc;
 	}
 

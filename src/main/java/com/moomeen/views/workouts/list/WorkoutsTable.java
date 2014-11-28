@@ -1,6 +1,6 @@
 package com.moomeen.views.workouts.list;
 
-import static com.moomeen.views.workouts.list.TableColumn.*;
+import static com.moomeen.views.workouts.list.TableColumnEnum.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -128,22 +128,22 @@ public class WorkoutsTable extends PagedTable {
 		addContainerProperty(COMMENTS, Integer.class, 0);
 	}
 
-	private void colapseColumns(TableColumn... columns){
-		for (TableColumn tableColumn : columns) {
+	private void colapseColumns(TableColumnEnum... columns){
+		for (TableColumnEnum tableColumn : columns) {
 			setColumnCollapsed(tableColumn, true);
 		}
 	}
 
 	private void setHeaders() {
 		for (Object column : getContainerPropertyIds()) {
-			TableColumn col = (TableColumn) column;
+			TableColumnEnum col = (TableColumnEnum) column;
 			setColumnHeader(col, col.description());
 		}
 	}
 
 	@Override
 	protected String formatPropertyValue(Object rowId, Object colId, Property<?> property) {
-		TableColumn column = (TableColumn) colId;
+		TableColumnEnum column = (TableColumnEnum) colId;
 		Object propertyId = property.getValue();
 		if (propertyId == null){
 			return defaultPropertyValue(property);
