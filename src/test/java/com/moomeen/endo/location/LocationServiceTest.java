@@ -31,7 +31,7 @@ import com.moomeen.location.model.Point;
 public class LocationServiceTest {
 
 	@Mock
-	private ReverseGeoLocator executor;
+	private ReverseGeoLocator locator;
 	
 	@InjectMocks
 	private LocationService service = new LocationService();
@@ -49,7 +49,7 @@ public class LocationServiceTest {
 		Map<Place, List<Workout>> result = service.determineCities(singletonList(workout));
 		
 		// then
-		verify(executor, times(1)).reverse(argThat(hasSize(0)));
+		verify(locator, times(1)).reverse(argThat(hasSize(0)));
 		assertTrue(result.isEmpty());
 	}
 	
@@ -73,7 +73,7 @@ public class LocationServiceTest {
 		Map<Place, List<Workout>> result = service.determineCities(asList(workoutOne, workoutTwo));
 		
 		// then
-		verify(executor, times(1)).reverse(argThat(hasSize(2)));
+		verify(locator, times(1)).reverse(argThat(hasSize(2)));
 		assertEquals(1, result.size());
 	}
 
@@ -97,13 +97,13 @@ public class LocationServiceTest {
 		Map<Place, List<Workout>> result = service.determineCities(asList(workoutOne, workoutTwo));
 		
 		// then
-		verify(executor, times(1)).reverse(argThat(hasSize(2)));
+		verify(locator, times(1)).reverse(argThat(hasSize(2)));
 		assertEquals(2, result.size());
 	}
 	
 	@SuppressWarnings("unchecked")
 	private void mockGeoLocation(Map<Point, Place> toReturn) {
-		when(executor.reverse(any(Set.class))).thenReturn(toReturn);
+		when(locator.reverse(any(Set.class))).thenReturn(toReturn);
 	}
 	
 	Matcher<Set<Point>> hasSize(final int size) {
