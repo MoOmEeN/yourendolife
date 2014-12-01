@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.vaadin.spring.UIScope;
 
 import com.moomeen.endo2java.error.InvocationException;
+import com.moomeen.endo2java.model.AccountInfo;
 import com.moomeen.endo2java.model.DetailedWorkout;
 import com.moomeen.endo2java.model.Workout;
 
@@ -20,6 +21,8 @@ public class EndomondoSessionHolder {
 	private com.moomeen.endo2java.EndomondoSession internalSession;
 
 	private List<Workout> workouts;
+	
+	private AccountInfo accountInfo;
 
 	public void init(com.moomeen.endo2java.EndomondoSession session) {
 		this.internalSession = session;
@@ -40,6 +43,14 @@ public class EndomondoSessionHolder {
 	public DetailedWorkout getWorkout(long workoutId) throws InvocationException {
 		checkInit();
 		return internalSession.getWorkout(workoutId);
+	}
+	
+	public synchronized AccountInfo getAccountInfo() throws InvocationException{
+		checkInit();
+		if (accountInfo == null){
+			this.accountInfo = internalSession.getAccountInfo();
+		}
+		return accountInfo;
 	}
 
 	private void checkInit(){

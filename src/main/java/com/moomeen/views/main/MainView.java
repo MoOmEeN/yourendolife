@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.spring.UIScope;
 import org.vaadin.spring.navigator.VaadinView;
 
-import com.moomeen.endo.EndomondoSessionHolder;
 import com.moomeen.location.LocationService;
 import com.moomeen.views.AbstractContentView;
 import com.vaadin.lazyloadwrapper.LazyLoadWrapper;
@@ -26,9 +25,6 @@ public class MainView extends AbstractContentView {
 	private static final long serialVersionUID = -5282768909040896555L;
 
 	private static Logger LOG = LoggerFactory.getLogger(MainView.class);
-
-	@Autowired
-	private EndomondoSessionHolder sessionHolder;
 
 	@Autowired
 	private LocationService locationService;

@@ -5,6 +5,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.spring.events.EventBus;
 
+import com.moomeen.endo.EndomondoSessionHolder;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Component;
@@ -16,14 +17,18 @@ public abstract class AbstractContentView extends VerticalLayout implements View
 	 *
 	 */
 	private static final long serialVersionUID = 9102807959577832012L;
+	
 	@Autowired
 	protected EventBus eventBus;
+	
+	@Autowired
+	protected EndomondoSessionHolder sessionHolder;
 
 	@PostConstruct
 	public void init(){
 		setSizeFull();
 		setHeightUndefined();
-		addComponent(new Menu(eventBus));
+		addComponent(new Menu(eventBus, sessionHolder));
 
 		Component content = content();
 		content.setStyleName("content");

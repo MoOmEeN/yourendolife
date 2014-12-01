@@ -1,20 +1,46 @@
 package com.moomeen.views;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.spring.events.EventBus;
 
+import com.moomeen.endo.EndomondoSessionHolder;
+import com.moomeen.endo2java.error.InvocationException;
+import com.moomeen.endo2java.model.AccountInfo;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Link;
 
 public class Menu extends HorizontalLayout implements View {
 
-	public Menu(final EventBus eventBus) {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 880448738734609335L;
+	
+	private static Logger LOG = LoggerFactory.getLogger(Menu.class);
+	
+	private EndomondoSessionHolder session;
+	
+	public Menu(final EventBus eventBus, EndomondoSessionHolder session) {
+		this.session = session;
 		//setRows(1);
 		//setColumns(3); // TODO
 		setStyleName("menu-bar");
-
+		
+		AccountInfo accountInfo;
+		try {
+			accountInfo = session.getAccountInfo();
+			Image avatarImage = new Image(null, new ExternalResource(getPictureUrl(accountInfo)));
+			avatarImage.setStyleName("avatar-img");
+			addComponent(avatarImage);
+		} catch (InvocationException e) {
+			LOG.error("Couldn't set avator image", e);
+		}
+		
 		Link workouts = new Link("Workouts", new ExternalResource("https://vaadin.com"));
 		workouts.addStyleName("large");
 		workouts.addStyleName("menu-item");
@@ -42,6 +68,11 @@ public class Menu extends HorizontalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
+	}
+	
+	private String getPictureUrl(AccountInfo info){
+			Long pcitureId = info.getPictureId();
+			return String.format("https://www.endomondo.com/resources/gfx/picture/%d/thumbnail.jpg", pcitureId);
 	}
 
 }
