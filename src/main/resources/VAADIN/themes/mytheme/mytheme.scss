@@ -134,7 +134,7 @@ $v-panel-border: 2px solid v-shade;
 	}
 	
 	.v-lazyloadingwrapper-loading {
-		background-image: url("/VAADIN/themes/valo/shared/img/spinner.gif");
+		background-image: url("/VAADIN/themes/mytheme/img/ajax-loader.gif");
 		border: none;
 	}
 	
@@ -176,6 +176,12 @@ $v-panel-border: 2px solid v-shade;
 		color: white;
 	}
 	
+	.workouts-stripe-loader .h1 {
+		background: none;
+		color: white;
+		text-align: center;
+	}
+	
 	.stripe-workouts .v-slot .v-align-right {
 		background: none repeat scroll 0 0 rgba(0, 0, 0, 0.05)
 	}
@@ -203,10 +209,19 @@ $v-panel-border: 2px solid v-shade;
 		color: white
 	}
 	
+	.workouts-stripe-loader .v-panel {
+		background: none;
+	}
+	
 	.avatar-img {
 		width: 80px;
 		height: 80px;
 		margin-top: 10px;
 		opacity: 0.8
+	}
+	
+	.big-font {
+		font-size: 2.5em;
+		margin: 0;
 	}
 }

@@ -3,3 +3,5 @@ target/*
 .project
 .settings
 src/main/java/rebel.xml
+src/main/resources/VAADIN/gwt-unitCache/*
+src/main/resources/VAADIN/widgetsets/*
