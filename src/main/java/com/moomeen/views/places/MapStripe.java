@@ -1,4 +1,4 @@
-package com.moomeen.views.main;
+package com.moomeen.views.places;
 
 
 import java.util.ArrayList;
@@ -37,14 +37,14 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-public class PlacesStripe extends VerticalLayout implements LazyLoadable {
+public class MapStripe extends VerticalLayout {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = -1966025983114859352L;
 
-	private static Logger LOG = LoggerFactory.getLogger(PlacesStripe.class);
+	private static Logger LOG = LoggerFactory.getLogger(MapStripe.class);
 
 	private EndomondoSessionHolder sessionHolder;
 
@@ -53,14 +53,13 @@ public class PlacesStripe extends VerticalLayout implements LazyLoadable {
 	private LatLon boundsNE;
 	private LatLon boundsSW;
 
-	private WorkoutsListView workoutsPanel;
-
-	public PlacesStripe(EndomondoSessionHolder session, LocationService locatorService) {
+	
+	public MapStripe(EndomondoSessionHolder session, LocationService locatorService) {
 		this.sessionHolder = session;
 		this.locationService = locatorService;
+		init();
 	}
 
-	@Override
 	public void init(){
 		try {
 			setHeightUndefined();
@@ -84,11 +83,7 @@ public class PlacesStripe extends VerticalLayout implements LazyLoadable {
 
 			addComponent(labelAndMap);
 			setComponentAlignment(labelAndMap, Alignment.MIDDLE_CENTER);
-
-			workoutsPanel = new WorkoutsListView(sessionHolder);
-
-			addComponent(workoutsPanel);
-			setComponentAlignment(workoutsPanel, Alignment.BOTTOM_CENTER);
+			
 		} catch (InvocationException e) {
 			LOG.error("Error during workouts retrieving", e);
 		}
@@ -159,7 +154,7 @@ public class PlacesStripe extends VerticalLayout implements LazyLoadable {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				workoutsPanel.setWorkouts(workouts);
+		//		workoutsPanel.setWorkouts(workouts);
 			}
 
 		});
@@ -183,7 +178,7 @@ public class PlacesStripe extends VerticalLayout implements LazyLoadable {
 
 			@Override
 			public void markerClicked(GoogleMapMarker clickedMarker) {
-				workoutsPanel.setWorkouts(markers.get(clickedMarker));
+//				workoutsPanel.setWorkouts(markers.get(clickedMarker));
 			}
 		});
 
@@ -200,8 +195,8 @@ public class PlacesStripe extends VerticalLayout implements LazyLoadable {
 		WorkoutsList workoutsList = getWorkoutsList(workouts);
 		layout.addComponent(workoutsList);
 		layout.setComponentAlignment(workoutsList, Alignment.MIDDLE_CENTER);
-		workoutsPanel.setContent(layout);
-		workoutsPanel.setVisible(true);
+//		workoutsPanel.setContent(layout);
+//		workoutsPanel.setVisible(true);
 	}
 
 	private WorkoutsList getWorkoutsList(final List<Workout> workouts) {
@@ -227,7 +222,7 @@ public class PlacesStripe extends VerticalLayout implements LazyLoadable {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				workoutsPanel.setVisible(false);
+//				workoutsPanel.setVisible(false);
 			}
 		});
 		return hideButton;

@@ -44,7 +44,7 @@ public class WorkoutsTableControls extends HorizontalLayout {
 	                        .getProperty().getValue())));
 	            }
 	        });
-	        itemsPerPageSelect.select("5");
+	        itemsPerPageSelect.select("10");
 	        Label pageLabel = new Label("Page:&nbsp;", ContentMode.HTML);
 	        final TextField currentPageTextField = new TextField();
 	        currentPageTextField.setValue(String.valueOf(table.getCurrentPage()));

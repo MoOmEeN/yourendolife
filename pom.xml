@@ -29,6 +29,7 @@
 		<vaadin-pagedtable.version>0.6.5</vaadin-pagedtable.version>
 		<vaadin-googlemaps.version>1.0.0</vaadin-googlemaps.version>
 		<vaadin-lazyloadwrapper.version>0.0.1</vaadin-lazyloadwrapper.version>
+		<vaadin-jfreechartwrapper.version>3.0.2</vaadin-jfreechartwrapper.version>
 		<nomination-api.version>3.0</nomination-api.version>
 		<mongo-driver.version>2.12.4</mongo-driver.version>
 		<morphia.version>0.108</morphia.version>
@@ -88,6 +89,11 @@
 			<artifactId>vaadin-client-compiled</artifactId>
 			<version>${vaadin.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-server</artifactId>
+			<version>${vaadin.version}</version>
+		</dependency>
 		<!-- Vaadin Add-Ons -->
 		<dependency>
 			<groupId>org.vaadin.addons</groupId>
@@ -103,6 +109,17 @@
 			<groupId>com.vaadin.addons</groupId>
 			<artifactId>lazyloadwrapper</artifactId>
 			<version>${vaadin-lazyloadwrapper.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.vaadin.addon</groupId>
+			<artifactId>jfreechartwrapper</artifactId>
+			<version>${vaadin-jfreechartwrapper.version}</version>
+			<exclusions>
+				<exclusion>  
+					<groupId>com.vaadin</groupId>
+					<artifactId>vaadin-server</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- Nominatim API -->
 		<dependency>

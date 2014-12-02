@@ -2,8 +2,9 @@ package com.moomeen;
 
 public enum ViewChangeEvent {
 
-	MAIN_VIEW("main");
-
+	STATS_VIEW("stats"),
+	PLACES_VIEW("places");
+	
 	private String viewName;
 
 	private ViewChangeEvent(String viewName) {

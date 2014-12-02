@@ -57,171 +57,119 @@ $v-panel-border: 2px solid v-shade;
 
 @mixin mytheme {
   @include valo;
-  // log in
-  .login-panel {
-  	border: 0px;
-  	margin-top: 200px;
-  }
-  
-  .login-button {
-  	background: none repeat scroll 0 0 border-box #0072c6;
-  	color: #e7f1f8;
-  }
-  
-  .v-slot-menu-bar {
-	height: 100px !important;
-  }
-  
-  .menu-bar {
-  	width: 80% !important;
-  	margin-left: 10%;
- 
-  }
-  
-   .v-panel {
-       border-width: 0px
-  }
-  
-  .menu-item {
-       background: none;
-       text-align: center;
-		width: 100%;
-		text-transform: uppercase;
-		font-weight: bold;
-		padding-top: 30px // hack
-  }
-  
-  .v-slot-menu-item {
-         width: 33.3%;
-  }
-  
-  .v-slot-content {
-  //		margin: auto;
-  //		width: 80%;
-  }
 
+.login-panel {
+	border: 0px;
+	margin-top: 200px;
+}
+
+.login-button {
+	background: none repeat scroll 0 0 border-box #0072c6;
+	color: #e7f1f8;
+}
+
+.v-slot-menu-bar {
+	height: 100px !important;
+}
+
+.menu-bar {
+	width: 80% !important;
+	margin-left: 10%;
+}
+
+.v-panel {
+	border-width: 0px;
+	background: none;
+}
+
+.menu-item {
+	background: none;
+	text-align: center;
+	width: 100%;
+	text-transform: uppercase;
+	font-weight: bold;
+	height: 100px;
+}
+
+.v-slot-menu-item {
+	width: 33.3%;
+}
+
+.v-slot-pagedtable {
+	padding: 0 px 10px 10px 10px;
+}
+
+.v-table, .v-table-header-wrap, .v-table-table, .v-table-row,
+	.v-table-row-odd {
+	background: none;
+}
+
+.v-table-header {
+	font-weight: bold;
+}
+
+.v-table-row {
+	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.05)
+}
+
+.stripe-half {
+	background: none;
+	padding: 5% !important;
+}
+
+.places-stripe-map {
+	border-color: white;
+	border-style: solid;
+	border-width: 3px;
+}
+
+.v-lazyloadingwrapper {
+	width: 100%;
+}
+
+.v-lazyloadingwrapper-loading { 
+	@extend .v-app-loading:before;
+	border: none;
+}
+
+.stats-view {
+	background-color: rgb(221,95,50);
+}
+
+.v-slot-stats-view-workouts {
+	background-color: white;
+	padding-left: 5%;
+	padding-right: 5%;
+	padding-bottom: 2%;
+	padding-top: 2%;
+}
+
+.stats-view-workouts {
 	
-	.v-slot-pagedtable{
-		padding: 0 px 10px 10px 10px;
-	}
-	
-	.v-table, .v-table-header-wrap, .v-table-table, .v-table-row, .v-table-row-odd {
-		background: none;
-	}
-	
-	.v-table-header {
-//		background-color: white;
-		font-weight: bold;
-	}
-	
-	.v-table-row {
-		background:	none repeat scroll 0 0 rgba(0, 0, 0, 0.05)
-	}
-	
-	.stripe-half {
-		background: none;
-		padding: 5% !important;
-	}
-	
-	.places-stripe-map {
-		border-color: white;
-		border-style: solid;
-		border-width: 3px;
-	}
-	
-	.v-lazyloadingwrapper {
-		width: 100%;
-	}
-	
-	.v-lazyloadingwrapper-loading {
-		background-image: url("/VAADIN/themes/mytheme/img/ajax-loader.gif");
-		border: none;
-	}
-	
-	.places-stripe-loader {
-		min-height: 600px;
-		background-color: rgb(146,176,106);
-		color: white
-	}
-	
-	.places-stripe-loader .v-button-link {
-		color: white
-	}
-	
-	.places-stripe-loader h1 {
-		color: white;
-	}
-	
-	.places-stripe-loader .v-label {
-		color: white;
-		margin-bottom: 0px;
-	}
-	
-	.places-stripe-text-half .v-button {
-		padding: 0px 5px 0px 0px
-	}
-	
-	.stripe-workouts {
-		background: none;
-		padding-left: 5%;
-		padding-right: 5%;
-		margin-bottom: 1%;
-	}
-	
-	.stripe-workouts .v-table-caption-container {
-		color: white;
-	}
-	
-	.stripe-workouts .v-table-cell-wrapper {
-		color: white;
-	}
-	
-	.workouts-stripe-loader .h1 {
-		background: none;
-		color: white;
-		text-align: center;
-	}
-	
-	.stripe-workouts .v-slot .v-align-right {
-		background: none repeat scroll 0 0 rgba(0, 0, 0, 0.05)
-	}
-	
-	.stripe-workouts .icon-on-right .v-icon {
-		margin-left: 99%
-	}
-	
-	div.stripe-workouts {
-		color: white;
-	}
-	
-	.stripe-workouts .v-button {
-		background: none;
-		color: white
-	}
-	
-	.v-table-column-selector {
-		margin-right: 15px;
-	}
-	
-	.workouts-stripe-loader {
-		min-height: 600px;
-		background-color: rgb(221,95,50);
-		color: white
-	}
-	
-	.workouts-stripe-loader .v-panel {
-		background: none;
-	}
-	
-	.avatar-img {
-		width: 80px;
-		height: 80px;
-		margin-top: 10px;
-		opacity: 0.8
-	}
-	
-	.big-font {
-		font-size: 2.5em;
-		margin: 0;
-	}
+}
+
+.stats-view-workouts .pagedtable {
+
+}
+
+.stats-view-workouts .v-button {
+	background: none; // background of view button in table row
+}
+
+.stats-view .h1 {
+	color: white;
+	text-align: center;
+}
+
+.avatar-img {
+	width: 80px;
+	height: 80px;
+	margin-top: 10px;
+	opacity: 0.8
+}
+
+.big-font {
+	font-size: 2.5em;
+	margin: 0;
+}
 }

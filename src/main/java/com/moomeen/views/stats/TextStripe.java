@@ -1,4 +1,4 @@
-package com.moomeen.views.main;
+package com.moomeen.views.stats;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -18,22 +18,22 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
-public class WorkoutsStripe extends VerticalLayout implements LazyLoadable {
+public class TextStripe extends VerticalLayout {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = -3978592040065693945L;
 
-	private static Logger LOG = LoggerFactory.getLogger(WorkoutsStripe.class);
+	private static Logger LOG = LoggerFactory.getLogger(TextStripe.class);
 
 	private EndomondoSessionHolder sessionHolder;
-
-	public WorkoutsStripe(EndomondoSessionHolder session) {
+	
+	public TextStripe(EndomondoSessionHolder session) {
 		this.sessionHolder = session;
+		init();
 	}
 
-	@Override
 	public void init() {
 		try {
 			List<Workout> workouts = sessionHolder.getWorkouts();
@@ -43,11 +43,6 @@ public class WorkoutsStripe extends VerticalLayout implements LazyLoadable {
 
 			addComponent(textPanel);
 			setComponentAlignment(textPanel, Alignment.MIDDLE_CENTER);
-
-			WorkoutsListView workoutsPanel = new WorkoutsListView(workouts, sessionHolder);
-
-			addComponent(workoutsPanel);
-			setComponentAlignment(workoutsPanel, Alignment.BOTTOM_CENTER);
 
 		} catch (InvocationException e) {
 			LOG.error("Error during workouts retrieving", e);
