@@ -61,7 +61,6 @@ public class MapStripe extends VerticalLayout {
 	}
 
 	public void init(){
-		try {
 			setHeightUndefined();
 
 			HorizontalLayout labelAndMap = new HorizontalLayout();
@@ -83,10 +82,7 @@ public class MapStripe extends VerticalLayout {
 
 			addComponent(labelAndMap);
 			setComponentAlignment(labelAndMap, Alignment.MIDDLE_CENTER);
-			
-		} catch (InvocationException e) {
-			LOG.error("Error during workouts retrieving", e);
-		}
+
 	}
 
 	private Panel createTextPanel(Map<Place, List<Workout>> byCity) {

@@ -161,6 +161,11 @@ $v-panel-border: 2px solid v-shade;
 	text-align: center;
 }
 
+.stats-view .h2 {
+	color: white;
+	text-align: center;
+}
+
 .avatar-img {
 	width: 80px;
 	height: 80px;
@@ -171,5 +176,22 @@ $v-panel-border: 2px solid v-shade;
 .big-font {
 	font-size: 2.5em;
 	margin: 0;
+}
+
+.stats-view-chart .v-expand .v-slot{
+	text-align: center
+}
+
+.footer-send-button {
+	@extend .login-button;
+}
+
+.v-slot-footer {
+	padding-top: 2%;
+}
+
+.footer-copyright {
+	margin-top: 10px;
+	text-align: center;
 }
 }

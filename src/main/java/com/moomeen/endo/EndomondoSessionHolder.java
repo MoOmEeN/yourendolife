@@ -28,11 +28,16 @@ public class EndomondoSessionHolder {
 		this.internalSession = session;
 	}
 
-	public synchronized List<Workout> getWorkouts() throws InvocationException {
+	public synchronized List<Workout> getWorkouts() {
 		checkInit();
 		if (workouts == null){
 			long start = System.currentTimeMillis();
-			workouts = internalSession.getAllWorkouts();
+			try {
+				workouts = internalSession.getAllWorkouts();
+			} catch (InvocationException e) {
+				LOG.error("Error while trying to get workouts", e);
+				throw new RuntimeException(e);
+			}
 			if (LOG.isDebugEnabled()){
 				LOG.debug("Retrieved {} workouts in {} ms", workouts.size(), System.currentTimeMillis() - start);
 			}
@@ -40,15 +45,25 @@ public class EndomondoSessionHolder {
 		return workouts;
 	}
 
-	public DetailedWorkout getWorkout(long workoutId) throws InvocationException {
+	public DetailedWorkout getWorkout(long workoutId) {
 		checkInit();
-		return internalSession.getWorkout(workoutId);
+		try {
+			return internalSession.getWorkout(workoutId);
+		} catch (InvocationException e) {
+			LOG.error("Error while trying to get workout", e);
+			throw new RuntimeException(e);
+		}
 	}
 	
-	public synchronized AccountInfo getAccountInfo() throws InvocationException{
+	public synchronized AccountInfo getAccountInfo() {
 		checkInit();
 		if (accountInfo == null){
-			this.accountInfo = internalSession.getAccountInfo();
+			try {
+				this.accountInfo = internalSession.getAccountInfo();
+			} catch (InvocationException e) {
+				LOG.error("Error while trying to get account info", e);
+				throw new RuntimeException(e);
+			}
 		}
 		return accountInfo;
 	}

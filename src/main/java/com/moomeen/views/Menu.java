@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.spring.events.EventBus;
 
 import com.moomeen.endo.EndomondoSessionHolder;
-import com.moomeen.endo2java.error.InvocationException;
 import com.moomeen.endo2java.model.AccountInfo;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -36,14 +35,11 @@ public class Menu extends HorizontalLayout implements View {
 		setStyleName("menu-bar");
 		
 		AccountInfo accountInfo;
-		try {
 			accountInfo = session.getAccountInfo();
 			Image avatarImage = new Image(null, new ExternalResource(getPictureUrl(accountInfo)));
 			avatarImage.setStyleName("avatar-img");
 			addComponent(avatarImage);
-		} catch (InvocationException e) {
-			LOG.error("Couldn't set avator image", e);
-		}
+
 		
 		createMenuItem("Statistics", com.moomeen.ViewChangeEvent.STATS_VIEW);
 		createMenuItem("Places", com.moomeen.ViewChangeEvent.PLACES_VIEW);

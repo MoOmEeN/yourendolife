@@ -43,6 +43,8 @@ public abstract class AbstractContentView extends VerticalLayout implements View
 						return content;
 					}
 				}));
+		
+		addComponent(new Footer());
 	}
 
 	public abstract LazyLoadable content();

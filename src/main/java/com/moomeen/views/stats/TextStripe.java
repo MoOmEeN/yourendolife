@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.moomeen.endo.EndomondoSessionHolder;
-import com.moomeen.endo2java.error.InvocationException;
 import com.moomeen.endo2java.model.Workout;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -35,7 +34,6 @@ public class TextStripe extends VerticalLayout {
 	}
 
 	public void init() {
-		try {
 			List<Workout> workouts = sessionHolder.getWorkouts();
 
 			Panel textPanel = new Panel();
@@ -44,9 +42,6 @@ public class TextStripe extends VerticalLayout {
 			addComponent(textPanel);
 			setComponentAlignment(textPanel, Alignment.MIDDLE_CENTER);
 
-		} catch (InvocationException e) {
-			LOG.error("Error during workouts retrieving", e);
-		}
 	}
 
 	private Label getText(List<Workout> workouts) {
