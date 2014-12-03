@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.moomeen.endo.EndomondoSessionHolder;
 import com.moomeen.endo2java.model.Workout;
+import com.moomeen.utils.SpringContextHolder;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
@@ -27,9 +28,9 @@ public class TextStripe extends VerticalLayout {
 	private static Logger LOG = LoggerFactory.getLogger(TextStripe.class);
 
 	private EndomondoSessionHolder sessionHolder;
-	
-	public TextStripe(EndomondoSessionHolder session) {
-		this.sessionHolder = session;
+
+	public TextStripe() {
+		this.sessionHolder = SpringContextHolder.lookupBean(EndomondoSessionHolder.class);
 		init();
 	}
 

@@ -6,6 +6,7 @@ import org.vaadin.spring.events.EventBus;
 
 import com.moomeen.endo.EndomondoSessionHolder;
 import com.moomeen.endo2java.model.AccountInfo;
+import com.moomeen.utils.SpringContextHolder;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ExternalResource;
@@ -17,33 +18,33 @@ import com.vaadin.ui.Image;
 public class Menu extends HorizontalLayout implements View {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 880448738734609335L;
-	
+
 	private static Logger LOG = LoggerFactory.getLogger(Menu.class);
-	
+
 	private EndomondoSessionHolder session;
-	
+
 	private EventBus eventBus;
-	
-	public Menu(final EventBus eventBus, EndomondoSessionHolder session) {
+
+	public Menu(final EventBus eventBus) {
 		this.eventBus = eventBus;
-		this.session = session;
+		this.session = SpringContextHolder.lookupBean(EndomondoSessionHolder.class);
 		//setRows(1);
 		//setColumns(3); // TODO
 		setStyleName("menu-bar");
-		
+
 		AccountInfo accountInfo;
 			accountInfo = session.getAccountInfo();
 			Image avatarImage = new Image(null, new ExternalResource(getPictureUrl(accountInfo)));
 			avatarImage.setStyleName("avatar-img");
 			addComponent(avatarImage);
 
-		
+
 		createMenuItem("Statistics", com.moomeen.ViewChangeEvent.STATS_VIEW);
 		createMenuItem("Places", com.moomeen.ViewChangeEvent.PLACES_VIEW);
-		
+
 //		Link workouts = new Link("Workouts", new ExternalResource("https://vaadin.com"));
 //		workouts.addStyleName("large");
 //		workouts.addStyleName("menu-item");
@@ -57,7 +58,7 @@ public class Menu extends HorizontalLayout implements View {
 //		bests.addStyleName("large");
 //		bests.addStyleName("menu-item");
 
-		
+
 //		Button button = new Button("Workouts");
 //		button.setStyleName("menu-item");
 //		button.setIcon(FontAwesome.HISTORY);
@@ -85,7 +86,7 @@ public class Menu extends HorizontalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 	}
-	
+
 	private String getPictureUrl(AccountInfo info){
 			Long pcitureId = info.getPictureId();
 			return String.format("https://www.endomondo.com/resources/gfx/picture/%d/thumbnail.jpg", pcitureId);

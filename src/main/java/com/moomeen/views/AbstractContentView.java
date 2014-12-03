@@ -5,7 +5,6 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.spring.events.EventBus;
 
-import com.moomeen.endo.EndomondoSessionHolder;
 import com.vaadin.lazyloadwrapper.LazyLoadWrapper;
 import com.vaadin.lazyloadwrapper.widgetset.client.ui.LLWRpc;
 import com.vaadin.navigator.View;
@@ -16,21 +15,21 @@ import com.vaadin.ui.VerticalLayout;
 public abstract class AbstractContentView extends VerticalLayout implements View {
 
 	private static final long serialVersionUID = 9102807959577832012L;
-	
+
 	@Autowired
 	protected EventBus eventBus;
-	
-	@Autowired
-	protected EndomondoSessionHolder sessionHolder;
 
 	@PostConstruct
 	public void init(){
 		setSizeFull();
 		setHeightUndefined();
-		addComponent(new Menu(eventBus, sessionHolder));
-		
+		addComponent(new Menu(eventBus));
+
+		final VerticalLayout contentLayout = new VerticalLayout();
 		final LazyLoadable content = content();
-		
+		contentLayout.addComponent(content);
+		contentLayout.addComponent(new Footer());
+
 		addComponent(new FixedLazyLoadWrapper(
 				new LazyLoadWrapper.LazyLoadComponentProvider() {
 					private static final long serialVersionUID = -2518774996039022517L;
@@ -40,11 +39,12 @@ public abstract class AbstractContentView extends VerticalLayout implements View
 						if (!content.isInited()){
 							content.init();
 						}
-						return content;
+
+						return contentLayout;
 					}
 				}));
-		
-		addComponent(new Footer());
+
+
 	}
 
 	public abstract LazyLoadable content();
@@ -54,10 +54,10 @@ public abstract class AbstractContentView extends VerticalLayout implements View
 	}
 
 	private class FixedLazyLoadWrapper extends LazyLoadWrapper {
-		
+
 		private static final long serialVersionUID = 469079528082124329L;
 		private LLWRpc serverRpc = new LLWRpc() {
-	    	
+
 			private static final long serialVersionUID = 5055880416669815652L;
 
 			@Override
@@ -72,26 +72,26 @@ public abstract class AbstractContentView extends VerticalLayout implements View
 //			setStyleName("content");
 		}
 	}
-	
+
 
 	protected abstract class LazyLoadableContent extends VerticalLayout implements LazyLoadable {
 		private static final long serialVersionUID = 6782422350111874382L;
 
 		private boolean inited = false;
-		
+
 		@Override
 		public void init() {
 			addComponent(content());
 			inited = true;
 		}
-		
+
 		public abstract Component content();
 
 		@Override
 		public boolean isInited() {
 			return inited;
 		}
-		
+
 	}
 
 }

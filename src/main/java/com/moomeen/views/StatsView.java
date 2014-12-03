@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.spring.UIScope;
 import org.vaadin.spring.navigator.VaadinView;
 
+import com.moomeen.endo.EndomondoSessionHolder;
 import com.moomeen.endo2java.error.InvocationException;
 import com.moomeen.endo2java.model.DetailedWorkout;
 import com.moomeen.endo2java.model.Workout;
-import com.moomeen.location.LocationService;
 import com.moomeen.views.stats.ChartStripe;
 import com.moomeen.views.stats.TextStripe;
 import com.moomeen.views.workouts.details.WorkoutDetails;
@@ -35,7 +35,7 @@ public class StatsView extends AbstractContentView {
 	private static Logger LOG = LoggerFactory.getLogger(StatsView.class);
 
 	@Autowired
-	private LocationService locationService;
+	private EndomondoSessionHolder sessionHolder;
 
 	@SuppressWarnings("serial")
 	@Override
@@ -47,7 +47,7 @@ public class StatsView extends AbstractContentView {
 			public Component content() {
 				VerticalLayout layout = new VerticalLayout();
 				layout.setStyleName("stats-view");
-				TextStripe textStripe = new TextStripe(sessionHolder);
+				TextStripe textStripe = new TextStripe();
 				textStripe.setStyleName("stats-view-text");
 				layout.addComponent(textStripe);
 

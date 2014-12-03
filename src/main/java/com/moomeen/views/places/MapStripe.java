@@ -17,9 +17,11 @@ import com.moomeen.endo2java.model.Workout;
 import com.moomeen.location.LocationService;
 import com.moomeen.location.model.Place;
 import com.moomeen.location.model.Point;
+import com.moomeen.utils.SpringContextHolder;
 import com.moomeen.views.workouts.details.WorkoutDetails;
 import com.moomeen.views.workouts.list.WorkoutClickCallback;
 import com.moomeen.views.workouts.list.WorkoutsList;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.tapio.googlemaps.GoogleMap;
 import com.vaadin.tapio.googlemaps.client.LatLon;
 import com.vaadin.tapio.googlemaps.client.events.MarkerClickListener;
@@ -53,20 +55,21 @@ public class MapStripe extends VerticalLayout {
 	private LatLon boundsNE;
 	private LatLon boundsSW;
 
-	
-	public MapStripe(EndomondoSessionHolder session, LocationService locatorService) {
-		this.sessionHolder = session;
-		this.locationService = locatorService;
+
+	public MapStripe() {
+		this.sessionHolder = SpringContextHolder.lookupBean(EndomondoSessionHolder.class);
+		this.locationService = SpringContextHolder.lookupBean(LocationService.class);
 		init();
 	}
 
 	public void init(){
 			setHeightUndefined();
+			setStyleName("places-view-map");
 
 			HorizontalLayout labelAndMap = new HorizontalLayout();
 
-			labelAndMap.setHeight("600px");
 			labelAndMap.setWidth("100%");
+
 			List<Workout> workouts = sessionHolder.getWorkouts();
 			Map<Place, List<Workout>> byCities = locationService.determineCities(workouts);
 
@@ -88,26 +91,26 @@ public class MapStripe extends VerticalLayout {
 	private Panel createTextPanel(Map<Place, List<Workout>> byCity) {
 		Panel textPanel = new Panel();
 		textPanel.setContent(getText(byCity));
-		textPanel.setStyleName("stripe-half");
-		textPanel.addStyleName("places-stripe-text-half");
+		textPanel.setStyleName("places-view-map-half");
 		return textPanel;
 	}
 
 	private Component getText(Map<Place, List<Workout>> byCity) {
 		CssLayout layout = new CssLayout();
-		Label citiesLabel = getH1Label("You visited " + byCity.size() + " cities");
+		layout.setStyleName("places-view-map-half-text");
+		Label citiesLabel = getH1Label("You visited <p class=\"big-font\">" + byCity.size() + "</p> cities");
 		layout.addComponent(citiesLabel);
 		addLinkButtons(layout, toStringKeyMap(byCity));
 
 		Map<String, List<Workout>> byCountry = groupByCountry(byCity);
-		Label countriesLabel = getH1Label("in " + byCountry.size() + " countries");
+		Label countriesLabel = getH1Label("in <p class=\"big-font\">" + byCountry.size() + "</p> countries");
 		layout.addComponent(countriesLabel);
 		addLinkButtons(layout, byCountry);
 		return layout;
 	}
 
 	private Label getH1Label(String text){
-		Label label = new Label(text);
+		Label label = new Label(text, ContentMode.HTML);
 		label.addStyleName("h1");
 		return label;
 	}
@@ -159,14 +162,14 @@ public class MapStripe extends VerticalLayout {
 
 	private Panel createMapPanel(Map<Place, List<Workout>> byCities) {
 		Panel mapPanel = new Panel();
-		mapPanel.setStyleName("stripe-half");
+		mapPanel.setStyleName("places-view-map-half");
 
 		mapPanel.setSizeFull();
 		GoogleMap googleMap = new GoogleMap(null, null, null);
 		googleMap.setMinZoom(2);
 		googleMap.setMaxZoom(7);
 		googleMap.setSizeFull();
-		googleMap.addStyleName("places-stripe-map");
+		googleMap.addStyleName("places-view-map-half-map");
 		mapPanel.setContent(googleMap);
 
 		final Map<GoogleMapMarker, List<Workout>> markers = addMarkers(byCities, googleMap);
