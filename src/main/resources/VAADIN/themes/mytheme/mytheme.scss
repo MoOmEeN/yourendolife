@@ -220,4 +220,10 @@ $v-panel-border: 2px solid v-shade;
 .places-view-map-half-text .h1 {
 	text-align: center;
 }
+
+.v-table-empty .v-table-body {
+    background-image: url('/VAADIN/themes/mytheme/img/no-results.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+}
 }

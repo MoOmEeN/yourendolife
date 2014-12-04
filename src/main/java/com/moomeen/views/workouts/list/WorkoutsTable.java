@@ -50,6 +50,7 @@ public class WorkoutsTable extends PagedTable {
 	
 	public WorkoutsTable(ItemClickCallback clickCallback) {
 		initTable();
+		setStyleName("v-table-empty");
 		this.workoutClickCallback = clickCallback;
 	}
 
@@ -82,6 +83,7 @@ public class WorkoutsTable extends PagedTable {
 		removeAllItems();
 		fillWithData();
 		refreshRowCache();
+		removeStyleName("v-table-empty");
 	}
 
 	private void initTable() {
