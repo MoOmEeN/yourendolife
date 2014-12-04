@@ -11,15 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.moomeen.endo.EndomondoSessionHolder;
-import com.moomeen.endo2java.error.InvocationException;
-import com.moomeen.endo2java.model.DetailedWorkout;
 import com.moomeen.endo2java.model.Workout;
 import com.moomeen.location.LocationService;
 import com.moomeen.location.model.Place;
 import com.moomeen.location.model.Point;
 import com.moomeen.utils.SpringContextHolder;
-import com.moomeen.views.workouts.details.WorkoutDetails;
-import com.moomeen.views.workouts.list.WorkoutClickCallback;
 import com.moomeen.views.workouts.list.WorkoutsList;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.tapio.googlemaps.GoogleMap;
@@ -35,9 +31,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 
 public class MapStripe extends VerticalLayout {
 
@@ -55,8 +49,10 @@ public class MapStripe extends VerticalLayout {
 	private LatLon boundsNE;
 	private LatLon boundsSW;
 
+	private WorkoutsList workoutsList;
 
-	public MapStripe() {
+	public MapStripe(WorkoutsList workoutsList) {
+		this.workoutsList = workoutsList;
 		this.sessionHolder = SpringContextHolder.lookupBean(EndomondoSessionHolder.class);
 		this.locationService = SpringContextHolder.lookupBean(LocationService.class);
 		init();
@@ -101,7 +97,6 @@ public class MapStripe extends VerticalLayout {
 		Label citiesLabel = getH1Label("You visited <p class=\"big-font\">" + byCity.size() + "</p> cities");
 		layout.addComponent(citiesLabel);
 		addLinkButtons(layout, toStringKeyMap(byCity));
-
 		Map<String, List<Workout>> byCountry = groupByCountry(byCity);
 		Label countriesLabel = getH1Label("in <p class=\"big-font\">" + byCountry.size() + "</p> countries");
 		layout.addComponent(countriesLabel);
@@ -153,7 +148,7 @@ public class MapStripe extends VerticalLayout {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-		//		workoutsPanel.setWorkouts(workouts);
+				workoutsList.setWorkouts(workouts);
 			}
 
 		});
@@ -177,54 +172,12 @@ public class MapStripe extends VerticalLayout {
 
 			@Override
 			public void markerClicked(GoogleMapMarker clickedMarker) {
-//				workoutsPanel.setWorkouts(markers.get(clickedMarker));
+				workoutsList.setWorkouts(markers.get(clickedMarker));
 			}
 		});
 
 		googleMap.fitToBounds(boundsNE, boundsSW);
 		return mapPanel;
-	}
-
-	private void setWorkoutsList(final List<Workout> workouts) {
-		VerticalLayout layout = new VerticalLayout();
-		Button hideButton = getHideButton(layout);
-		layout.addComponent(hideButton);
-		layout.setComponentAlignment(hideButton, Alignment.TOP_RIGHT);
-
-		WorkoutsList workoutsList = getWorkoutsList(workouts);
-		layout.addComponent(workoutsList);
-		layout.setComponentAlignment(workoutsList, Alignment.MIDDLE_CENTER);
-//		workoutsPanel.setContent(layout);
-//		workoutsPanel.setVisible(true);
-	}
-
-	private WorkoutsList getWorkoutsList(final List<Workout> workouts) {
-		WorkoutsList workoutsList = new WorkoutsList(workouts, new WorkoutClickCallback() {
-
-			@Override
-			public void clicked(long workoutId) throws InvocationException {
-				DetailedWorkout workout = sessionHolder.getWorkout(workoutId);
-				final Window window = new Window(workout.getSport().description() + " - " + workout.getStartTime()); // TODO
-				window.setWidth("60%");
-				window.setHeight("60%");
-				window.center();
-				window.setContent(new WorkoutDetails(workout));
-				UI.getCurrent().addWindow(window);
-			}
-		});
-		return workoutsList;
-	}
-
-	private Button getHideButton(VerticalLayout layout) {
-		Button hideButton = new Button("x");
-		hideButton.addClickListener(new ClickListener() {
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-//				workoutsPanel.setVisible(false);
-			}
-		});
-		return hideButton;
 	}
 
 	private Map<GoogleMapMarker, List<Workout>> addMarkers(Map<Place, List<Workout>> byCities, GoogleMap googleMap) {

@@ -41,17 +41,20 @@ public class WorkoutsTable extends PagedTable {
 	private PeriodFormatter periodFormatter = PeriodFormatterHelper.getForLocale(browserLocale);
 
 	private List<Workout> workouts;
-	private WorkoutClickCallback workoutClickCallback;
+	private ItemClickCallback workoutClickCallback;
 
-	public WorkoutsTable(List<Workout> workouts, WorkoutClickCallback clickCallback) {
+	public WorkoutsTable(List<Workout> workouts, ItemClickCallback clickCallback) {
+		this(clickCallback);
+		setWorkouts(workouts);
+	}
+	
+	public WorkoutsTable(ItemClickCallback clickCallback) {
 		initTable();
-		fillWithData(workouts);
-		this.workouts = workouts;
 		this.workoutClickCallback = clickCallback;
 	}
 
 	@SuppressWarnings("unchecked")
-	private void fillWithData(List<Workout> workouts) {
+	private void fillWithData() {
 		for (Workout workout : workouts) {
 			Object item = addItem();
 			Item i = getItem(item);
@@ -70,7 +73,15 @@ public class WorkoutsTable extends PagedTable {
 			i.getItemProperty(PEPTALKS).setValue(workout.getPeptalks());
 			i.getItemProperty(LIKES).setValue(workout.getLikes());
 			i.getItemProperty(COMMENTS).setValue(workout.getComments());
+			i.getItemProperty(ID).setValue(workout.getId());
 		}
+	}
+	
+	public void setWorkouts(List<Workout> workouts){
+		this.workouts = workouts;
+		removeAllItems();
+		fillWithData();
+		refreshRowCache();
 	}
 
 	private void initTable() {
@@ -83,14 +94,14 @@ public class WorkoutsTable extends PagedTable {
 
 		setColumns();
 		setHeaders();
-		colapseColumns(BURGERS, DESCENT, ASCENT, MAX_SPEED, MIN_ALTITUDE, MAX_ALTITUDE, PEPTALKS, LIKES, COMMENTS);
+		colapseColumns(ID, BURGERS, DESCENT, ASCENT, MAX_SPEED, MIN_ALTITUDE, MAX_ALTITUDE, PEPTALKS, LIKES, COMMENTS);
 	}
 
 	private void setColumns() {
 		addContainerProperty(VIEW, Button.class, null);
 		addGeneratedColumn(VIEW, new ColumnGenerator() {
 			@Override
-			public Object generateCell(Table source, final Object itemId, Object columnId) {
+			public Object generateCell(final Table source, final Object itemId, Object columnId) {
 				 Button b = new Button();
 				 b.setIcon(FontAwesome.SEARCH);
 				 b.addClickListener(new ClickListener() {
@@ -98,9 +109,8 @@ public class WorkoutsTable extends PagedTable {
 					@Override
 					public void buttonClick(ClickEvent event) {
 						try {
-							int selectedItem = (Integer) itemId;
-							Workout workout = workouts.get(selectedItem -1);
-							workoutClickCallback.clicked(workout.getId());
+							Long id = (Long) source.getItem(itemId).getItemProperty(ID).getValue();
+							workoutClickCallback.clicked(id);
 						} catch (InvocationException e) {
 							LOG.error("Couldn't process click event", e);
 						}
@@ -126,6 +136,7 @@ public class WorkoutsTable extends PagedTable {
 		addContainerProperty(PEPTALKS, Integer.class, 0);
 		addContainerProperty(LIKES, Integer.class, 0);
 		addContainerProperty(COMMENTS, Integer.class, 0);
+		addContainerProperty(ID, Long.class, null);
 	}
 
 	private void colapseColumns(TableColumnEnum... columns){

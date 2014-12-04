@@ -9,19 +9,14 @@ import org.vaadin.spring.UIScope;
 import org.vaadin.spring.navigator.VaadinView;
 
 import com.moomeen.endo.EndomondoSessionHolder;
-import com.moomeen.endo2java.error.InvocationException;
-import com.moomeen.endo2java.model.DetailedWorkout;
 import com.moomeen.endo2java.model.Workout;
 import com.moomeen.views.stats.ChartStripe;
 import com.moomeen.views.stats.TextStripe;
-import com.moomeen.views.workouts.details.WorkoutDetails;
 import com.moomeen.views.workouts.list.WorkoutClickCallback;
 import com.moomeen.views.workouts.list.WorkoutsList;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 
 @VaadinView(name = "stats")
 @UIScope
@@ -53,19 +48,7 @@ public class StatsView extends AbstractContentView {
 
 				List<Workout> workouts;
 					workouts = sessionHolder.getWorkouts();
-					WorkoutsList workoutsPanel =  new WorkoutsList(workouts, new WorkoutClickCallback() {
-
-						@Override
-						public void clicked(long workoutId) throws InvocationException {
-							DetailedWorkout workout = sessionHolder.getWorkout(workoutId);
-							final Window window = new Window(workout.getSport().description() + " - " + workout.getStartTime()); // TODO
-							window.setWidth("60%");
-							window.setHeight("60%");
-							window.center();
-							window.setContent(new WorkoutDetails(workout));
-							UI.getCurrent().addWindow(window);
-						}
-					});
+					WorkoutsList workoutsPanel =  new WorkoutsList(workouts, new WorkoutClickCallback());
 					workoutsPanel.setStyleName("stats-view-workouts");
 					layout.addComponent(workoutsPanel);
 

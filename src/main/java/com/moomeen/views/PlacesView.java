@@ -6,6 +6,8 @@ import org.vaadin.spring.UIScope;
 import org.vaadin.spring.navigator.VaadinView;
 
 import com.moomeen.views.places.MapStripe;
+import com.moomeen.views.workouts.list.WorkoutClickCallback;
+import com.moomeen.views.workouts.list.WorkoutsList;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
@@ -27,9 +29,14 @@ public class PlacesView extends AbstractContentView {
 			public Component content() {
 				VerticalLayout layout = new VerticalLayout();
 				layout.setStyleName("places-view");
-				MapStripe mapStripe = new MapStripe();
+				WorkoutsList workoutsPanel =  new WorkoutsList(new WorkoutClickCallback());
+				MapStripe mapStripe = new MapStripe(workoutsPanel);
 				mapStripe.setStyleName("places-view-map");
 				layout.addComponent(mapStripe);
+				
+				workoutsPanel.setStyleName("stats-view-workouts");
+				
+				layout.addComponent(workoutsPanel);
 				return layout;
 			}
 		};

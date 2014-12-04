@@ -29,10 +29,21 @@ public class ChartStripe extends HorizontalLayout {
 		Map<Sport, List<Workout>> sports = ChartHelper.groupWorkouts(session.getWorkouts());
 		Component chart = ChartHelper.sportsPieChart(sports, FOREGROUND, BACKGROUND);
 		
+		String text = produceText(sports);
+		Label textLabel = new Label(text, ContentMode.HTML);
+		textLabel.setStyleName("h2");
 		
+		setWidth("100%");
+		addComponent(chart);
+		addComponent(textLabel);
+		setComponentAlignment(chart, Alignment.MIDDLE_LEFT);
+		setComponentAlignment(textLabel, Alignment.MIDDLE_RIGHT);
 		
-		
-		
+		setExpandRatio(chart, 1.0f);
+		setExpandRatio(textLabel, 1.0f);
+	}
+
+	private String produceText(Map<Sport, List<Workout>> sports) {
 		StringBuilder sb = new StringBuilder();
 		if (sports.isEmpty()){
 			sb.append("You've done 0 workouts");
@@ -60,30 +71,9 @@ public class ChartStripe extends HorizontalLayout {
 				}
 				count++;
 			}
-			Label text = new Label(sb.toString(), ContentMode.HTML);
-			text.setStyleName("h2");
-			
-			
-			
-			setWidth("100%");
-			addComponent(chart);
-			addComponent(text);
-			setComponentAlignment(chart, Alignment.MIDDLE_LEFT);
-			setComponentAlignment(text, Alignment.MIDDLE_RIGHT);
-			
-			setExpandRatio(chart, 1.0f);
-			setExpandRatio(text, 1.0f);
-		}
-		
-		
-		
-		
 
-//		
-//		labelAndMap.addComponent(mapPanel);
-//		labelAndMap.setComponentAlignment(mapPanel, Alignment.MIDDLE_RIGHT);
-//		labelAndMap.setExpandRatio(mapPanel, 1.0f);
-//		labelAndMap.setExpandRatio(textPanel, 1.0f);
+		}
+		return sb.toString();
 	}
 	
 }

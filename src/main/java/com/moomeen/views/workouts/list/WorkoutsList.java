@@ -13,15 +13,31 @@ public class WorkoutsList extends VerticalLayout {
 	 *
 	 */
 	private static final long serialVersionUID = 5943429368424740640L;
+	
+	private WorkoutsTable table;
+	WorkoutsTableControls tableControls;
 
-	public WorkoutsList(final List<Workout> workouts, WorkoutClickCallback clickCallback) {
-		WorkoutsTable table = new WorkoutsTable(workouts, clickCallback);
-		WorkoutsTableControls tableControls = new WorkoutsTableControls(table);
+	public WorkoutsList(final List<Workout> workouts, ItemClickCallback clickCallback) {
+		table = new WorkoutsTable(workouts, clickCallback);
+		setupList(table); 
+	}
+	
+	public WorkoutsList(ItemClickCallback clickCallback) {
+		table = new WorkoutsTable(clickCallback);
+		setupList(table); 
+	}
 
+	public void setWorkouts(List<Workout> workouts){
+		table.setWorkouts(workouts);
+		tableControls.refreshControls();
+	}
+	
+	private void setupList(WorkoutsTable table) {
+		tableControls = new WorkoutsTableControls(table);
+		
 		addComponent(table);
 		addComponent(tableControls);
 		setComponentAlignment(table, Alignment.MIDDLE_CENTER);
 		setComponentAlignment(tableControls, Alignment.BOTTOM_CENTER);
 	}
-
 }

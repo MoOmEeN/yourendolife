@@ -21,7 +21,11 @@ public class WorkoutsTableControls extends HorizontalLayout {
 	 */
 	private static final long serialVersionUID = -1907742908265305423L;
 
+	private PageChangeListener listener;
+	private WorkoutsTable table;
+	
 	public WorkoutsTableControls(final WorkoutsTable table) {
+		this.table = table;
 	      Label itemsPerPageLabel = new Label("Items per page:");
 	        final ComboBox itemsPerPageSelect = new ComboBox();
 
@@ -168,7 +172,8 @@ public class WorkoutsTableControls extends HorizontalLayout {
 	                Alignment.MIDDLE_CENTER);
 	        setWidth("100%");
 	        setExpandRatio(pageSize, 1);
-	        table.addListener(new PageChangeListener() {
+	        
+	        listener = new PageChangeListener() {
 	            @Override
 				public void pageChanged(PagedTableChangeEvent event) {
 	                first.setEnabled(table.getCurrentPage() > 1);
@@ -186,7 +191,14 @@ public class WorkoutsTableControls extends HorizontalLayout {
 	                totalPagesLabel.setValue(String.valueOf(table.getTotalAmountOfPages()));
 	                itemsPerPageSelect.setValue(String.valueOf(table.getPageLength()));
 	            }
-	        });
+	        };
+	        
+	        table.addListener(listener);
+	}
+	
+	public void refreshControls(){
+		 PagedTableChangeEvent event = table.new PagedTableChangeEvent(table);
+		 listener.pageChanged(event);
 	}
 
 }

@@ -19,7 +19,8 @@ public enum TableColumnEnum {
 	PEPTALKS("Peptalks"),
 	LIKES("Likes"),
 	COMMENTS("Comments"),
-	VIEW("");
+	VIEW(""),
+	ID("Id");
 
 	private String desc;
 
