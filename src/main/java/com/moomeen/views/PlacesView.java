@@ -6,6 +6,7 @@ import org.vaadin.spring.UIScope;
 import org.vaadin.spring.navigator.VaadinView;
 
 import com.moomeen.views.places.MapStripe;
+import com.moomeen.views.places.PlacesChartStripe;
 import com.moomeen.views.workouts.list.WorkoutClickCallback;
 import com.moomeen.views.workouts.list.WorkoutsList;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -33,15 +34,18 @@ public class PlacesView extends AbstractContentView {
 				MapStripe mapStripe = new MapStripe(workoutsPanel);
 				mapStripe.setStyleName("places-view-map");
 				layout.addComponent(mapStripe);
-				
+
 				workoutsPanel.setStyleName("stats-view-workouts");
-				
+
 				layout.addComponent(workoutsPanel);
+
+				Component chart = new PlacesChartStripe(mapStripe.getGroupedByCountry());
+				chart.setStyleName("places-view-chart");
+				layout.addComponent(chart);
 				return layout;
 			}
 		};
 	}
-
 
 
 	@Override

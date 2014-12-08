@@ -16,9 +16,24 @@ import java.util.Map.Entry;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.block.BlockBorder;
+import org.jfree.chart.labels.ItemLabelAnchor;
+import org.jfree.chart.labels.ItemLabelPosition;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.StackedBarRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
+import org.jfree.chart.title.LegendTitle;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.ui.TextAnchor;
 import org.vaadin.addon.JFreeChartWrapper;
 
 import com.moomeen.endo2java.model.Sport;
@@ -26,10 +41,10 @@ import com.moomeen.endo2java.model.Workout;
 import com.vaadin.ui.Component;
 
 public class ChartHelper {
-	
+
 	@SuppressWarnings("deprecation")
 	public static Component sportsPieChart(Map<Sport, List<Workout>> sports, Color foreground, Color background){
-		DefaultPieDataset dataset = prepareDataSet(sports);
+		DefaultPieDataset dataset = sportsDataset(sports);
 		JFreeChart chart = ChartFactory.createPieChart(null, dataset, false, false, false);
 		chart.setBackgroundPaint(background);
 		chart.setBorderVisible(false);
@@ -42,10 +57,10 @@ public class ChartHelper {
 		plot.setLabelLinkPaint(foreground);
 		plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0}: {2}",
 				NumberFormat.getNumberInstance(), NumberFormat.getPercentInstance()));
-		
+
 		plot.setSectionOutlinePaint(foreground);
 		plot.setSectionOutlineStroke(new BasicStroke(2.0f));
-		
+
 		plot.setBackgroundPaint(background);
 		plot.setOutlineVisible(false);
 		plot.setDrawingSupplier(new ChartDrawingSupplier());
@@ -53,14 +68,15 @@ public class ChartHelper {
 		return new JFreeChartWrapper(chart);
 	}
 
-	private static DefaultPieDataset prepareDataSet(Map<Sport, List<Workout>> sports) {
+
+	private static DefaultPieDataset sportsDataset(Map<Sport, List<Workout>> sports) {
 		DefaultPieDataset dataset = new DefaultPieDataset();
 		for (Entry<Sport, List<Workout>> sport : sports.entrySet()) {
 			dataset.setValue(sport.getKey().description(), sport.getValue().size());
 		}
 		return dataset;
 	}
-	
+
 	public static Map<Sport, List<Workout>> groupWorkouts(List<Workout> workouts){
 		Map<Sport, List<Workout>> sports = new HashMap<Sport, List<Workout>>();
 		 for (Workout workout : workouts) {
@@ -71,7 +87,7 @@ public class ChartHelper {
 		}
 		 return sortByWorkoutsCount(sports);
 	}
-	
+
 	private static Map<Sport, List<Workout>> sortByWorkoutsCount(Map<Sport, List<Workout>> map) {
 	     List<Entry<Sport, List<Workout>>> list = new ArrayList<Entry<Sport, List<Workout>>>(map.entrySet());
 	     Collections.sort(list, new Comparator<Entry<Sport, List<Workout>>>() {
@@ -88,6 +104,63 @@ public class ChartHelper {
 	        result.put(entry.getKey(), entry.getValue());
 	    }
 	    return result;
-	} 
+	}
+
+	public static Component placesStackedBarChart(Map<String, List<Workout>> workoutsByCountry, Color foreground, Color background){
+		JFreeChart chart = ChartFactory.createStackedBarChart(null, null, "Workouts", placesDataset(workoutsByCountry), PlotOrientation.VERTICAL, true	, false, false);
+		chart.setBackgroundPaint(background);
+
+		CategoryPlot categoryPlot = chart.getCategoryPlot();
+		categoryPlot.setDomainGridlinePaint(background);
+		categoryPlot.setBackgroundPaint(background);
+
+		categoryPlot.setOutlineVisible(false);
+
+		CategoryAxis domainAxis = categoryPlot.getDomainAxis();
+		domainAxis.setLabelPaint(foreground);
+		domainAxis.setLabelFont(Font.decode(Font.MONOSPACED));
+		domainAxis.setTickLabelPaint(foreground);
+		domainAxis.setTickLabelFont(Font.decode(Font.MONOSPACED));
+		domainAxis.setAxisLinePaint(foreground);
+
+		ValueAxis valueAxis = categoryPlot.getRangeAxis();
+		valueAxis.setLabelPaint(foreground);
+		valueAxis.setTickLabelPaint(foreground);
+		valueAxis.setTickLabelFont(Font.decode(Font.MONOSPACED));
+		valueAxis.setLabelFont(Font.decode(Font.MONOSPACED));
+
+		valueAxis.setAxisLinePaint(foreground);
+
+		StackedBarRenderer barrenderer = (StackedBarRenderer)categoryPlot.getRenderer();
+		barrenderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+		barrenderer.setBasePositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12, TextAnchor.BOTTOM_CENTER));
+		barrenderer.setBaseItemLabelsVisible(true);
+		barrenderer.setBaseItemLabelPaint(foreground);
+		barrenderer.setBaseItemLabelFont(Font.decode(Font.MONOSPACED));
+		barrenderer.setShadowVisible(false);
+
+		categoryPlot.setDrawingSupplier(new ChartDrawingSupplier());
+		((BarRenderer) categoryPlot.getRenderer()).setBarPainter(new StandardBarPainter());
+
+		LegendTitle legend = chart.getLegend();
+		legend.setBackgroundPaint(background);
+		legend.setBorder(new BlockBorder(background));
+		legend.setItemPaint(foreground);
+		legend.setItemFont(Font.decode(Font.MONOSPACED));
+
+		return new JFreeChartWrapper(chart);
+	}
+
+	private static CategoryDataset placesDataset(Map<String, List<Workout>> items) {
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+		for (Entry<String, List<Workout>> item : items.entrySet()) {
+			Map<Sport, List<Workout>> sports = ChartHelper.groupWorkouts(item.getValue());
+			for (Entry<Sport, List<Workout>> sport : sports.entrySet()) {
+				dataset.addValue(sport.getValue().size(), sport.getKey().description(), item.getKey());
+			}
+		}
+		return dataset;
+	}
 
 }

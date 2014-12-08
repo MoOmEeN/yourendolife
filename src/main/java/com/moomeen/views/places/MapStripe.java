@@ -51,6 +51,9 @@ public class MapStripe extends VerticalLayout {
 
 	private WorkoutsList workoutsList;
 
+	private Map<Place, List<Workout>> groupedByCity;
+	private Map<String, List<Workout>> groupedByCcountry;
+
 	public MapStripe(WorkoutsList workoutsList) {
 		this.workoutsList = workoutsList;
 		this.sessionHolder = SpringContextHolder.lookupBean(EndomondoSessionHolder.class);
@@ -67,10 +70,10 @@ public class MapStripe extends VerticalLayout {
 			labelAndMap.setWidth("100%");
 
 			List<Workout> workouts = sessionHolder.getWorkouts();
-			Map<Place, List<Workout>> byCities = locationService.determineCities(workouts);
+			groupedByCity = locationService.determineCities(workouts);
 
-			Panel textPanel = createTextPanel(byCities);
-			Panel mapPanel = createMapPanel(byCities);
+			Panel textPanel = createTextPanel(groupedByCity);
+			Panel mapPanel = createMapPanel(groupedByCity);
 
 			labelAndMap.addComponent(textPanel);
 			labelAndMap.setComponentAlignment(textPanel, Alignment.MIDDLE_LEFT);
@@ -97,10 +100,10 @@ public class MapStripe extends VerticalLayout {
 		Label citiesLabel = getH1Label("You visited <p class=\"big-font\">" + byCity.size() + "</p> cities");
 		layout.addComponent(citiesLabel);
 		addLinkButtons(layout, toStringKeyMap(byCity));
-		Map<String, List<Workout>> byCountry = groupByCountry(byCity);
-		Label countriesLabel = getH1Label("in <p class=\"big-font\">" + byCountry.size() + "</p> countries");
+		groupedByCcountry = groupByCountry(byCity);
+		Label countriesLabel = getH1Label("in <p class=\"big-font\">" + groupedByCcountry.size() + "</p> countries");
 		layout.addComponent(countriesLabel);
-		addLinkButtons(layout, byCountry);
+		addLinkButtons(layout, groupedByCcountry);
 		return layout;
 	}
 
@@ -220,6 +223,14 @@ public class MapStripe extends VerticalLayout {
 			boundsNE = new LatLon(point.getLatitude(), point.getLongitude());
 			boundsSW = new LatLon(point.getLatitude(), point.getLongitude());
 		}
+	}
+
+	public Map<Place, List<Workout>> getGroupedByCity(){
+		return groupedByCity;
+	}
+
+	public Map<String, List<Workout>> getGroupedByCountry(){
+		return groupedByCcountry;
 	}
 
 }
