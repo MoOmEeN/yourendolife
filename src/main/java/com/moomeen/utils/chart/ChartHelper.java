@@ -88,19 +88,19 @@ public class ChartHelper {
 		 return sortByWorkoutsCount(sports);
 	}
 
-	private static Map<Sport, List<Workout>> sortByWorkoutsCount(Map<Sport, List<Workout>> map) {
-	     List<Entry<Sport, List<Workout>>> list = new ArrayList<Entry<Sport, List<Workout>>>(map.entrySet());
-	     Collections.sort(list, new Comparator<Entry<Sport, List<Workout>>>() {
+	public static <K> Map<K, List<Workout>> sortByWorkoutsCount(Map<K, List<Workout>> map) {
+	     List<Entry<K, List<Workout>>> list = new ArrayList<Entry<K, List<Workout>>>(map.entrySet());
+	     Collections.sort(list, new Comparator<Entry<K, List<Workout>>>() {
 
 			@Override
-			public int compare(Entry<Sport, List<Workout>> o1, Entry<Sport, List<Workout>> o2) {
+			public int compare(Entry<K, List<Workout>> o1, Entry<K, List<Workout>> o2) {
 				return  Integer.valueOf(o2.getValue().size()).compareTo(Integer.valueOf(o1.getValue().size()));
 			}
 	     });
 
-	    Map<Sport, List<Workout>> result = new LinkedHashMap<Sport, List<Workout>>();
-	    for (Iterator<Entry<Sport, List<Workout>>> it = list.iterator(); it.hasNext();) {
-	        Map.Entry<Sport, List<Workout>> entry = it.next();
+	    Map<K, List<Workout>> result = new LinkedHashMap<K, List<Workout>>();
+	    for (Iterator<Entry<K, List<Workout>>> it = list.iterator(); it.hasNext();) {
+	        Map.Entry<K, List<Workout>> entry = it.next();
 	        result.put(entry.getKey(), entry.getValue());
 	    }
 	    return result;
