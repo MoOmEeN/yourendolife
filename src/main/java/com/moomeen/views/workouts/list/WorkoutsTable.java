@@ -5,12 +5,9 @@ import static com.moomeen.views.workouts.list.TableColumnEnum.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
-import java.util.Locale;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.PeriodFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,10 +15,10 @@ import com.jensjansson.pagedtable.PagedTable;
 import com.moomeen.endo2java.error.InvocationException;
 import com.moomeen.endo2java.model.Sport;
 import com.moomeen.endo2java.model.Workout;
+import com.moomeen.views.LocaleHelper;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -35,10 +32,6 @@ public class WorkoutsTable extends PagedTable {
 	private static final long serialVersionUID = 4523530118134513505L;
 
 	private static Logger LOG = LoggerFactory.getLogger(WorkoutsTable.class);
-
-	private Locale browserLocale = Page.getCurrent().getWebBrowser().getLocale();
-	private String dateFormat = DateTimeFormat.patternForStyle("MM", browserLocale);
-	private PeriodFormatter periodFormatter = PeriodFormatterHelper.getForLocale(browserLocale);
 
 	private List<Workout> workouts;
 	private ItemClickCallback workoutClickCallback;
@@ -157,17 +150,17 @@ public class WorkoutsTable extends PagedTable {
 	@Override
 	protected String formatPropertyValue(Object rowId, Object colId, Property<?> property) {
 		TableColumnEnum column = (TableColumnEnum) colId;
-		Object propertyId = property.getValue();
-		if (propertyId == null){
+		Object value = property.getValue();
+		if (value == null){
 			return defaultPropertyValue(property);
 		}
 		switch (column) {
 			case DURATION:
-				return periodFormatter.print(((Duration) propertyId).toPeriod());
+				return LocaleHelper.getPeriodFormatter().print(((Duration) value).toPeriod());
 			case SPORT:
-				return ((Sport) propertyId).description();
+				return ((Sport) value).description();
 			case START_DATE:
-				return ((DateTime) propertyId).toString(dateFormat);
+				return ((DateTime) value).toString(LocaleHelper.getDateFormat());
 			default:
 				return defaultPropertyValue(property);
 		}

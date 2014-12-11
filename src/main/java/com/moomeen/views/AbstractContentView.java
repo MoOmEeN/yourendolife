@@ -5,8 +5,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.spring.events.EventBus;
 
+import com.moomeen.utils.FixedLazyLoadWrapper;
 import com.vaadin.lazyloadwrapper.LazyLoadWrapper;
-import com.vaadin.lazyloadwrapper.widgetset.client.ui.LLWRpc;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Component;
@@ -53,25 +53,6 @@ public abstract class AbstractContentView extends VerticalLayout implements View
 	public void enter(ViewChangeEvent event) {
 	}
 
-	private class FixedLazyLoadWrapper extends LazyLoadWrapper {
-
-		private static final long serialVersionUID = 469079528082124329L;
-		private LLWRpc serverRpc = new LLWRpc() {
-
-			private static final long serialVersionUID = 5055880416669815652L;
-
-			@Override
-	        public void onWidgetVisible() {
-	            setClientSideIsVisible(true);
-	        }
-	    };
-
-		public FixedLazyLoadWrapper(LazyLoadComponentProvider childProvider) {
-			super(childProvider);
-			registerRpc(serverRpc);
-//			setStyleName("content");
-		}
-	}
 
 
 	protected abstract class LazyLoadableContent extends VerticalLayout implements LazyLoadable {
