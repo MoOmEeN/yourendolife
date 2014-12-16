@@ -1,18 +1,19 @@
 package com.moomeen.views.workouts.details.timelapse;
 
 import com.moomeen.endo2java.model.DetailedWorkout;
+import com.moomeen.views.workouts.details.streetview.JsStreetVewState;
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 
 @JavaScript({ "https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js",
 			"https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js",
-			"https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js", "js_time_lapse.js",
+			"https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js", "js_street_view.js",
 			"StreetviewSequence.js" })
-public class JsTimeLapse extends AbstractJavaScriptComponent {
+public class JsStreetView extends AbstractJavaScriptComponent {
 
 	private static final long serialVersionUID = 7082932209865633859L;
 
-	public JsTimeLapse(DetailedWorkout workout) {
+	public JsStreetView(DetailedWorkout workout) {
 		setSizeFull();
 		double[][] points = new double[workout.getPoints().size()][2];
 
@@ -28,7 +29,7 @@ public class JsTimeLapse extends AbstractJavaScriptComponent {
 	}
 
 	@Override
-	protected JsTimeLapseState getState() {
-		return (JsTimeLapseState) super.getState();
+	protected JsStreetVewState getState() {
+		return (JsStreetVewState) super.getState();
 	}
 }

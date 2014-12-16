@@ -1,4 +1,4 @@
-window.com_moomeen_views_workouts_details_timelapse_JsTimeLapse = function() {
+window.com_moomeen_views_workouts_details_timelapse_JsStreetView = function() {
   var e = this.getElement();
 	
   this.onStateChange = function() {
