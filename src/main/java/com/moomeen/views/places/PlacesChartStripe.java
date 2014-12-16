@@ -48,7 +48,7 @@ public class PlacesChartStripe extends HorizontalLayout {
 		} else {
 			int count = 0;
 			for (Entry<String, List<Workout>> entry : grouped.entrySet()) {
-				sb.append(String.format("<p class=\"big-font\">%d</p> %s in %s", entry.getValue().size(), entry.getValue().size() == 1 ? "workout" : "workouts", entry.getKey()));
+				sb.append(String.format("<p class=\"big-font\">%d</p> %s in %s", entry.getValue().size(), count == 0 ? entry.getValue().size() == 1 ? "workout" : "workouts" : "", entry.getKey()));
 				if (count == grouped.size() - 2){
 					sb.append(" and");
 				} else if (count != grouped.size() -1){

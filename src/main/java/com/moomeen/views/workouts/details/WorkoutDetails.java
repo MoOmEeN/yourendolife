@@ -5,33 +5,87 @@ import java.util.List;
 
 import com.moomeen.endo2java.model.DetailedWorkout;
 import com.moomeen.endo2java.model.Point;
+import com.moomeen.views.workouts.details.timelapse.JsTimeLapse;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.tapio.googlemaps.GoogleMap;
 import com.vaadin.tapio.googlemaps.client.LatLon;
 import com.vaadin.tapio.googlemaps.client.overlays.GoogleMapPolyline;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
-public class WorkoutDetails extends VerticalLayout {
-	
+public class WorkoutDetails extends HorizontalLayout {
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 9203596511419142742L;
 	private LatLon boundsNE;
 	private LatLon boundsSW;
-	
-	public WorkoutDetails(DetailedWorkout workout) {
-		setSizeFull();
 
-		GoogleMap googleMap = new GoogleMap(null, null, null);
+	public WorkoutDetails(final DetailedWorkout workout) {
+		setSizeFull();
+		addStyleName("workout-details");
+
+		final Panel googleMapPanel = new Panel();
+		Button route = new Button("Route");
+		route.addStyleName("details-button");
+		route.setIcon(FontAwesome.GLOBE);
+
+		Button timeLapseBtn = new Button("Street view");
+		timeLapseBtn.setIcon(FontAwesome.PHOTO);
+		timeLapseBtn.addStyleName("details-button");
+
+		Button bestsBtn = new Button("Bests");
+		bestsBtn.setIcon(FontAwesome.TACHOMETER);
+		bestsBtn.addStyleName("details-button");
+
+
+		VerticalLayout menu = new VerticalLayout();
+
+		menu.addComponent(route);
+		menu.addComponent(timeLapseBtn);
+		menu.addComponent(bestsBtn);
+
+		final GoogleMap googleMap = new GoogleMap(null, null, null);
 		googleMap.setMinZoom(4);
 		googleMap.setMaxZoom(16);
 		googleMap.setSizeFull();
-		
+
 		drawWorkoutRoute(googleMap, workout);
 		googleMap.fitToBounds(boundsNE, boundsSW);
-		
-		addComponent(googleMap);
-		setExpandRatio(googleMap, 1.0f);
+
+		googleMapPanel.setSizeFull();
+		googleMapPanel.setContent(googleMap);
+
+		route.addClickListener(new ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				googleMapPanel.setContent(googleMap);
+			}
+		});
+
+		final JsTimeLapse timeLapse = new JsTimeLapse(workout);
+
+		timeLapseBtn.addClickListener(new ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				googleMapPanel.setContent(timeLapse);
+			}
+		});
+
+		addComponent(menu);
+		addComponent(googleMapPanel);
+		setComponentAlignment(menu, Alignment.TOP_LEFT);
+		setComponentAlignment(googleMapPanel, Alignment.MIDDLE_RIGHT);
+		setExpandRatio(menu, 0.3f);
+		setExpandRatio(googleMapPanel, 1.2f);
 	}
 
 	private void drawWorkoutRoute(GoogleMap map, DetailedWorkout workout) {
@@ -39,8 +93,8 @@ public class WorkoutDetails extends VerticalLayout {
 			return;
 		}
 		List<LatLon> points = new ArrayList<LatLon>();
-		
-		for (Point workoutPoint : workout.getPoints()) {			
+
+		for (Point workoutPoint : workout.getPoints()) {
 			LatLon point = vaadinPoint(workoutPoint);
 			adjustBoundsIfNeeded(point);
 			points.add(point);
