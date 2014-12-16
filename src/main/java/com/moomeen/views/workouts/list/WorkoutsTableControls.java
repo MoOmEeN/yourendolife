@@ -2,7 +2,9 @@ package com.moomeen.views.workouts.list;
 
 import com.jensjansson.pagedtable.PagedTable.PageChangeListener;
 import com.jensjansson.pagedtable.PagedTable.PagedTableChangeEvent;
+import com.vaadin.addon.tableexport.ExcelExport;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -145,6 +147,25 @@ public class WorkoutsTableControls extends HorizontalLayout {
 	        pageSize.setComponentAlignment(itemsPerPageSelect,
 	                Alignment.MIDDLE_LEFT);
 	        pageSize.setSpacing(true);
+	        
+	        Button export = new Button("Export");
+	        export.setIcon(FontAwesome.FILE_EXCEL_O);
+	        pageSize.addComponent(export);
+	        export.addClickListener(new ClickListener() {
+	            private static final long serialVersionUID = -73954695086117200L;
+	            private ExcelExport excelExport;
+
+	            @Override
+				public void buttonClick(final ClickEvent event) {
+	                excelExport = new ExcelExport(table);
+	                excelExport.excludeCollapsedColumns();
+	                excelExport.setReportTitle("Workouts Export");
+	                excelExport.setExportFileName("WorkoutsExport.xls");
+	                excelExport.setUseTableFormatPropertyValue(true);
+	                excelExport.export();
+	            }
+	        });
+	        
 	        pageManagement.addComponent(first);
 	        pageManagement.addComponent(previous);
 	        pageManagement.addComponent(pageLabel);

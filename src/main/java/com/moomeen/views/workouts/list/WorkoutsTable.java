@@ -16,6 +16,7 @@ import com.moomeen.endo2java.error.InvocationException;
 import com.moomeen.endo2java.model.Sport;
 import com.moomeen.endo2java.model.Workout;
 import com.moomeen.views.LocaleHelper;
+import com.vaadin.addon.tableexport.ExportableFormattedProperty;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
@@ -24,7 +25,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Table;
 
-public class WorkoutsTable extends PagedTable {
+public class WorkoutsTable extends PagedTable implements ExportableFormattedProperty {
 
 	/**
 	 *
@@ -179,6 +180,11 @@ public class WorkoutsTable extends PagedTable {
 			bd = bd.setScale(2, RoundingMode.HALF_UP);
 		}
 		return bd.toString();
+	}
+
+	@Override
+	public String getFormattedPropertyValue(Object rowId, Object colId, Property property) {
+		return formatPropertyValue(rowId, colId, property);
 	}
 
 }

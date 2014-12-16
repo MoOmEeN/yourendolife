@@ -30,6 +30,7 @@
 		<vaadin-googlemaps.version>1.0.0</vaadin-googlemaps.version>
 		<vaadin-lazyloadwrapper.version>0.0.1</vaadin-lazyloadwrapper.version>
 		<vaadin-jfreechartwrapper.version>3.0.2</vaadin-jfreechartwrapper.version>
+		<vaadin-tableexport.version>1.5.1.5</vaadin-tableexport.version>
 		<nomination-api.version>3.0</nomination-api.version>
 		<mongo-driver.version>2.12.4</mongo-driver.version>
 		<morphia.version>0.108</morphia.version>
@@ -126,9 +127,9 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>com.vaadin.addon</groupId>
-			<artifactId>vaadin-charts</artifactId>
-			<version>2.0.0.beta1</version>
+			<groupId>org.vaadin.addon</groupId>
+			<artifactId>tableexport-for-vaadin</artifactId>
+			<version>${vaadin-tableexport.version}</version>
 		</dependency>
 		<!-- Nominatim API -->
 		<dependency>
