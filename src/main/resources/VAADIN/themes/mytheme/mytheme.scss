@@ -252,4 +252,30 @@ $v-panel-border: 2px solid v-shade;
 	text-align: center
 }
 
+.street-view-control-pause {
+	@extend .street-view-control;
+	background-image: url("http://findicons.com/icon/download/67069/gnome_media_playback_pause/64/png");
+}
+
+.street-view-control-play {
+	@extend .street-view-control;
+	background-image: url("http://findicons.com/icon/download/67183/gnome_media_playback_start/64/png");
+}
+
+.street-view-control {
+	position: absolute;
+	height: 100px;
+	width: 100px;
+	bottom: 0;
+	background-repeat: no-repeat;
+	background-position: center;
+	opacity: 0.5;
+	cursor: hand;
+	cursor: pointer
+}
+
+.street-view-panel .v-expand {
+	padding-top: 0 !important; // hack to overcome weird vaadin default padding
+}
+
 }

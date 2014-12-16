@@ -33,8 +33,23 @@ window.com_moomeen_views_workouts_details_timelapse_JsTimeLapse = function() {
        $routeProgressBar.css({width: (p * 100) + '%'});
    });
    routeSequence.done(function(player) {
-	   $routeProgressContainer.parent().remove();
+	   $routeProgressContainer.parent().hide();
+	   $routeProgressContainer.parent().parent().parent().addClass("street-view-panel"); // adding class that removing padding, in other words: hack
        player.play();
+       
+       var $odv = $("<div class='street-view-control-pause'></div>");
+       $odv.click(function() {
+    	   if ($( this ).hasClass("street-view-control-pause")){
+    		   player.pause();
+    		   $( this ).removeClass("street-view-control-pause");
+    		   $( this ).addClass("street-view-control-play");
+    	   } else {
+    		   player.play();
+    		   $( this ).removeClass("street-view-control-play");
+    		   $( this ).addClass("street-view-control-pause");
+    	   }
+       });
+       $odv.appendTo(e);
    });
   }
 }
