@@ -243,4 +243,13 @@ $v-panel-border: 2px solid v-shade;
 	text-align: left;
 }
 
+.street-view-progress-bar {
+	margin: auto;
+	width: 50%;
+}
+
+.v-slot-street-view-progress-bar {
+	text-align: center
+}
+
 }

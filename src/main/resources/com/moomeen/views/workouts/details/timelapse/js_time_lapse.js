@@ -24,16 +24,16 @@ window.com_moomeen_views_workouts_details_timelapse_JsTimeLapse = function() {
         duration: 30000,
         key: 'AIzaSyDnDtkT3abR20ajxVlbYhI6uYKTXMgNJG4',
         loop: false,
-        width: "1000",
-        height: "500"
+        width: 640,
+        height: 640
     });
- //   var $routeProgressContainer = $("#route-progress-container");
- //   var $routeProgressBar = $routeProgressContainer.find('.progress-bar');
- //   routeSequence.progress(function (p) {
- //       $routeProgressBar.css({width: (p * 100) + '%'});
- //   });
+   var $routeProgressContainer = $("#street-view-progress");
+    var $routeProgressBar = $routeProgressContainer.find('.v-progressbar-indicator');
+   routeSequence.progress(function (p) {
+       $routeProgressBar.css({width: (p * 100) + '%'});
+   });
    routeSequence.done(function(player) {
- //       $routeProgressContainer.hide();
+	   $routeProgressContainer.parent().remove();
        player.play();
    });
   }

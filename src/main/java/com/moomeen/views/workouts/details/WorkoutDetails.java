@@ -16,6 +16,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.ProgressBar;
 import com.vaadin.ui.VerticalLayout;
 
 public class WorkoutDetails extends HorizontalLayout {
@@ -44,7 +45,6 @@ public class WorkoutDetails extends HorizontalLayout {
 		bestsBtn.setIcon(FontAwesome.TACHOMETER);
 		bestsBtn.addStyleName("details-button");
 
-
 		VerticalLayout menu = new VerticalLayout();
 
 		menu.addComponent(route);
@@ -70,13 +70,22 @@ public class WorkoutDetails extends HorizontalLayout {
 			}
 		});
 
+		final VerticalLayout streetView = new VerticalLayout();
+		ProgressBar bar = new ProgressBar();
+		bar.setId("street-view-progress");
+		bar.setStyleName("street-view-progress-bar");
+		
 		final JsTimeLapse timeLapse = new JsTimeLapse(workout);
-
+		streetView.addComponent(bar);
+		streetView.addComponent(timeLapse);
+		streetView.setExpandRatio(timeLapse, 1f);
+		streetView.setSizeFull();
+		
 		timeLapseBtn.addClickListener(new ClickListener() {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				googleMapPanel.setContent(timeLapse);
+				googleMapPanel.setContent(streetView);
 			}
 		});
 
