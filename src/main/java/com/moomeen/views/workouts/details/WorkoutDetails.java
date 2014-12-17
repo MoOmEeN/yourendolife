@@ -3,8 +3,11 @@ package com.moomeen.views.workouts.details;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.moomeen.bests.BestDistanceTimeCalculator;
+import com.moomeen.bests.model.DistanceTime;
 import com.moomeen.endo2java.model.DetailedWorkout;
 import com.moomeen.endo2java.model.Point;
+import com.moomeen.views.LocaleHelper;
 import com.moomeen.views.workouts.details.timelapse.JsStreetView;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
@@ -16,10 +19,12 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.ProgressBar;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 public class WorkoutDetails extends HorizontalLayout {
@@ -121,21 +126,47 @@ public class WorkoutDetails extends HorizontalLayout {
 
 	private VerticalLayout createBestsContent(final DetailedWorkout workout) {
 		final VerticalLayout bests = new VerticalLayout();
-		HorizontalLayout mapAndBests = new HorizontalLayout();
 		GoogleMap map = createRouteContent(workout);
-		HorizontalLayout bestsItems = new HorizontalLayout();
-		mapAndBests.addComponent(map);
-		mapAndBests.addComponent(bestsItems);
-		mapAndBests.setSizeFull();
-		mapAndBests.setExpandRatio(map, 0.8f);
-		mapAndBests.setExpandRatio(bestsItems, 0.2f);
 
-		final Label text = new Label("TODO");
-		bests.addComponent(mapAndBests);
-		bests.addComponent(text);
+		 CssLayout controls = new CssLayout();
+		 controls.addStyleName("v-component-group");
+		 final TextField tf = new TextField();
+		 tf.setInputPrompt("Distance");
+		 tf.addStyleName("inline-icon");
+		 tf.setIcon(FontAwesome.TROPHY);
+		 tf.setWidth("260px");
+		 controls.addComponent(tf);
+		 Button button = new Button("Calculate");
+		 button.addStyleName("friendly");
+		 controls.addComponent(button);
+
+		 final Label text = new Label();
+		 HorizontalLayout bottom = new HorizontalLayout();
+		 bottom.setWidth("100%");
+		 bottom.setHeight("50px");
+		 bottom.addComponent(controls);
+		 bottom.addComponent(text);
+		 bottom.setComponentAlignment(controls, Alignment.BOTTOM_LEFT);
+		 bottom.setComponentAlignment(text, Alignment.BOTTOM_RIGHT);
+
+		 button.addClickListener(new ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				DistanceTime best = new BestDistanceTimeCalculator(workout).calculate(Double.parseDouble(tf.getValue()));
+				String time = "";
+				if (best.getTime() != null){
+					time = LocaleHelper.getPeriodFormatter().print(best.getTime().toPeriod());
+				}
+				text.setValue(best.getDistance() + ": " + time);
+			}
+		});
+
+		bests.addComponent(map);
+		bests.addComponent(bottom);
 		bests.setSizeFull();
-		bests.setExpandRatio(mapAndBests, 0.8f);
-		bests.setExpandRatio(text, 0.2f);
+//		bests.setExpandRatio(map, 0.8f);
+//		bests.setExpandRatio(bottom, 0.2f);
 		return bests;
 	}
 

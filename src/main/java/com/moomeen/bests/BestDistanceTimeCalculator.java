@@ -10,10 +10,10 @@ import java.util.TreeMap;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
+import com.moomeen.bests.model.DistanceTime;
 import com.moomeen.endo2java.model.DetailedWorkout;
 import com.moomeen.endo2java.model.Point;
 import com.moomeen.endo2java.model.PointInstruction;
-import com.moomeen.endo2java.model.stats.DistanceTime;
 
 public class BestDistanceTimeCalculator {
 

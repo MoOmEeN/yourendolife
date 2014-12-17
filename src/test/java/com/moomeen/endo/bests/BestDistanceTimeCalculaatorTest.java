@@ -11,10 +11,10 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 
 import com.moomeen.bests.BestDistanceTimeCalculator;
+import com.moomeen.bests.model.DistanceTime;
 import com.moomeen.endo2java.model.DetailedWorkout;
 import com.moomeen.endo2java.model.Point;
 import com.moomeen.endo2java.model.PointInstruction;
-import com.moomeen.endo2java.model.stats.DistanceTime;
 
 public class BestDistanceTimeCalculaatorTest {
 
