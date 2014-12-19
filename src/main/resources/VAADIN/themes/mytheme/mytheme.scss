@@ -129,12 +129,12 @@ $v-panel-border: 2px solid v-shade;
 
 .stats-view {
 	@extend .app-view;
-	background-image: url("http://cdn.picography.co/Rainbow-Run-2014-018.jpg");
+	background-image: url("/VAADIN/themes/mytheme/img/Rainbow-Run-2014-018.jpg");
 }
 
 .places-view {
 	@extend .app-view;
-	background-image: url("http://cdn.picography.co/summer-bikes.jpg");
+	background-image: url('/VAADIN/themes/mytheme/img/summer-bikes.jpg');
 }
 
 .stats-view-stripe {
