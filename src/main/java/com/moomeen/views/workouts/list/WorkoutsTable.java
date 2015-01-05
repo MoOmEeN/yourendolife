@@ -12,9 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jensjansson.pagedtable.PagedTable;
+import com.moomeen.endo.EndomondoSessionHolder;
 import com.moomeen.endo2java.error.InvocationException;
 import com.moomeen.endo2java.model.Sport;
 import com.moomeen.endo2java.model.Workout;
+import com.moomeen.utils.SpringContextHolder;
 import com.moomeen.views.LocaleHelper;
 import com.vaadin.addon.tableexport.ExportableFormattedProperty;
 import com.vaadin.data.Item;
@@ -34,6 +36,8 @@ public class WorkoutsTable extends PagedTable implements ExportableFormattedProp
 
 	private static Logger LOG = LoggerFactory.getLogger(WorkoutsTable.class);
 
+	private EndomondoSessionHolder session;
+	
 	private List<Workout> workouts;
 	private ItemClickCallback workoutClickCallback;
 
@@ -46,6 +50,7 @@ public class WorkoutsTable extends PagedTable implements ExportableFormattedProp
 		initTable();
 		setStyleName("v-table-empty");
 		this.workoutClickCallback = clickCallback;
+		this.session = SpringContextHolder.lookupBean(EndomondoSessionHolder.class);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -161,7 +166,7 @@ public class WorkoutsTable extends PagedTable implements ExportableFormattedProp
 			case SPORT:
 				return ((Sport) value).description();
 			case START_DATE:
-				return ((DateTime) value).toString(LocaleHelper.getDateFormat());
+				return ((DateTime) value).toDateTime(session.getAccountInfo().getTimeZone()).toString(LocaleHelper.getDateFormat());
 			default:
 				return defaultPropertyValue(property);
 		}
@@ -179,9 +184,10 @@ public class WorkoutsTable extends PagedTable implements ExportableFormattedProp
 		if (bd.scale() > 2){
 			bd = bd.setScale(2, RoundingMode.HALF_UP);
 		}
-		return bd.toString();
+		return bd.toPlainString();
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public String getFormattedPropertyValue(Object rowId, Object colId, Property property) {
 		return formatPropertyValue(rowId, colId, property);

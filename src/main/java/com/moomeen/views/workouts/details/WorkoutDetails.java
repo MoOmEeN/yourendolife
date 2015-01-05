@@ -3,6 +3,9 @@ package com.moomeen.views.workouts.details;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.moomeen.bests.BestDistanceTimeCalculator;
 import com.moomeen.bests.model.DistanceTime;
 import com.moomeen.endo2java.model.DetailedWorkout;
@@ -13,6 +16,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.tapio.googlemaps.GoogleMap;
 import com.vaadin.tapio.googlemaps.client.LatLon;
+import com.vaadin.tapio.googlemaps.client.overlays.GoogleMapInfoWindow;
 import com.vaadin.tapio.googlemaps.client.overlays.GoogleMapPolyline;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -21,18 +25,23 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.ProgressBar;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 public class WorkoutDetails extends HorizontalLayout {
-
+	
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 9203596511419142742L;
+	
+	private final static Logger LOG = LoggerFactory.getLogger(WorkoutDetails.class);
+	
+	private static final String ROUTE_COLOR = "#0072c6";
+	private static final String BEST_COLOR = "#FF0E0E";
+	
 	private LatLon boundsNE;
 	private LatLon boundsSW;
 
@@ -124,49 +133,70 @@ public class WorkoutDetails extends HorizontalLayout {
 		return streetView;
 	}
 
+	@SuppressWarnings("serial")
 	private VerticalLayout createBestsContent(final DetailedWorkout workout) {
 		final VerticalLayout bests = new VerticalLayout();
-		GoogleMap map = createRouteContent(workout);
+		bests.setSpacing(true);
+		final GoogleMap map = createRouteContent(workout);
 
-		 CssLayout controls = new CssLayout();
-		 controls.addStyleName("v-component-group");
-		 final TextField tf = new TextField();
-		 tf.setInputPrompt("Distance");
-		 tf.addStyleName("inline-icon");
-		 tf.setIcon(FontAwesome.TROPHY);
-		 tf.setWidth("260px");
-		 controls.addComponent(tf);
-		 Button button = new Button("Calculate");
-		 button.addStyleName("friendly");
-		 controls.addComponent(button);
+		CssLayout controls = new CssLayout();
+		controls.addStyleName("v-component-group");
+		final TextField tf = new TextField();
+		tf.setInputPrompt("Distance in km");
+		tf.addStyleName("inline-icon");
+		tf.setIcon(FontAwesome.TROPHY);
+		tf.setWidth("260px");
+		controls.addComponent(tf);
+		Button button = new Button("Calculate");
+		button.addStyleName("friendly");
+		controls.addComponent(button);
 
-		 final Label text = new Label();
-		 HorizontalLayout bottom = new HorizontalLayout();
-		 bottom.setWidth("100%");
-		 bottom.setHeight("50px");
-		 bottom.addComponent(controls);
-		 bottom.addComponent(text);
-		 bottom.setComponentAlignment(controls, Alignment.BOTTOM_LEFT);
-		 bottom.setComponentAlignment(text, Alignment.BOTTOM_RIGHT);
+		HorizontalLayout bottom = new HorizontalLayout();
+		bottom.setWidth("100%");
+		bottom.addComponent(controls);
+		bottom.setComponentAlignment(controls, Alignment.BOTTOM_LEFT);
 
-		 button.addClickListener(new ClickListener() {
-
+		class BestContent {
+			GoogleMapPolyline line;
+			GoogleMapInfoWindow info;
+		}
+		
+		final BestContent best = new BestContent();
+		
+		button.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				DistanceTime best = new BestDistanceTimeCalculator(workout).calculate(Double.parseDouble(tf.getValue()));
-				String time = "";
-				if (best.getTime() != null){
-					time = LocaleHelper.getPeriodFormatter().print(best.getTime().toPeriod());
+				if (best.line != null){
+					map.removePolyline(best.line);
+					map.closeInfoWindow(best.info);
 				}
-				text.setValue(best.getDistance() + ": " + time);
+				
+				Double distanceToCalculate = Double.parseDouble(tf.getValue());
+				DistanceTime bestDistance = new BestDistanceTimeCalculator(workout).calculate(distanceToCalculate);
+				if (bestDistance.getPoints() == null){
+					LOG.warn("Couldn't calculate best {} for workout with length {}", bestDistance.getDistance(), workout.getDistance());
+					return;
+				}
+				best.line = drawLine(map, bestDistance.getPoints(), BEST_COLOR);
+				
+				if (bestDistance.getTime() != null) {
+					Point firstPoint = bestDistance.getPoints().get(0);
+					Point lastPoint = bestDistance.getPoints().get(bestDistance.getPoints().size()-1);
+					String time = LocaleHelper.getPeriodFormatter().print(bestDistance.getTime().toPeriod());
+					String bestTimePoints = firstPoint.getDistance() + " km - " + lastPoint.getDistance() + " km";
+					GoogleMapInfoWindow infoWindow = new GoogleMapInfoWindow(distanceToCalculate + " km in " + time + "<br>" + bestTimePoints);
+					best.info = infoWindow;
+					infoWindow.setPosition(new LatLon(lastPoint.getLatitude(), lastPoint.getLongitude()));
+					map.openInfoWindow(infoWindow);
+				}
 			}
 		});
 
 		bests.addComponent(map);
 		bests.addComponent(bottom);
 		bests.setSizeFull();
-//		bests.setExpandRatio(map, 0.8f);
-//		bests.setExpandRatio(bottom, 0.2f);
+		bests.setExpandRatio(map, 0.9f);
+		bests.setExpandRatio(bottom, 0.1f);
 		return bests;
 	}
 
@@ -174,45 +204,58 @@ public class WorkoutDetails extends HorizontalLayout {
 		if (workout.getPoints() == null || workout.getPoints().isEmpty()){
 			return;
 		}
-		List<LatLon> points = new ArrayList<LatLon>();
-
-		for (Point workoutPoint : workout.getPoints()) {
-			LatLon point = vaadinPoint(workoutPoint);
+		
+		drawLine(map, workout.getPoints(), ROUTE_COLOR);
+		findMapBounds(workout.getPoints());
+	}
+	
+	private void findMapBounds(List<Point> workoutPoints){
+		for (Point point : workoutPoints) {
 			adjustBoundsIfNeeded(point);
+		}
+	}
+	
+	private GoogleMapPolyline drawLine(GoogleMap map, List<Point> workoutPoints, String color){
+		List<LatLon> points = new ArrayList<LatLon>();
+		
+		for (Point workoutPoint : workoutPoints) {
+			LatLon point = vaadinPoint(workoutPoint);
 			points.add(point);
 		}
-		GoogleMapPolyline overlay = new GoogleMapPolyline(points, "#0072c6", 0.8, 5);
+		
+		GoogleMapPolyline overlay = new GoogleMapPolyline(points, color, 0.8, 5);
 		map.addPolyline(overlay);
+		return overlay;
 	}
 
-	private void adjustBoundsIfNeeded(LatLon point) {
+	private void adjustBoundsIfNeeded(Point point) {
 		initBoundsIfNeeded(point);
 		adjustNEBoundIfNeeded(point);
 		adjustSWBoundIfNeeded(point);
 	}
 
-	private void adjustSWBoundIfNeeded(LatLon point) {
-		if (point.getLat() < boundsSW.getLat()){
-			boundsSW.setLat(point.getLat());
+	private void adjustSWBoundIfNeeded(Point point) {
+		if (point.getLatitude() < boundsSW.getLat()){
+			boundsSW.setLat(point.getLatitude());
 		}
-		if (point.getLon() < boundsSW.getLon()){
-			boundsSW.setLon(point.getLon());
-		}
-	}
-
-	private void adjustNEBoundIfNeeded(LatLon point) {
-		if (point.getLat() > boundsNE.getLat()){
-			boundsNE.setLat(point.getLat());
-		}
-		if (point.getLon() > boundsNE.getLon()){
-			boundsNE.setLon(point.getLon());
+		if (point.getLongitude() < boundsSW.getLon()){
+			boundsSW.setLon(point.getLongitude());
 		}
 	}
 
-	private void initBoundsIfNeeded(LatLon point) {
+	private void adjustNEBoundIfNeeded(Point point) {
+		if (point.getLatitude() > boundsNE.getLat()){
+			boundsNE.setLat(point.getLatitude());
+		}
+		if (point.getLongitude() > boundsNE.getLon()){
+			boundsNE.setLon(point.getLongitude());
+		}
+	}
+
+	private void initBoundsIfNeeded(Point point) {
 		if (boundsNE == null || boundsSW == null){
-			boundsNE = new LatLon(point.getLat(), point.getLon());
-			boundsSW = new LatLon(point.getLat(), point.getLon());
+			boundsNE = new LatLon(point.getLatitude(), point.getLongitude());
+			boundsSW = new LatLon(point.getLatitude(), point.getLongitude());
 		}
 	}
 

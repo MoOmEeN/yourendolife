@@ -150,6 +150,7 @@ public class WorkoutsTableControls extends HorizontalLayout {
 	        
 	        Button export = new Button("Export");
 	        export.setIcon(FontAwesome.FILE_EXCEL_O);
+	        export.setStyleName("export-button");
 	        pageSize.addComponent(export);
 	        export.addClickListener(new ClickListener() {
 	            private static final long serialVersionUID = -73954695086117200L;

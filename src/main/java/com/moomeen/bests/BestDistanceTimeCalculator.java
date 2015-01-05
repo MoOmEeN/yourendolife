@@ -55,7 +55,7 @@ public class BestDistanceTimeCalculator {
 	}
 
 	private boolean wasPaused(Point previousPoint, Point point) {
-		return previousPoint.getInstruction() == PointInstruction.PAUSE && point.getInstruction() == PointInstruction.RESUME;
+		return PointInstruction.PAUSE == previousPoint.getInstruction() && PointInstruction.RESUME == point.getInstruction();
 	}
 
 	public DistanceTime calculate(double distance){

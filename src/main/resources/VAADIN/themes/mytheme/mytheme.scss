@@ -312,4 +312,8 @@ $v-panel-border: 2px solid v-shade;
 	padding-top: 0 !important; // hack to overcome weird vaadin default padding
 }
 
+.export-button {
+	border: 1px solid #afafaf;
+}
+
 }
