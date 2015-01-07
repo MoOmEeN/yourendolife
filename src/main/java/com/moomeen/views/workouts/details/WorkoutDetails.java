@@ -39,6 +39,8 @@ public class WorkoutDetails extends HorizontalLayout {
 	
 	private final static Logger LOG = LoggerFactory.getLogger(WorkoutDetails.class);
 	
+	private final static String GOOGLE_MAPS_KEY = "AIzaSyDnDtkT3abR20ajxVlbYhI6uYKTXMgNJG4";
+	
 	private static final String ROUTE_COLOR = "#0072c6";
 	private static final String BEST_COLOR = "#FF0E0E";
 	
@@ -109,7 +111,7 @@ public class WorkoutDetails extends HorizontalLayout {
 	}
 
 	private GoogleMap createRouteContent(final DetailedWorkout workout) {
-		final GoogleMap googleMap = new GoogleMap(null, null, null);
+		final GoogleMap googleMap = new GoogleMap(GOOGLE_MAPS_KEY, null, null);
 		googleMap.setMinZoom(4);
 		googleMap.setMaxZoom(16);
 		googleMap.setSizeFull();

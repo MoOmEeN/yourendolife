@@ -180,34 +180,75 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-		<plugin>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-maven-plugin</artifactId>
-                <version>7.1.12</version>
-                <configuration>
-                    <extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
-                    <webappDirectory>${basedir}/src/main/resources/VAADIN/widgetsets</webappDirectory>
-                    <hostedWebapp>${basedir}/src/main/resources/VAADIN/widgetsets</hostedWebapp>
-                    <noServer>true</noServer>
-                    <draftCompile>false</draftCompile>
-                    <style>OBF</style>
-                    <strict>true</strict>
-                    <compileReport>true</compileReport>
-                    <runTarget>http://localhost:8080/</runTarget>
-                </configuration>
-                <executions>
-                    <execution>
-                        <configuration>
-                        </configuration>
-                        <goals>
-                            <goal>resources</goal>
-                            <goal>update-widgetset</goal>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+			<plugin>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-maven-plugin</artifactId>
+				<version>7.1.12</version>
+				<configuration>
+					<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
+					<webappDirectory>${basedir}/src/main/resources/VAADIN/widgetsets</webappDirectory>
+					<hostedWebapp>${basedir}/src/main/resources/VAADIN/widgetsets</hostedWebapp>
+					<noServer>true</noServer>
+					<draftCompile>false</draftCompile>
+					<style>OBF</style>
+					<strict>true</strict>
+					<compileReport>true</compileReport>
+					<runTarget>http://localhost:8080/</runTarget>
+				</configuration>
+				<executions>
+					<execution>
+						<configuration>
+						</configuration>
+						<goals>
+							<goal>resources</goal>
+							<goal>update-widgetset</goal>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<productionMode>false</productionMode>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<productionMode>true</productionMode>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.2.1</version>
+						<executions>
+							<execution>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>java</goal>
+								</goals>
+								<configuration>
+									<mainClass>com.vaadin.sass.SassCompiler</mainClass>
+									<arguments>
+										<argument>src/main/resources/VAADIN/themes/mytheme/styles.scss</argument>
+										<argument>src/main/resources/VAADIN/themes/mytheme/styles.css</argument>
+									</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
