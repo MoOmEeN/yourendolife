@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.1.8.RELEASE</version>
+		<version>1.2.1.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -224,6 +224,7 @@
 			<properties>
 				<productionMode>false</productionMode>
 				<serverPort>8080</serverPort>
+				<sslEnabled>false</sslEnabled>
 			</properties>
 		</profile>
 		<profile>
@@ -231,6 +232,7 @@
 			<properties>
 				<productionMode>true</productionMode>
 				<serverPort>443</serverPort>
+				<sslEnabled>true</sslEnabled>
 				<keyStorePath>keystore.jks</keyStorePath>
 				<keyStorePassword>atam88</keyStorePassword>
 			</properties>
