@@ -1,8 +1,11 @@
 package com.moomeen.views;
 
 import java.io.File;
-import java.net.URISyntaxException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,13 +105,13 @@ public class LoginView extends LoginForm implements View {
         		
         		try {
         			Image image = new Image(
-					        null, new FileResource(new File(this.getClass().getClassLoader().getResource("VAADIN/themes/mytheme/img/dontKnowPassword.png").toURI())));
+					        null, new FileResource(streamTwoFile(this.getClass().getClassLoader().getResourceAsStream("VAADIN/themes/mytheme/img/dontKnowPassword.png"))));
         			VerticalLayout layout = new VerticalLayout();
         			layout.addComponent(image);
         			layout.setComponentAlignment(image, Alignment.MIDDLE_CENTER);
         			
 					window.setContent(layout);
-				} catch (URISyntaxException e) {
+				} catch (IOException e) {
 					LOG.error("Something went wrong while trying to show password help image", e);
 				}
         		UI.getCurrent().addWindow(window);
@@ -121,6 +124,15 @@ public class LoginView extends LoginForm implements View {
 		return layout;
 	}
 
+	 private static File streamTwoFile (InputStream in) throws IOException {
+	        final File tempFile = File.createTempFile("tmpFile", ".tmp");
+	        tempFile.deleteOnExit();
+	        try (FileOutputStream out = new FileOutputStream(tempFile)) {
+	            IOUtils.copy(in, out);
+	        }
+	        return tempFile;
+	    }
+	
 	@Override
 	protected void login(String userName, String password) {
 		EndomondoSession session = new EndomondoSession(userName, password);
