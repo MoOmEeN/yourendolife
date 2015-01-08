@@ -223,12 +223,16 @@
 			</activation>
 			<properties>
 				<productionMode>false</productionMode>
+				<serverPort>8080</serverPort>
 			</properties>
 		</profile>
 		<profile>
 			<id>prod</id>
 			<properties>
 				<productionMode>true</productionMode>
+				<serverPort>443</serverPort>
+				<keyStorePath>keystore.jks</keyStorePath>
+				<keyStorePassword>atam88</keyStorePassword>
 			</properties>
 			<build>
 				<plugins>
