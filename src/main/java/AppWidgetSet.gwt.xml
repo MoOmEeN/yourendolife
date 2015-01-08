@@ -30,4 +30,6 @@
     <inherits name="com.vaadin.lazyloadwrapper.widgetset.LazyLoadWrapperWidgetset" />
 
     <inherits name="com.ejt.vaadin.loginform.WidgetSet" />
+
+    
 </module>
