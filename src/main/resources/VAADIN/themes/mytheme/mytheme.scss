@@ -200,8 +200,8 @@ $v-panel-border: 2px solid v-shade;
 	text-align: center
 }
 
-.footer-send-button {
-	@extend .login-button;
+.footer {
+	font-size: 30px;
 }
 
 .v-slot-footer {
@@ -212,7 +212,8 @@ $v-panel-border: 2px solid v-shade;
 	margin-top: 10px;
 	text-align: center;
 	padding: 5px;
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.05)
+	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.05);
+	font-size: 15px;
 }
 
 .color-stripe {
