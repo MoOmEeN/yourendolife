@@ -47,10 +47,9 @@ public class LoginView extends LoginForm implements View {
 
 	@Autowired
 	private EndomondoSessionHolder sessionHolder;
-
+	
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -138,6 +137,7 @@ public class LoginView extends LoginForm implements View {
 		EndomondoSession session = new EndomondoSession(userName, password);
 		try {
 			session.login();
+			LOG.debug("Logged in: {}", userName);
 			sessionHolder.init(session);
 			eventBus.publish(this, com.moomeen.ViewChangeEvent.STATS_VIEW);
 		} catch (InvocationException e) {

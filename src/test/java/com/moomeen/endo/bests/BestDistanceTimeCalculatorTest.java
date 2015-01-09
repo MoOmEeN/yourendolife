@@ -16,7 +16,7 @@ import com.moomeen.endo2java.model.DetailedWorkout;
 import com.moomeen.endo2java.model.Point;
 import com.moomeen.endo2java.model.PointInstruction;
 
-public class BestDistanceTimeCalculaatorTest {
+public class BestDistanceTimeCalculatorTest {
 
 	@Test
 	public void distanceBestTest_onePossibleBest(){
