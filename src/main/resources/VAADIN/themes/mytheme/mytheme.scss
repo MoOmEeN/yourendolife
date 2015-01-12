@@ -211,7 +211,15 @@ $v-panel-border: 2px solid v-shade;
 }
 
 .footer {
-	font-size: 30px;
+	font-size: 20px;
+}
+
+.footer .v-label {
+	text-align: center;
+}
+
+.footer .v-button {
+	height: 100% !important;
 }
 
 .v-slot-footer {
