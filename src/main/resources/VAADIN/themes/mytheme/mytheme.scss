@@ -60,7 +60,6 @@ $v-panel-border: 2px solid v-shade;
 
 .login-panel {
 	border: 0px;
-	margin-top: 200px;
 }
 
 #loginForm {
@@ -70,6 +69,12 @@ $v-panel-border: 2px solid v-shade;
 .login-button {
 	background: none repeat scroll 0 0 border-box #0072c6;
 	color: #e7f1f8;
+}
+
+.login-error {
+	color: red;
+	font-size: 15px;
+	text-align: center;
 }
 
 .v-slot-menu-bar {

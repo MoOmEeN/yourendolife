@@ -28,6 +28,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Image;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
@@ -41,9 +42,12 @@ import com.vaadin.ui.Window;
 public class LoginView extends LoginForm implements View {
 
 	private static Logger LOG = LoggerFactory.getLogger(LoginView.class);
+	private static final String ERROR_MSG = "Login failed. Please make sure your email and password are correct";
 	
 	@Autowired
 	private EventBus eventBus;
+	
+	private Label errorLabel = new Label();
 
 	@Autowired
 	private EndomondoSessionHolder sessionHolder;
@@ -58,10 +62,14 @@ public class LoginView extends LoginForm implements View {
 		
 		layout.setSizeFull();
 
+		errorLabel.setStyleName("login-error");
+		layout.addComponent(errorLabel);
+		layout.setComponentAlignment(errorLabel, Alignment.MIDDLE_CENTER);
+		
 		Panel panel = new Panel();
 		layout.addComponent(panel);
 		panel.setStyleName("login-panel");
-		layout.setComponentAlignment(panel, Alignment.TOP_CENTER);
+		layout.setComponentAlignment(panel, Alignment.BOTTOM_CENTER);
 		panel.setWidth("350px");
 
 		VerticalLayout loginLayout = new VerticalLayout();
@@ -69,7 +77,7 @@ public class LoginView extends LoginForm implements View {
 		loginLayout.setSpacing(true);
 		loginLayout.setStyleName("loginForm");
 		loginLayout.setMargin(true);
-
+		
 		loginLayout.addComponent(userNameField);
 		userNameField.setCaption("Email");
 		userNameField.addStyleName("large");
@@ -141,6 +149,7 @@ public class LoginView extends LoginForm implements View {
 			sessionHolder.init(session);
 			eventBus.publish(this, com.moomeen.ViewChangeEvent.STATS_VIEW);
 		} catch (InvocationException e) {
+			errorLabel.setValue(ERROR_MSG);
 			LOG.error("exception while trying to login user: {}", userName, e);
 		}
 		
