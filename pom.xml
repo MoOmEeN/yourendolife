@@ -35,6 +35,7 @@
 		<nomination-api.version>3.0</nomination-api.version>
 		<mongo-driver.version>2.12.4</mongo-driver.version>
 		<morphia.version>0.108</morphia.version>
+		<sendgrid-java.version>2.0.0</sendgrid-java.version>
 		<junit.version>4.11</junit.version>
 		<mockito.version>1.9.5</mockito.version>
 	</properties>
@@ -159,6 +160,12 @@
 			<groupId>org.mongodb.morphia</groupId>
 			<artifactId>morphia</artifactId>
 			<version>${morphia.version}</version>
+		</dependency>
+		<!-- Sendgrid -->
+		<dependency>
+			<groupId>com.sendgrid</groupId>
+			<artifactId>sendgrid-java</artifactId>
+			<version>${sendgrid-java.version}</version>
 		</dependency> 
 		<!-- Tests -->
 		<dependency>

@@ -71,6 +71,11 @@ $v-panel-border: 2px solid v-shade;
 	color: #e7f1f8;
 }
 
+.send-button {
+	@extend .login-button;
+	margin-bottom: 10px;
+}
+
 .login-error {
 	color: red;
 	font-size: 15px;
@@ -324,6 +329,14 @@ $v-panel-border: 2px solid v-shade;
 
 .export-button {
 	border: 1px solid #afafaf;
+}
+
+.feedback-success{
+	color: green;
+}
+
+.feedback-error {
+	color: red;
 }
 
 }
