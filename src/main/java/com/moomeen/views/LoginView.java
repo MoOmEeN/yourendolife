@@ -43,15 +43,15 @@ public class LoginView extends LoginForm implements View {
 
 	private static Logger LOG = LoggerFactory.getLogger(LoginView.class);
 	private static final String ERROR_MSG = "Login failed. Please make sure your email and password are correct";
-	
+
 	@Autowired
 	private EventBus eventBus;
-	
+
 	private Label errorLabel = new Label();
 
 	@Autowired
 	private EndomondoSessionHolder sessionHolder;
-	
+
 	@Override
 	public void enter(ViewChangeEvent event) {
 	}
@@ -59,13 +59,18 @@ public class LoginView extends LoginForm implements View {
 	@Override
 	protected Component createContent(TextField userNameField, PasswordField passwordField, Button loginButton) {
 		VerticalLayout layout = new VerticalLayout();
-		
+
 		layout.setSizeFull();
 
+		Image logo = fromResourceImage("stopa.jpg");
+		layout.addComponent(logo);
+		layout.setComponentAlignment(logo, Alignment.TOP_CENTER);
+
+		errorLabel.setVisible(false);
 		errorLabel.setStyleName("login-error");
 		layout.addComponent(errorLabel);
 		layout.setComponentAlignment(errorLabel, Alignment.MIDDLE_CENTER);
-		
+
 		Panel panel = new Panel();
 		layout.addComponent(panel);
 		panel.setStyleName("login-panel");
@@ -77,7 +82,7 @@ public class LoginView extends LoginForm implements View {
 		loginLayout.setSpacing(true);
 		loginLayout.setStyleName("loginForm");
 		loginLayout.setMargin(true);
-		
+
 		loginLayout.addComponent(userNameField);
 		userNameField.setCaption("Email");
 		userNameField.addStyleName("large");
@@ -104,42 +109,50 @@ public class LoginView extends LoginForm implements View {
 		Button dontKnow = new Button("Don't know password?");
 		dontKnow.addStyleName("link");
 		dontKnow.addClickListener(new ClickListener() {
-			
+
 			@Override
 			public void buttonClick(ClickEvent event) {
 				final Window window = new Window();
         		window.center();
-        		
-        		try {
-        			Image image = new Image(
-					        null, new FileResource(streamTwoFile(this.getClass().getClassLoader().getResourceAsStream("VAADIN/themes/mytheme/img/dontKnowPassword.png"))));
-        			VerticalLayout layout = new VerticalLayout();
-        			layout.addComponent(image);
-        			layout.setComponentAlignment(image, Alignment.MIDDLE_CENTER);
-        			
-					window.setContent(layout);
-				} catch (IOException e) {
-					LOG.error("Something went wrong while trying to show password help image", e);
-				}
-        		UI.getCurrent().addWindow(window);
-            	
+
+				Image image = fromResourceImage("dontKnowPassword.png");
+				VerticalLayout layout = new VerticalLayout();
+				layout.addComponent(image);
+				layout.setComponentAlignment(image, Alignment.MIDDLE_CENTER);
+
+				window.setContent(layout);
+				UI.getCurrent().addWindow(window);
+
 			}
 		});
 		loginLayout.addComponent(dontKnow);
 		loginLayout.setComponentAlignment(dontKnow, Alignment.BOTTOM_CENTER);
-		
+
 		return layout;
 	}
 
-	 private static File streamTwoFile (InputStream in) throws IOException {
-	        final File tempFile = File.createTempFile("tmpFile", ".tmp");
-	        tempFile.deleteOnExit();
-	        try (FileOutputStream out = new FileOutputStream(tempFile)) {
-	            IOUtils.copy(in, out);
-	        }
-	        return tempFile;
-	    }
-	
+	private static File streamTwoFile(InputStream in) throws IOException {
+		final File tempFile = File.createTempFile("tmpFile", ".tmp");
+		tempFile.deleteOnExit();
+		try (FileOutputStream out = new FileOutputStream(tempFile)) {
+			IOUtils.copy(in, out);
+		}
+		return tempFile;
+	}
+
+	private Image fromResourceImage(String fileName){
+		Image image;
+		try {
+			image = new Image(
+			        null, new FileResource(streamTwoFile(this.getClass().getClassLoader().getResourceAsStream("VAADIN/themes/mytheme/img/" + fileName))));
+		} catch (IOException e) {
+			LOG.error("Something went wrong while trying to load image: " + fileName, e);
+			throw new RuntimeException(e);
+		}
+		return image;
+	}
+
+
 	@Override
 	protected void login(String userName, String password) {
 		EndomondoSession session = new EndomondoSession(userName, password);
@@ -149,10 +162,14 @@ public class LoginView extends LoginForm implements View {
 			sessionHolder.init(session);
 			eventBus.publish(this, com.moomeen.ViewChangeEvent.STATS_VIEW);
 		} catch (InvocationException e) {
-			errorLabel.setValue(ERROR_MSG);
+			showLoginError();
 			LOG.error("exception while trying to login user: {}", userName, e);
 		}
-		
+	}
+
+	private void showLoginError(){
+		errorLabel.setVisible(true);
+		errorLabel.setValue(ERROR_MSG);
 	}
 
 }
