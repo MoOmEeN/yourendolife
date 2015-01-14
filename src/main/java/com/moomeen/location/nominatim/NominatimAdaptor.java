@@ -58,8 +58,10 @@ public class NominatimAdaptor {
 		String hamlet = getValue("hamlet", address);
 		String state = getValue("state", address);
 		String country = getValue("country", address);
+		String suburb = getValue("suburb", address);
+		String state_district = getValue("state_district", address);
 
-		String name = firstNotNull(city, town, village, hamlet, state);
+		String name = firstNotNull(city, town, village, hamlet, suburb, state_district, state);
 
 		return new Place(name, country, new Point(address.getLatitude(), address.getLongitude()));
 	}
