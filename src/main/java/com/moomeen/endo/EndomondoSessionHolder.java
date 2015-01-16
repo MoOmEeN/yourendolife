@@ -33,7 +33,7 @@ public class EndomondoSessionHolder {
 		if (workouts == null){
 			long start = System.currentTimeMillis();
 			try {
-				workouts = internalSession.getAllWorkouts();
+				workouts = internalSession.getWorkoutsMultiThreaded();
 			} catch (InvocationException e) {
 				LOG.error("Error while trying to get workouts", e);
 				throw new RuntimeException(e);
