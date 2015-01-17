@@ -24,10 +24,10 @@ public class EndoVaadinServlet extends SpringAwareVaadinServlet {
 		asString("description", DESCRIPTION),
 		asString("title","yourENDOlife"), 
 		asString("url","https://www.yourendolife.com"), 
-		asString("type","website")
+		asString("type","website"),
+		asString("image", "https://www.yourendolife.com/VAADIN/themes/mytheme/img/logo.jpg")
 	};
 //		asString("locale",":en_US"),
-//		asString("image":"TODO"};
 	
 	private static String asString(String property, String content){
 		return property+"="+content;

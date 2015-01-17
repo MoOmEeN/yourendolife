@@ -62,7 +62,8 @@ public class LoginView extends LoginForm implements View {
 
 		layout.setSizeFull();
 
-		Image logo = fromResourceImage("stopa.jpg");
+		Image logo = fromResourceImage("logo.jpg");
+		logo.setWidth("200px");
 		layout.addComponent(logo);
 		layout.setComponentAlignment(logo, Alignment.TOP_CENTER);
 
