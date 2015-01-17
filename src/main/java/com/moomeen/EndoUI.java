@@ -5,12 +5,14 @@ import org.vaadin.spring.VaadinUI;
 import org.vaadin.spring.navigator.SpringViewProvider;
 
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Title;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 
 @VaadinUI
 @Theme("mytheme")
+@Title("yourENDOlife")
 public class EndoUI extends UI {
 
 	/**
