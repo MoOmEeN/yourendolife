@@ -1,38 +1,46 @@
-package com.moomeen.views;
+package com.moomeen.views.helper;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.vaadin.spring.events.EventBus;
-
 import com.moomeen.utils.FixedLazyLoadWrapper;
+import com.moomeen.views.Footer;
 import com.vaadin.lazyloadwrapper.LazyLoadWrapper;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
-public abstract class AbstractContentView extends VerticalLayout implements View {
-
-	private static final long serialVersionUID = 9102807959577832012L;
-
-	@Autowired
-	protected EventBus eventBus;
+@SuppressWarnings("serial")
+public abstract class ContentView  extends VerticalLayout implements View {
 
 	@PostConstruct
 	public void init(){
 		setSizeFull();
 		setHeightUndefined();
-		addComponent(new Menu(eventBus));
+		
+		addMenuIfDefined();
+		addLazyLoadableContent();
+	}
 
+	private void addMenuIfDefined() {
+		Component menu = menu();
+		if (menu != null){
+			addComponent(menu);
+		}
+	}
+
+	private void addLazyLoadableContent() {
 		final VerticalLayout contentLayout = new VerticalLayout();
 		final LazyLoadable content = content();
 		contentLayout.addComponent(content);
 		contentLayout.addComponent(new Footer());
 
-		addComponent(new FixedLazyLoadWrapper(
+		addComponent(wrapWithLazyLoad(contentLayout, content));
+	}
+
+	private FixedLazyLoadWrapper wrapWithLazyLoad(final VerticalLayout contentLayout, final LazyLoadable content) {
+		return new FixedLazyLoadWrapper(
 				new LazyLoadWrapper.LazyLoadComponentProvider() {
-					private static final long serialVersionUID = -2518774996039022517L;
 
 					@Override
 					public Component onComponentVisible() {
@@ -42,18 +50,16 @@ public abstract class AbstractContentView extends VerticalLayout implements View
 
 						return contentLayout;
 					}
-				}));
-
-
+				});
 	}
 
-	public abstract LazyLoadable content();
+	protected abstract LazyLoadable content();
+	
+	protected abstract Component menu();
 
 	@Override
 	public void enter(ViewChangeEvent event) {
 	}
-
-
 
 	protected abstract class LazyLoadableContent extends VerticalLayout implements LazyLoadable {
 		private static final long serialVersionUID = 6782422350111874382L;

@@ -62,29 +62,28 @@ public class MapStripe extends VerticalLayout {
 	}
 
 	public void init(){
-			setHeightUndefined();
-			setStyleName("places-view-map");
+		setHeightUndefined();
+		setStyleName("places-view-map");
 
-			HorizontalLayout labelAndMap = new HorizontalLayout();
+		HorizontalLayout labelAndMap = new HorizontalLayout();
 
-			labelAndMap.setWidth("100%");
+		labelAndMap.setWidth("100%");
 
-			List<Workout> workouts = sessionHolder.getWorkouts();
-			groupedByCity = locationService.determineCities(workouts);
+		List<Workout> workouts = sessionHolder.getWorkouts();
+		groupedByCity = locationService.determineCities(workouts);
 
-			Panel textPanel = createTextPanel(groupedByCity);
-			Panel mapPanel = createMapPanel(groupedByCity);
+		Panel textPanel = createTextPanel(groupedByCity);
+		Panel mapPanel = createMapPanel(groupedByCity);
 
-			labelAndMap.addComponent(textPanel);
-			labelAndMap.setComponentAlignment(textPanel, Alignment.MIDDLE_LEFT);
-			labelAndMap.addComponent(mapPanel);
-			labelAndMap.setComponentAlignment(mapPanel, Alignment.MIDDLE_RIGHT);
-			labelAndMap.setExpandRatio(mapPanel, 1.0f);
-			labelAndMap.setExpandRatio(textPanel, 1.0f);
+		labelAndMap.addComponent(textPanel);
+		labelAndMap.setComponentAlignment(textPanel, Alignment.MIDDLE_LEFT);
+		labelAndMap.addComponent(mapPanel);
+		labelAndMap.setComponentAlignment(mapPanel, Alignment.MIDDLE_RIGHT);
+		labelAndMap.setExpandRatio(mapPanel, 1.0f);
+		labelAndMap.setExpandRatio(textPanel, 1.0f);
 
-			addComponent(labelAndMap);
-			setComponentAlignment(labelAndMap, Alignment.MIDDLE_CENTER);
-
+		addComponent(labelAndMap);
+		setComponentAlignment(labelAndMap, Alignment.MIDDLE_CENTER);
 	}
 
 	private Panel createTextPanel(Map<Place, List<Workout>> byCity) {

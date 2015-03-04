@@ -8,15 +8,10 @@ import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.spring.UIScope;
-import org.vaadin.spring.events.EventBus;
 import org.vaadin.spring.navigator.VaadinView;
 
-import com.ejt.vaadin.loginform.LoginForm;
-import com.moomeen.endo.EndomondoSessionHolder;
-import com.moomeen.endo2java.EndomondoSession;
-import com.moomeen.endo2java.error.InvocationException;
+import com.moomeen.utils.login.EndoLoginForm;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -39,18 +34,12 @@ import com.vaadin.ui.Window;
 @SuppressWarnings("serial")
 @VaadinView(name = "login")
 @UIScope
-public class LoginView extends LoginForm implements View {
+public class LoginView extends EndoLoginForm implements View {
 
 	private static Logger LOG = LoggerFactory.getLogger(LoginView.class);
-	private static final String ERROR_MSG = "Login failed. Please make sure your email and password are correct";
-
-	@Autowired
-	private EventBus eventBus;
+	private static final String ERROR_MSG = "Login failed. Please make sure your email and password are correct.";
 
 	private Label errorLabel = new Label();
-
-	@Autowired
-	private EndomondoSessionHolder sessionHolder;
 
 	@Override
 	public void enter(ViewChangeEvent event) {
@@ -153,22 +142,8 @@ public class LoginView extends LoginForm implements View {
 		return image;
 	}
 
-
 	@Override
-	protected void login(String userName, String password) {
-		EndomondoSession session = new EndomondoSession(userName, password);
-		try {
-			session.login();
-			LOG.debug("Logged in: {}", userName);
-			sessionHolder.init(session);
-			eventBus.publish(this, com.moomeen.ViewChangeEvent.STATS_VIEW);
-		} catch (InvocationException e) {
-			showLoginError();
-			LOG.error("exception while trying to login user: {}", userName, e);
-		}
-	}
-
-	private void showLoginError(){
+	protected void showLoginError(){
 		errorLabel.setVisible(true);
 		errorLabel.setValue(ERROR_MSG);
 	}

@@ -3,7 +3,8 @@ package com.moomeen;
 public enum ViewChangeEvent {
 
 	STATS_VIEW("stats"),
-	PLACES_VIEW("places");
+	PLACES_VIEW("places"),
+	LOGIN("login");
 	
 	private String viewName;
 

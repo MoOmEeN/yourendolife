@@ -1,4 +1,4 @@
-package com.moomeen.views;
+package com.moomeen.views.helper;
 
 import com.vaadin.ui.Component;
 

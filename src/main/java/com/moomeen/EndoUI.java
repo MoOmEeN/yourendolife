@@ -32,7 +32,7 @@ public class EndoUI extends UI {
 		navigator.addProvider(viewProvider);
 		setNavigator(navigator);
 		viewChangeListener.setNavigator(navigator);
-		navigator.navigateTo("login");
+		navigator.navigateTo("main");
 	}
 
 }

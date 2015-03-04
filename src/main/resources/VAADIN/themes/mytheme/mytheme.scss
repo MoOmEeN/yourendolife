@@ -87,8 +87,16 @@ $v-panel-border: 2px solid v-shade;
 }
 
 .menu-bar {
-	width: 80% !important;
+	width: 1100px !important;
 	margin-left: 10%;
+}
+
+.v-slot-menu-bar-not-logged {
+	background-color: #3686be;
+}
+
+.menu-bar-not-logged .v-button {
+	color: white
 }
 
 .v-panel {
@@ -99,10 +107,14 @@ $v-panel-border: 2px solid v-shade;
 .menu-item {
 	background: none;
 	text-align: center;
-	width: 100%;
+	width: 200px;
 	text-transform: uppercase;
 	font-weight: bold;
 	height: 100px;
+}
+
+.v-slot-menu-item-right {
+	float: right
 }
 
 .v-slot-menu-item {
@@ -286,6 +298,10 @@ $v-panel-border: 2px solid v-shade;
     background-position: center center;
 }
 
+.places-view-workouts {
+	@extend .stats-view-workouts;
+}
+
 .places-view-chart {
 	@extend .places-view-stripe;
 }
@@ -345,6 +361,46 @@ $v-panel-border: 2px solid v-shade;
 
 .feedback-error {
 	color: red;
+}
+
+.main-view-login {
+	background-color: #3686be;
+	color: white;
+	padding-top: 50px;
+	padding-bottom: 100px;
+}
+
+.main-view-login .big {
+	font-size: 54px;
+	text-align: center
+}
+
+.main-view-login .small {
+	font-size: 26px;
+	text-align: center;
+	margin-bottom: 50px;
+}
+
+.main-view-login .login-button {
+	background-color: #19486a;
+	color: white;
+	height: 50px;
+	width: 200px;
+}
+
+.main-view-login .login-controls {
+	text-align: center;
+	height: 50px;
+}
+
+.main-view-login input {
+	margin-right: 5px;
+	height: 50px;
+	width: 240px;
+}
+
+.v-slot-login-controls {
+	text-align: center;
 }
 
 }

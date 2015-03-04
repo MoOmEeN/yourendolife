@@ -10,6 +10,8 @@ import org.vaadin.spring.navigator.VaadinView;
 
 import com.moomeen.endo.EndomondoSessionHolder;
 import com.moomeen.endo2java.model.Workout;
+import com.moomeen.views.helper.LazyLoadable;
+import com.moomeen.views.helper.LoggedInContentView;
 import com.moomeen.views.stats.ChartStripe;
 import com.moomeen.views.stats.TextStripe;
 import com.moomeen.views.workouts.list.WorkoutClickCallback;
@@ -20,7 +22,7 @@ import com.vaadin.ui.VerticalLayout;
 
 @VaadinView(name = "stats")
 @UIScope
-public class StatsView extends AbstractContentView {
+public class StatsView extends LoggedInContentView {
 
 	/**
 	 *
@@ -46,16 +48,14 @@ public class StatsView extends AbstractContentView {
 				textStripe.setStyleName("stats-view-text");
 				layout.addComponent(textStripe);
 
-				List<Workout> workouts;
-					workouts = sessionHolder.getWorkouts();
-					WorkoutsList workoutsPanel =  new WorkoutsList(workouts, new WorkoutClickCallback());
-					workoutsPanel.setStyleName("stats-view-workouts");
-					layout.addComponent(workoutsPanel);
+				List<Workout> workouts = sessionHolder.getWorkouts();
+				WorkoutsList workoutsPanel =  new WorkoutsList(workouts, new WorkoutClickCallback());
+				workoutsPanel.setStyleName("stats-view-workouts");
+				layout.addComponent(workoutsPanel);
 
-					Component chart = new ChartStripe();
-					chart.setStyleName("stats-view-chart");
-					layout.addComponent(chart);
-
+				Component chart = new ChartStripe();
+				chart.setStyleName("stats-view-chart");
+				layout.addComponent(chart);
 
 				return layout;
 			}

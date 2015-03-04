@@ -1,4 +1,4 @@
-package com.moomeen.views;
+package com.moomeen.utils;
 
 import java.util.Locale;
 
