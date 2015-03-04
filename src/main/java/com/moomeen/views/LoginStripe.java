@@ -52,7 +52,7 @@ public class LoginStripe extends EndoLoginForm {
 		passwordField.setHeight("100%");
 		loginLayout.addComponent(userNameField);
 		loginLayout.addComponent(passwordField);
-		loginButton.setCaption("LOG IN");
+		loginButton.setCaption("LOG IN WITH ENDOMONDO");
 		loginButton.setHeight("100%");
 		loginButton.setStyleName("login-button");
 		loginLayout.addComponent(loginButton);
