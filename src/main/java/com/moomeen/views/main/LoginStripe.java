@@ -1,9 +1,10 @@
-package com.moomeen.views;
+package com.moomeen.views.main;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.moomeen.utils.login.EndoLoginForm;
+import com.moomeen.views.LoginView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;

@@ -118,7 +118,7 @@ $v-panel-border: 2px solid v-shade;
 }
 
 .v-slot-menu-item {
-	width: 33.3%;
+	width: 200px;
 }
 
 .v-slot-pagedtable {
@@ -401,6 +401,10 @@ $v-panel-border: 2px solid v-shade;
 
 .v-slot-login-controls {
 	text-align: center;
+}
+
+.main-view-geo .h1 {
+	text-align: center
 }
 
 }

@@ -7,6 +7,8 @@ import org.vaadin.spring.navigator.VaadinView;
 
 import com.moomeen.views.helper.LazyLoadable;
 import com.moomeen.views.helper.NotLoggedContentView;
+import com.moomeen.views.main.GeolocationStripe;
+import com.moomeen.views.main.LoginStripe;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
@@ -32,6 +34,7 @@ public class MainView extends NotLoggedContentView {
 				loginStripe.setStyleName("main-login-stripe");
 				
 				layout.addComponent(loginStripe);
+				layout.addComponent(new GeolocationStripe());
 //				layout.addComponent(workoutsPanel);
 //				layout.addComponent(chart);
 				return layout;
