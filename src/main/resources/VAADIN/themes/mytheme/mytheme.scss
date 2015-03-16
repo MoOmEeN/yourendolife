@@ -403,8 +403,40 @@ $v-panel-border: 2px solid v-shade;
 	text-align: center;
 }
 
-.main-view-geo .h1 {
+.main-view .h1 {
 	text-align: center
+}
+
+.main-view-street {
+	background-color: #eef1f2
+}
+
+.main-view-street img {
+	height: 400px;
+}
+
+.main-view-street-logo {
+	text-align: center;
+	padding-top: 20px !important;
+	padding-bottom: 20px !important
+}
+
+.main-view-distances {
+	background-color: #3686be;
+}
+
+.main-view-distances .h1 {
+	color: white
+}
+
+.main-view-distances img {
+	height: 400px
+}
+
+.main-view-distances-logo {
+	text-align: center;
+	padding-top: 20px !important;
+	padding-bottom: 20px !important
 }
 
 }
