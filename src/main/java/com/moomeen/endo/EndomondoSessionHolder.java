@@ -27,6 +27,10 @@ public class EndomondoSessionHolder {
 	public void init(com.moomeen.endo2java.EndomondoSession session) {
 		this.internalSession = session;
 	}
+	
+	public void close(){
+		this.internalSession = null;
+	}
 
 	public synchronized List<Workout> getWorkouts() {
 		checkInit();

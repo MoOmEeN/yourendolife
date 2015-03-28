@@ -12,7 +12,7 @@ import com.vaadin.ui.HorizontalLayout;
 @SuppressWarnings("serial")
 public abstract class Menu extends HorizontalLayout implements View {
 	
-	private EventBus eventBus;
+	protected EventBus eventBus;
 	
 	public Menu() {
 		this.eventBus = SpringContextHolder.lookupBean(EventBus.class);

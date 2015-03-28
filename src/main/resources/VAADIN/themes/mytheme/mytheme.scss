@@ -60,6 +60,7 @@ $v-panel-border: 2px solid v-shade;
 
 .login-panel {
 	border: 0px;
+	margin-top: 100px;
 }
 
 #loginForm {
@@ -155,12 +156,12 @@ $v-panel-border: 2px solid v-shade;
 
 .stats-view {
 	@extend .app-view;
-	background-image: url("/VAADIN/themes/mytheme/img/Rainbow-Run-2014-018.jpg");
+	/* background-image: url("/VAADIN/themes/mytheme/img/Rainbow-Run-2014-018.jpg"); */
 }
 
 .places-view {
 	@extend .app-view;
-	background-image: url('/VAADIN/themes/mytheme/img/summer-bikes.jpg');
+	/* background-image: url('/VAADIN/themes/mytheme/img/summer-bikes.jpg'); */
 }
 
 .stats-view-stripe {
@@ -247,7 +248,7 @@ $v-panel-border: 2px solid v-shade;
 }
 
 .color-stripe {
-	opacity: 0.95;
+	/* opacity: 0.95; */
 }
 
 .places-view-stripe {
@@ -300,6 +301,10 @@ $v-panel-border: 2px solid v-shade;
 
 .places-view-workouts {
 	@extend .stats-view-workouts;
+}
+
+.v-slot-places-view-workouts {
+	@extend .v-slot-stats-view-workouts;
 }
 
 .places-view-chart {

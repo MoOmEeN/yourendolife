@@ -45,11 +45,11 @@ public class LoginView extends EndoLoginForm implements View {
 		VerticalLayout layout = new VerticalLayout();
 
 		layout.setSizeFull();
-
-		Image logo = fromResourceImage("logo.jpg");
-		logo.setWidth("200px");
-		layout.addComponent(logo);
-		layout.setComponentAlignment(logo, Alignment.TOP_CENTER);
+//
+//		Image logo = fromResourceImage("logo.jpg");
+//		logo.setWidth("200px");
+//		layout.addComponent(logo);
+//		layout.setComponentAlignment(logo, Alignment.TOP_CENTER);
 
 		errorLabel.setVisible(false);
 		errorLabel.setStyleName("login-error");
@@ -84,7 +84,7 @@ public class LoginView extends EndoLoginForm implements View {
 		passwordField.setWidth("324px");
 		passwordField.setHeight("50px");
 
-		loginButton.setCaption("LOG IN");
+		loginButton.setCaption("LOG IN WITH ENDOMONDO");
 		loginButton.setClickShortcut(KeyCode.ENTER);
 		loginButton.setWidth("324px");
 		loginButton.setHeight("50px");

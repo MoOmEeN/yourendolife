@@ -4,7 +4,8 @@ public enum ViewChangeEvent {
 
 	STATS_VIEW("stats"),
 	PLACES_VIEW("places"),
-	LOGIN("login");
+	LOGIN("login"),
+	MAIN("main");
 	
 	private String viewName;
 
