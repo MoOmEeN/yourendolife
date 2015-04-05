@@ -93,11 +93,19 @@ $v-panel-border: 2px solid v-shade;
 	margin: auto;
 }
 
-.v-slot-menu-bar-not-logged {
+.v-slot-main-view-menu {
 	background-color: #3686be;
 }
 
-.menu-bar-not-logged .v-button {
+.v-slot-places-view-menu {
+	background-color: rgb(146,176,106);
+}
+
+.v-slot-stats-view-menu {
+	background-color: rgb(221,95,50);
+}
+
+.menu-bar .v-button {
 	color: white
 }
 
@@ -114,7 +122,6 @@ $v-panel-border: 2px solid v-shade;
 	/* font-weight: bold; */
 	height: 40px;
 	margin-top: 10px;
-	margin-left: 50px;
 }
 
 .main-item-border {
@@ -212,10 +219,15 @@ $v-panel-border: 2px solid v-shade;
 }
 
 .avatar-img {
-	width: 80px;
-	height: 80px;
+	width: 40px;
+	height: 40px;
 	margin-top: 10px;
 	opacity: 0.8
+}
+
+.v-slot-avatar-img {
+	float: right;
+	margin-right: 5px;
 }
 
 .big-font {

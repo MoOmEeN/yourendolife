@@ -22,24 +22,22 @@ public class LoggedInMenu extends Menu {
 		super();
 		this.session = SpringContextHolder.lookupBean(EndomondoSessionHolder.class);
 
-		AccountInfo accountInfo = session.getAccountInfo();
-		Image avatarImage = new Image(null, new ExternalResource(getPictureUrl(accountInfo)));
-		avatarImage.setStyleName("avatar-img");
-		addComponent(avatarImage);
 		addMenuItem("Statistics", com.moomeen.ViewChangeEvent.STATS_VIEW);
-		
 		addMenuItem("Places", com.moomeen.ViewChangeEvent.PLACES_VIEW);
 		addMenuItem("Log Out", new Button.ClickListener() {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-//				getUI().push();
-//				eventBus.publish(this, com.moomeen.ViewChangeEvent.MAIN);
 				getSession().close();
 				getUI().getPage().setLocation("/");
 			}
 			
-		}, MenuItemFloat.RIGHT);
+		}, MenuItemFloat.RIGHT, "main-item-border");
+		
+		AccountInfo accountInfo = session.getAccountInfo();
+		Image avatarImage = new Image(null, new ExternalResource(getPictureUrl(accountInfo)));
+		avatarImage.setStyleName("avatar-img");
+		addComponent(avatarImage);
 	}
 
 	private String getPictureUrl(AccountInfo info){

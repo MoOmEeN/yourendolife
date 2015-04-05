@@ -66,6 +66,9 @@ public class StatsView extends LoggedInContentView {
 	public void enter(ViewChangeEvent event) {
 	}
 
-
+	@Override
+	protected String menuStyleName() {
+		return "stats-view-menu";
+	}
 
 }

@@ -46,4 +46,9 @@ public class MainView extends NotLoggedContentView {
 		};
 	}
 
+	@Override
+	protected String menuStyleName() {
+		return "main-view-menu";
+	}
+
 }

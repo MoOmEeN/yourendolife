@@ -1,13 +1,17 @@
 package com.moomeen.views.menu;
 
+import static com.moomeen.utils.ImageResourceLoader.*;
+
 import org.vaadin.spring.events.EventBus;
 
 import com.moomeen.utils.SpringContextHolder;
+import com.vaadin.event.MouseEvents.ClickListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 
 @SuppressWarnings("serial")
 public abstract class Menu extends HorizontalLayout implements View {
@@ -16,6 +20,16 @@ public abstract class Menu extends HorizontalLayout implements View {
 	
 	public Menu() {
 		this.eventBus = SpringContextHolder.lookupBean(EventBus.class);
+		Image image = fromResourceImage("logo_white.png");
+		image.addClickListener(new ClickListener() {
+			
+			@Override
+			public void click(com.vaadin.event.MouseEvents.ClickEvent event) {
+				
+			}
+		});
+		image.setStyleName("logo");
+		addComponent(image);
 		addStyleName("menu-bar");
 	}
 
@@ -28,7 +42,14 @@ public abstract class Menu extends HorizontalLayout implements View {
 	}
 	
 	protected void addMenuItem(String text, Button.ClickListener clickListener, MenuItemFloat itemFloat) {
+		addMenuItem(text, clickListener, itemFloat, null);
+	}
+	
+	protected void addMenuItem(String text, Button.ClickListener clickListener, MenuItemFloat itemFloat, String styleName) {
 		Button button = createButton(text, itemFloat);
+		if (styleName != null){
+			button.addStyleName(styleName);
+		}
 		button.addClickListener(clickListener);
 	}
 	

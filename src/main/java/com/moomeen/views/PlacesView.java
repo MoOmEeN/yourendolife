@@ -57,4 +57,10 @@ public class PlacesView extends LoggedInContentView {
 
 	}
 
+
+	@Override
+	protected String menuStyleName() {
+		return "places-view-menu";
+	}
+
 }

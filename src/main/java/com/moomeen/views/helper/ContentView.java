@@ -24,6 +24,7 @@ public abstract class ContentView  extends VerticalLayout implements View {
 
 	private void addMenuIfDefined() {
 		Component menu = menu();
+		menu.addStyleName(menuStyleName());
 		if (menu != null){
 			addComponent(menu);
 		}
@@ -56,6 +57,8 @@ public abstract class ContentView  extends VerticalLayout implements View {
 	protected abstract LazyLoadable content();
 	
 	protected abstract Component menu();
+	
+	protected abstract String menuStyleName();
 
 	@Override
 	public void enter(ViewChangeEvent event) {
