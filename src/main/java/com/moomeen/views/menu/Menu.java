@@ -33,7 +33,14 @@ public abstract class Menu extends HorizontalLayout implements View {
 	}
 	
 	protected void addMenuItem(String text, final com.moomeen.ViewChangeEvent viewChangeEvent, MenuItemFloat itemFloat) {
+		addMenuItem(text,  viewChangeEvent, itemFloat, null);
+	}
+	
+	protected void addMenuItem(String text, final com.moomeen.ViewChangeEvent viewChangeEvent, MenuItemFloat itemFloat, String styleName) {
 		Button button = createButton(text, itemFloat);
+		if (styleName != null){
+			button.addStyleName(styleName);
+		}
 		button.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {

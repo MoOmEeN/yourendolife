@@ -26,7 +26,6 @@ public class LoggedInMenu extends Menu {
 		Image avatarImage = new Image(null, new ExternalResource(getPictureUrl(accountInfo)));
 		avatarImage.setStyleName("avatar-img");
 		addComponent(avatarImage);
-
 		addMenuItem("Statistics", com.moomeen.ViewChangeEvent.STATS_VIEW);
 		
 		addMenuItem("Places", com.moomeen.ViewChangeEvent.PLACES_VIEW);
