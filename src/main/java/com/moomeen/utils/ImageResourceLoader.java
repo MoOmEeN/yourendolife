@@ -17,7 +17,7 @@ public class ImageResourceLoader {
 	private static Logger LOG = LoggerFactory.getLogger(ImageResourceLoader.class);
 
 	private static File streamTwoFile(InputStream in, String filename) throws IOException {
-		final File tempFile = File.createTempFile(filename, "." + "endo");
+		final File tempFile = File.createTempFile("endo", filename);
 		tempFile.deleteOnExit();
 		try (FileOutputStream out = new FileOutputStream(tempFile)) {
 			IOUtils.copy(in, out);
@@ -29,7 +29,7 @@ public class ImageResourceLoader {
 		Image image;
 		try {
 			image = new Image(
-			        null, new FileResource(streamTwoFile(ImageResourceLoader.class.getClassLoader().getResourceAsStream("VAADIN/themes/mytheme/img/" + fileName), fileName)));
+			        null, resourceFromFile(fileName));
 		} catch (IOException e) {
 			LOG.error("Something went wrong while trying to load image: " + fileName, e);
 			throw new RuntimeException(e);
@@ -37,5 +37,8 @@ public class ImageResourceLoader {
 		return image;
 	}
 	
+	public static FileResource resourceFromFile(String fileName) throws IOException{
+		return new FileResource(streamTwoFile(ImageResourceLoader.class.getClassLoader().getResourceAsStream("VAADIN/themes/mytheme/img/" + fileName), fileName));
+	}
 
 }

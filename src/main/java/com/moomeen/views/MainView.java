@@ -7,7 +7,7 @@ import org.vaadin.spring.navigator.VaadinView;
 
 import com.moomeen.views.helper.LazyLoadable;
 import com.moomeen.views.helper.NotLoggedContentView;
-import com.moomeen.views.main.DistancesStripe;
+import com.moomeen.views.main.MorefeaturesStripe;
 import com.moomeen.views.main.GeolocationStripe;
 import com.moomeen.views.main.LoginStripe;
 import com.moomeen.views.main.StreetViewStripe;
@@ -38,7 +38,7 @@ public class MainView extends NotLoggedContentView {
 				layout.addComponent(loginStripe);
 				layout.addComponent(new GeolocationStripe());
 				layout.addComponent(new StreetViewStripe());
-				layout.addComponent(new DistancesStripe());
+				layout.addComponent(new MorefeaturesStripe());
 //				layout.addComponent(workoutsPanel);
 //				layout.addComponent(chart);
 				return layout;

@@ -75,6 +75,8 @@ public abstract class Menu extends HorizontalLayout implements View {
 		button.addStyleName("menu-item");
 		if (itemFloat == MenuItemFloat.RIGHT){
 			button.addStyleName("menu-item-right");
+		} else {
+			button.addStyleName("menu-item-left");
 		}
 		addComponent(button);
 		return button;

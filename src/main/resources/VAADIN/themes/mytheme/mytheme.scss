@@ -132,8 +132,16 @@ $v-panel-border: 2px solid v-shade;
 	float: right
 }
 
+.v-slot-menu-item-left {
+	float: left
+}
+
 .logo {
 	margin-top: 10px;
+}
+
+.v-slot-logo {
+	float: left;	
 }
 
 .v-slot-pagedtable {
@@ -262,8 +270,9 @@ $v-panel-border: 2px solid v-shade;
 	margin-top: 10px;
 	text-align: center;
 	padding: 5px;
-	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.05);
+	background: none repeat scroll 0 0 #232323;
 	font-size: 15px;
+	color: #999;
 }
 
 .color-stripe {
@@ -428,15 +437,13 @@ $v-panel-border: 2px solid v-shade;
 }
 
 .main-view .h1 {
-	text-align: center
+	text-align: left;
+	color: #3b3b3b;
 }
 
 .main-view-street {
-	background-color: #eef1f2
-}
-
-.main-view-street img {
-	height: 400px;
+	background-color: #eef1f2;
+	height: 450px !important;
 }
 
 .main-view-street-logo {
@@ -447,14 +454,18 @@ $v-panel-border: 2px solid v-shade;
 
 .main-view-distances {
 	background-color: #3686be;
+	padding-top: 50px;
+	padding-bottom: 50px;
 }
 
 .main-view-distances .h1 {
-	color: white
+	color: white;
+	text-align: center;
+	font-size: 20px;
 }
 
 .main-view-distances img {
-	height: 400px
+	height: 180px;
 }
 
 .main-view-distances-logo {
@@ -468,4 +479,44 @@ $v-panel-border: 2px solid v-shade;
 	margin: auto;
 }
 
+.street-view-video-panel {
+	width: 620px !important;
+}
+
+.street-view-video {
+	margin-left: -10px;
+}
+
+.v-panel-content-street-view-video-panel {
+	overflow: hidden;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	border-left-width: 2px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-top-width: 0px;
+	border-style: solid;
+	border-color: #E4E4E4;
+}
+
+.street-view-video-bar {
+	width: 620px;
+}
+
+.street-view-video-bar-url {
+	position: absolute;
+	margin-top: 36px;
+	margin-left: 90px;
+}
+
+.main-view-geo {
+	background-image: url("/VAADIN/themes/mytheme/img/world-map.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	height: 460px !important;
+}
+
+.main-view-geo .h1 {
+	text-align: center
+}
 }
