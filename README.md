@@ -7,7 +7,7 @@ The application itself connects to [Endomondo](http://endomondo.com) services us
 
 The application uses [Spring Boot](http://projects.spring.io/spring-boot/). It integrates with Vaadin using [Vaadin4Spring](https://github.com/peholmst/vaadin4spring) (at the time I was starting this project, there was no official Vaadin integration with Spring, now there is [one](https://github.com/vaadin/spring)).
 
-Bunch of Vaadin add-ons have beens used:
+Bunch of Vaadin add-ons have been used:
 * [PagedTable](https://vaadin.com/directory#!addon/pagedtable) - pagination features for built-in tables
 * [GoogleMaps Add-On](https://vaadin.com/directory#!addon/googlemaps-add-on) - integration with Google Maps with no javascript
 * [LazyLoadWrapper](https://vaadin.com/directory#!addon/lazyloadwrapper) - to show nice spinner on pages that take more time to load
