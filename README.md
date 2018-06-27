@@ -18,14 +18,14 @@ Bunch of Vaadin add-ons have been used:
 
 App is doing reverse geolocation using [MapQuest Nominatim API](http://open.mapquestapi.com/nominatim/). To improve its performance, results are being cached in Mongo using [geospatial indexes](http://docs.mongodb.org/manual/core/geospatial-indexes/).
 
-##Some configuration tips
-###mongo env variable
+## Some configuration tips
+### mongo env variable
 ```
 export MONGO_URL="mongodb://localhost:27017/yourendolife"
 ```
-###setting up 2dsphere index
+### setting up 2dsphere index
 ```
-radek@radek  ~/repos/yourendolife   master ●  mongo
+radek@radek:~/repos/yourendolife$ mongo
 MongoDB shell version: 2.6.9
 connecting to: test
 > use yourendolife
