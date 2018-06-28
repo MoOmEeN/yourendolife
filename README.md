@@ -1,3 +1,4 @@
+![yourENDOlife Logo](/logo.png)
 # yourendolife
 This the research project wich goal was to try [Vaadin](http://vaadin.com).
 The idea was to create a web application with minimal possible use of regular front end technologies.
@@ -37,5 +38,4 @@ switched to db yourendolife
         "numIndexesAfter" : 2,
         "ok" : 1
 }
-> quit()
 ```
